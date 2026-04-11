@@ -1,0 +1,61 @@
+source_pdf,output_pdf,title,start_page,end_page,page_count
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\01_Chapter_1_-_Introduction.pdf","Chapter 1 - Introduction",17,40,24
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\02_Chapter_2_-_Binary_Response.pdf","Chapter 2 - Binary Response",41,66,26
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\03_Chapter_3_-_Binomial_and_Proportion_Responses.pdf","Chapter 3 - Binomial and Proportion Responses",67,82,16
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\04_Chapter_4_-_Variations_on_Logistic_Regression.pdf","Chapter 4 - Variations on Logistic Regression",83,98,16
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\05_Chapter_5_-_Count_Regression.pdf","Chapter 5 - Count Regression",99,118,20
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\06_Chapter_6_-_Contingency_Tables.pdf","Chapter 6 - Contingency Tables",119,144,26
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\07_Chapter_7_-_Multinomial_Data.pdf","Chapter 7 - Multinomial Data",145,166,22
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\08_Chapter_8_-_Generalized_Linear_Models.pdf","Chapter 8 - Generalized Linear Models",167,190,24
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\09_Chapter_9_-_Other_GLMs.pdf","Chapter 9 - Other GLMs",191,210,20
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\10_Chapter_10_-_Random_Effects.pdf","Chapter 10 - Random Effects",211,252,42
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\11_Chapter_11_-_Repeated_Measures_and_Longitudinal_Data.pdf","Chapter 11 - Repeated Measures and Longitudinal Data",253,270,18
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\12_Chapter_12_-_Bayesian_Mixed_Effect_Models.pdf","Chapter 12 - Bayesian Mixed Effect Models",271,290,20
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\13_Chapter_13_-_Mixed_Effect_Models_for_Nonnormal_Responses.pdf","Chapter 13 - Mixed Effect Models for Nonnormal Responses",291,312,22
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\14_Chapter_14_-_Nonparametric_Regression.pdf","Chapter 14 - Nonparametric Regression",313,336,24
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\15_Chapter_15_-_Additive_Models.pdf","Chapter 15 - Additive Models",337,358,22
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\16_Chapter_16_-_Trees.pdf","Chapter 16 - Trees",359,380,22
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\17_Chapter_17_-_Neural_Networks.pdf","Chapter 17 - Neural Networks",381,390,10
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\18_Appendix_A_-_Likelihood_Theory.pdf","Appendix A - Likelihood Theory",391,398,8
+"Extending The Linear Model With R (Second Edition) (Julian James Faraway).pdf","chapter_pdfs\Extending_The_Linear_Model_With_R_Second_Edition_Julian_James_Faraway\19_Appendix_B_-_About_R.pdf","Appendix B - About R",399,400,2
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\01_Chapter_1_Introduction.pdf","Chapter 1 Introduction",14,24,11
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\02_Chapter_2_Estimation.pdf","Chapter 2 Estimation",25,40,16
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\03_Chapter_3_Inference.pdf","Chapter 3 Inference",41,70,30
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\04_Chapter_4_Diagnostics.pdf","Chapter 4 Diagnostics",71,95,25
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\05_Chapter_5_Problems_with_the_Predictors.pdf","Chapter 5 Problems with the Predictors",96,108,13
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\06_Chapter_6_Problems_with_the_Error.pdf","Chapter 6 Problems with the Error",109,129,21
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\07_Chapter_7_Transformation.pdf","Chapter 7 Transformation",130,142,13
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\08_Chapter_8_Variable_Selection.pdf","Chapter 8 Variable Selection",143,154,12
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\09_Chapter_9_Shrinkage_Methods.pdf","Chapter 9 Shrinkage Methods",155,169,15
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\10_Chapter_10_Statistical_Strategy_and_Model_Uncertainty.pdf","Chapter 10 Statistical Strategy and Model Uncertainty",170,173,4
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\11_Chapter_11_Insurance_RedliningA_Complete_Example.pdf","Chapter 11 Insurance Redlining—A Complete Example",174,185,12
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\12_Chapter_12_Missing_Data.pdf","Chapter 12 Missing Data",186,189,4
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\13_Chapter_13_Analysis_of_Covariance.pdf","Chapter 13 Analysis of Covariance",190,203,14
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\14_Chapter_14_One-Way_Analysis_of_Variance.pdf","Chapter 14 One-Way Analysis of Variance",204,211,8
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\15_Chapter_15_Factorial_Designs.pdf","Chapter 15 Factorial Designs",212,225,14
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\16_Chapter_16_Block_Designs.pdf","Chapter 16 Block Designs",226,239,14
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\17_Appendix_A_R_Installation_Functions_and_Data.pdf","Appendix A: R Installation, Functions and Data",240,241,2
+"Linear Models With R (Julian James Faraway).pdf","chapter_pdfs\Linear_Models_With_R_Julian_James_Faraway\18_Appendix_B_Quick_Introduction_to_R.pdf","Appendix B: Quick Introduction to R",242,245,4
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\01_Einfuhrung_und_Beispiele.pdf","Einführung und Beispiele",7,16,10
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\02_Das_einfache_lineare_Regressionsmodell.pdf","Das einfache lineare Regressionsmodell",17,52,36
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\03_Das_multiple_lineare_Regressionsmodell.pdf","Das multiple lineare Regressionsmodell",53,68,16
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\04_Quadratsummenzerlegung_und_statistische_Inferenz_im_multiplen_linearen_Regressionsmodell.pdf","Quadratsummenzerlegung und statistische Inferenz im multiplen linearen Regressionsmodell",69,125,57
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\05_Diskrete_Einflugroen_Dummy-_und_Effektkodierung_Mehrfaktorielle_Varianzanalyse.pdf","Diskrete Einflußgrößen: Dummy- und Effektkodierung, Mehrfaktorielle Varianzanalyse",126,156,31
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\06_Metrische_Einflugroen_Interaktionen_Polynomiale_Regression_Trigonometrische_Polynome_Regression.pdf","Metrische Einflußgrößen: Interaktionen, Polynomiale Regression, Trigonometrische Polynome, Regressionssplines, Transformationen.",157,173,17
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\07_Modelldiagnose.pdf","Modelldiagnose",174,196,23
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\08_Das_allgemeine_lineare_Modell_Gewichtete_KQ-Methode_Autokorrelierte_und_heteroskedastische_Stor.pdf","Das allgemeine lineare Modell: Gewichtete KQ-Methode, Autokorrelierte und heteroskedastische Störterme",197,212,16
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\09_Das_gemischte_lineare_Regressionsmodell_Linear_mixed_Model.pdf","Das gemischte lineare Regressionsmodell („Linear mixed Model“)",213,222,10
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\10_Das_logistische_Regressionsmodell.pdf","Das logistische Regressionsmodell",223,249,27
+"LinearModellingPPT.pdf","chapter_pdfs\LinearModellingPPT\11_Variablenselektion.pdf","Variablenselektion",250,270,21
+"Regression.pdf","chapter_pdfs\Regression\01_1_Introduction.pdf","1 Introduction",16,34,19
+"Regression.pdf","chapter_pdfs\Regression\02_2_Regression_Models.pdf","2 Regression Models",35,86,52
+"Regression.pdf","chapter_pdfs\Regression\03_3_The_Classical_Linear_Model.pdf","3 The Classical Linear Model",87,189,103
+"Regression.pdf","chapter_pdfs\Regression\04_4_Extensions_of_the_Classical_Linear_Model.pdf","4 Extensions of the Classical Linear Model",190,280,91
+"Regression.pdf","chapter_pdfs\Regression\05_5_Generalized_Linear_Models.pdf","5 Generalized Linear Models",281,336,56
+"Regression.pdf","chapter_pdfs\Regression\06_6_Categorical_Regression_Models.pdf","6 Categorical Regression Models",337,359,23
+"Regression.pdf","chapter_pdfs\Regression\07_7_Mixed_Models.pdf","7 Mixed Models",360,423,64
+"Regression.pdf","chapter_pdfs\Regression\08_8_Nonparametric_Regression.pdf","8 Nonparametric Regression",424,544,121
+"Regression.pdf","chapter_pdfs\Regression\09_9_Structured_Additive_Regression.pdf","9 Structured Additive Regression",545,605,61
+"Regression.pdf","chapter_pdfs\Regression\10_10_Quantile_Regression.pdf","10 Quantile Regression",606,629,24
+"Regression.pdf","chapter_pdfs\Regression\11_A_Matrix_Algebra.pdf","A Matrix Algebra",630,646,17
+"Regression.pdf","chapter_pdfs\Regression\12_B_Probability_Calculus_and_Statistical_Inference.pdf","B Probability Calculus and Statistical Inference",647,687,41

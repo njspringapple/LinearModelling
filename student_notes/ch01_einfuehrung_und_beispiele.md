@@ -50,11 +50,11 @@ Galton 例子中的斜率小于 $1$，直观含义是：父母身高偏离均值
 
 **具体解决 / Konkrete Lösung.**
 
-1. 定义目标变量 / Zielgröße: $Y=$ 孩子身高。
-2. 定义解释变量 / Einflussgröße: $x=$ 父母平均身高。
-3. 画散点图，判断平均趋势是否近似线性。
+1. 定义 **目标变量** / Zielgröße: $Y=$ 孩子身高。
+2. 定义 **解释变量** / Einflussgröße: $x=$ 父母平均身高。
+3. 画 **散点图**，判断平均趋势是否 **近似线性**。
 4. 用 $\beta_0+\beta_1x$ 表示系统部分。
-5. 用 $\varepsilon$ 表示未解释的个体差异。
+5. 用 $\varepsilon$ 表示未解释的 **个体差异**。
 
 **R 练习 / R-Übung.** R 内置没有 Galton 原始数据，这里用 `father.son` 不可靠，因为它不一定随 base R 安装。为了保证可操作，使用内置 `cars` 演示同一个思想：速度 $x$ 与刹车距离 $Y$ 的平均趋势。
 
@@ -92,6 +92,20 @@ Auf Deutsch: Dieselben Daten können für Erklärung, Inferenz oder Prognose ver
 **本课采用的方法及好处 / Methode der Vorlesung und Vorteil.**
 讲义把回归理解为 supervised learning：从观测对 $(Y_i,x_i)$ 学习 $x$ 与 $Y$ 的关系。形式上写为：
 
+> [!info] 监督学习与回归
+> 
+> - **监督学习（回归）**：f(·) 是未知函数，描述 x（特征） 与 Y（预测目标值） 的关系，也就是要 **训练（回归）** 出来的函数
+> 
+> - **函数解释**：x₁,...,xₖ 是一个样本有 **k 个特征**，而不是 k 个样本。通过观测数据回归（训练）出来的函数 f，输入其他样本时，函数输出叠加一个 **个体差异**（**残差**），得到 **目标变量 Y**
+> 
+> - **期望公式解释**：在给定 **特征** 情况下，回归函数的计算结果等于真实情况下所有 **目标值** 的期望（平均值）
+> 
+> > [!example] 例子
+> > 一大堆 3楼90平方房子房价数据，回归出一个函数用于计算3楼90平米房子的房价，那么期望公式意思就是：**3楼90平米房子的房价的平均值 = 预测函数的输出值（输入3楼，90平方）**
+> 
+> - **核心结论**：**回归 = 预测平均值**
+
+
 $$
 Y = f(x_1,\dots,x_k)+\varepsilon
 $$
@@ -107,8 +121,8 @@ $$
 **具体解决 / Konkrete Lösung.**
 
 - 先写研究问题：解释 / 检验 / 预测？
-- 再写变量表：$Y$ 是什么，$x_j$ 是什么？
-- 最后选择模型：线性、logistic、mixed、spline 等。
+- **再写变量表**：$Y$ 是什么，$x_j$ 是什么？
+- **最后选择模型**：线性、logistic、mixed、spline 等。
 
 **R 练习 / R-Übung.**
 
@@ -142,7 +156,15 @@ Auf Deutsch: Die Wahl der Modellklasse hängt von Zielgröße, Kovariaten und Da
 | 慢性支气管炎 CBR | $Y\in\{0,1\}$ | logistic 回归 |
 
 **本课采用的方法及好处 / Methode der Vorlesung und Vorteil.**
-教授先讲线性模型，然后逐步扩展。主教材 Chapter 2 也用统一框架介绍模型族：线性模型、logit 模型、Poisson 模型、GLM、mixed model、additive model、structured additive regression、quantile regression。这样后续模型都能看成对以下三部分之一的扩展：
+教授先讲线性模型，然后逐步扩展。主教材 Chapter 2 也用统一框架介绍 **模型族**：
+- 线性模型
+- logit 模型
+- Poisson 模型
+- GLM
+- mixed model
+- additive model
+- structured additive regression
+- quantile regression。这样后续模型都能看成对以下三部分之一的扩展：
 
 - 目标变量 $Y$ 的类型变化；
 - 误差项 $\varepsilon$ 的结构变化；
@@ -156,13 +178,13 @@ $$
 Y_i=\beta_0+\beta_1x_{i1}+\dots+\beta_kx_{ik}+\varepsilon_i
 $$
 
-如果 $Y$ 是二元变量，转向：
+如果 $Y$ 是二元变量(**预测是不是某个东西**)，转向：
 
 $$
 P(Y_i=1)=G(\beta_0+\beta_1x_{i1}+\dots+\beta_kx_{ik})
 $$
 
-其中 logistic 模型常用：
+其中 logistic 模型常用（**Sigmod函数**）：**逻辑回归用来把线性预测值转换成概率**
 
 $$
 G(\eta)=\frac{\exp(\eta)}{1+\exp(\eta)}
@@ -199,6 +221,8 @@ summary(fit_logit)
 
 练习 / Übung: 为什么第三个模型不用 `lm()` 作为首选？
 答案 / Antwort: 因为 $Y$ 是 $0/1$，条件均值是概率，必须在 $[0,1]$ 内。logistic 回归通过 $G(\eta)$ 把线性预测子转换成概率。
+
+**因为lm（）回归是一个直线，线性回归的直线会越界，而是否这种二元问题是概率问题，所以不能用**
 
 ## 1.4 主教材补充：建模前的 first steps / Ergänzung: Erste Schritte vor dem Modell
 
@@ -253,13 +277,13 @@ boxplot(mpg ~ cyl, data = mtcars,
 ## 1.5 主教材补充：记号约定 / Notation
 
 **遇到的问题 / Problem.**
-统计书有时用大写 $Y$ 表示随机变量，用小写 $y$ 表示观测值；回归书有时为简洁把二者都写成 $y$。如果不注意，容易混淆“随机量”和“已经观测到的数据”。
+统计书有时用**大写 $Y$ 表示随机变量**，用**小写 $y$ 表示观测值**；回归书有时为简洁把二者都写成 $y$。如果不注意，容易混淆“随机量”和“已经观测到的数据”。
 
 Auf Deutsch: Man muss zwischen Zufallsvariablen und Realisationen unterscheiden, auch wenn die Notation manchmal vereinfacht wird.
 
 **可能的解决路径 / Mögliche Wege.**
 
-- 严格写法：随机变量用 $Y$，观测值用 $y$。
+- **严格写法**：随机变量用 $Y$，观测值用 $y$。
 - 回归教材常用写法：都写成 $y$，由上下文判断。
 - 学生笔记建议：推导时保持 $Y_i$，实际数据和 R 输出可写 $y_i$。
 

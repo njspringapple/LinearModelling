@@ -111,6 +111,21 @@ abline(v=0, col="red", lty=2)
 points(0, 0.5, col="red", pch=16)
 
 
+# 建模前的准备工作
+data(mtcars)
+summary(mtcars[, c("mpg", "wt", "hp", "cyl")])
+
+hist(mtcars[["mpg"]], main = "Distribution of mpg", xlab = "mpg")
+plot(mtcars[["wt"]], mtcars[["mpg"]],
+     xlab = "weight",
+     ylab = "mpg",
+     main = "mpg vs weight")
+boxplot(mpg ~ cyl, data = mtcars,
+        xlab = "number of cylinders",
+        ylab = "mpg",
+        main = "mpg by cylinders")
+
+
 
 
 

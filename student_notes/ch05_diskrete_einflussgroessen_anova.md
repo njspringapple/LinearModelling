@@ -1,362 +1,442 @@
-# 第 5 章学生笔记：离散解释变量、编码与方差分析 / Kapitel 5: Diskrete Einflussgroessen
+# 5. 离散影响变量：Dummy 编码、效应编码与多因素方差分析
 
-材料 / Grundlage:
+## 章节导航
 
-- 讲义 / Folien: `chapter_pdfs/LinearModellingPPT/05_Diskrete_Einflugroen_Dummy-_und_Effektkodierung_Mehrfaktorielle_Varianzanalyse.pdf`
-- 主教材 / Hauptlehrbuch: `Regression.pdf`, Chapter 3.1.3, Chapter 3.3, Chapter 3.4
-- 辅助教材 / Hilfslehrbuch: Faraway, `Linear Models with R`, Chapter 13-16
-- 扩展补充 / Erweiterung: Faraway, `Extending The Linear Model With R`, Chapter 10 only as preview for random effects
+| 步骤 | 对应 PPT | 关键领悟 |
+|------|----------|----------|
+| 1 | P125 | ANOVA 本质就是线性模型，用离散变量描述分组 |
+| 2 | P126 | 三种编码方式：简单 Dummy、效应编码、参考编码 |
+| 3 | P127-130 | 三种编码的设计矩阵 $X$ 长什么样，参数含义完全不同 |
+| 4 | P132 | 三种编码的参数可以互相转换，$R^2$ 完全一样 |
+| 5 | P134-140 | 二因素方差分析：两个离散变量，只有主效应，没有交互 |
+| 6 | P141-149 | 交互作用：一个变量的效果取决于另一个变量的值 |
+| 7 | P150-152 | 离散 + 连续混合模型（协方差分析），交互 = 斜率不同 |
+| 8 | P153 | Type I / II / III 平方和——"先到先得"陷阱 |
 
-## 覆盖审核 / Abdeckungspruefung
+---
 
-| 来源 / Quelle | 内容点 / Inhaltspunkt | 笔记位置 / Wo |
-|---|---|---|
-| 讲义 5 | 离散解释变量模型 | 5.1 |
-| 讲义 5 | dummy coding / reference coding | 5.2 |
-| 讲义 5 | effect coding | 5.3 |
-| 讲义 5 | 单因素方差分析 | 5.4 |
-| 讲义 5 | 两因素方差分析 | 5.5 |
-| 讲义 5 | 主效应与交互 | 5.5, 5.6 |
-| 讲义 5 | 离散变量与连续变量结合 / ANCOVA | 5.7 |
-| 讲义 5 | 不同类型平方和、前后测比较 | 5.8 |
-| 主教材 | 分类协变量的线性模型表示、线性假设和模型比较 | 5.2-5.8 |
-| Faraway | ANOVA、ANCOVA、factorial designs、block designs 的 R 实操 | R 练习 |
+## 1 先看透这个！！！核心直觉
 
-## 5.1 为什么分类变量也能进线性模型
+### 1.1 ANOVA 到底在干什么？
 
-**遇到的问题 / Problem.**  
-线性模型里的解释变量不一定都是连续变量。性别、地区、处理组、班级、政策阶段等都是离散变量。问题是：这些文字类别如何进入 $X$ 矩阵？
+**背景**：我有三组学生（A组、B组、C组），分别用不同教学方法，最后测了考试成绩。
 
-**可能的解决路径 / Moegliche Wege.**
+1）三组的平均分分别是 75、82、79。
 
-- 把类别随便编码成 $1,2,3$：可能错误暗示等距和线性趋势。
-- 用 dummy variables：把类别转成若干 $0/1$ 变量。
-- 用 effect coding：让参数表达相对总体均值的偏差。
+2）**问题来了：这三组的平均分真的不一样吗？还是纯粹因为随机波动？**
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-把分类变量转成设计矩阵中的列。线性模型仍是：
+- 也许三种教学方法效果一样（$\mu_1 = \mu_2 = \mu_3$），只是运气导致了分数差异
+- 也许确实不一样，某种方法更好
 
-$$
-Y=X\beta+\varepsilon
-$$
+3）**我需要判断：这些差异是真效果，还是运气？**
 
-区别只在于 $X$ 的列现在表示类别对比。好处是：ANOVA、ANCOVA 和回归都能统一到同一个线性模型框架。
+=====> 这就是 **方差分析（ANOVA）** 要干的事
 
-**具体解决 / Konkrete Loesung.**  
-含 $K$ 个类别的因子，在含截距模型中通常只放 $K-1$ 个 dummy，否则会和截距线性相关。
+4）关键洞察：**ANOVA 其实就是线性回归！** 只不过自变量是离散的（分组变量），而不是连续的。
 
-**R 练习 / R-Uebung.**
+> **Important**
+> 
+> ANOVA 的核心问题：**各组均值是否相等？**
+> 
+> 这个问题可以完全用线性模型来表达，关键在于如何把"分组"这个离散信息编码成设计矩阵 $X$。
 
-```r
-data(PlantGrowth)
-fit <- lm(weight ~ group, data = PlantGrowth)
-model.matrix(fit)[1:10, ]
-summary(fit)
-```
+---
 
-## 5.2 Dummy coding / Referenzkodierung
+## 2 编码方式：怎么把"分组"变成数字？
 
-**遇到的问题 / Problem.**  
-我们需要一个基准类别，其他类别的系数表示相对这个基准的差异。
+设名义变量 $C$ 有 $K$ 个类别（$K$ 组）。
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若因子 $C$ 有 $K$ 类，选择第 $1$ 类为参考组：
+### 2.1 简单 Dummy 编码
 
 $$
-Y_i=\beta_0+\beta_2D_{i2}+\dots+\beta_KD_{iK}+\varepsilon_i
+Z_k(C) = \begin{cases} 1 & \text{若 } C = k \\ 0 & \text{若 } C \neq k \end{cases} \quad k = 1, \ldots, K
 $$
 
-其中：
+每个类别对应一个 0/1 指示变量。**总共 $K$ 个 Dummy 变量**。
+
+### 2.2 效应编码（Effekt-Kodierung）
 
 $$
-D_{ik}=
-\begin{cases}
-1,& C_i=k\\
-0,& C_i\neq k
-\end{cases}
+Z_k^e(C) = \begin{cases} 1 & \text{若 } C = k \\ 0 & \text{若 } C \neq k \text{ 且 } C \neq K \\ -1 & \text{若 } C = K \end{cases} \quad k = 1, \ldots, K-1
 $$
 
-解释：
+最后一个类别 $K$ 编码为 $-1$，不需要单独的列。**总共 $K-1$ 个编码变量 + 1 个截距**。
 
-- $\beta_0$ 是参考组均值。
-- $\beta_k$ 是第 $k$ 组与参考组的均值差。
+> **Tip**
+> 
+> 效应编码的核心思想：最后一类用 $-1$ 代替 $0$，使得所有效应之和为零（$\sum \tau_k = 0$）。这样截距 $\mu$ 就是**总体均值**。
 
-**具体解决 / Konkrete Loesung.**  
-解释 dummy coding 时必须说清楚参考类别。R 默认通常按 factor levels 的第一个水平作为参考组。
+---
 
-**R 练习 / R-Uebung.**
+## 3 一因素方差分析：三种模型表达
 
-```r
-data(PlantGrowth)
-PlantGrowth[["group"]] <- relevel(PlantGrowth[["group"]], ref = "ctrl")
-fit <- lm(weight ~ group, data = PlantGrowth)
-coef(fit)
-tapply(PlantGrowth[["weight"]], PlantGrowth[["group"]], mean)
-```
-
-练习 / Uebung: `grouptrt1` 的系数表示什么？  
-答案 / Antwort: `trt1` 组均值与 `ctrl` 组均值的差。
-
-## 5.3 Effect coding / Effektkodierung
-
-**遇到的问题 / Problem.**  
-有时我们不想把某一组当成唯一参考，而想把参数解释为相对总体均值的偏差。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-Effect coding 通常让组效应满足约束：
+设离散变量 $C$ 有 $K$ 组，第 $k$ 组有 $n_k$ 个观测。
 
 $$
-\sum_{k=1}^K \alpha_k=0
+\mathbf{Y} = (Y_{11}, \ldots, Y_{1n_1}, Y_{21}, \ldots, Y_{Kn_K})'
 $$
 
-模型可写为：
+### 3.1 a) 均值模型（Mittelwertsmodell）——无截距
 
 $$
-Y_{ik}=\mu+\alpha_k+\varepsilon_{ik}
+Y_{kl} = \mu_k + \varepsilon_{kl} \quad l = 1, \ldots, n_k; \; k = 1, \ldots, K
 $$
 
-其中 $\mu$ 是总体均值或平衡设计下的平均组均值，$\alpha_k$ 是第 $k$ 组相对总体均值的偏差。
-
-**具体解决 / Konkrete Loesung.**  
-Dummy coding 和 effect coding 表示同一个组均值模型，只是参数含义不同；拟合值和整体检验不会因为编码方式改变。
-
-**R 练习 / R-Uebung.**
-
-```r
-data(PlantGrowth)
-options(contrasts = c("contr.sum", "contr.poly"))
-fit_effect <- lm(weight ~ group, data = PlantGrowth)
-coef(fit_effect)
-model.matrix(fit_effect)[1:10, ]
-
-options(contrasts = c("contr.treatment", "contr.poly"))
-```
-
-## 5.4 单因素方差分析 / Einfache Varianzanalyse
-
-**遇到的问题 / Problem.**  
-若只有一个分类解释变量，我们要检验不同组的均值是否相同。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-组均值模型：
+矩阵形式：
 
 $$
-Y_{ij}=\mu+\alpha_j+\varepsilon_{ij}
+\mathbf{Y} = (Z_1(C) \;\; Z_2(C) \;\; \cdots \;\; Z_K(C)) \begin{pmatrix} \mu_1 \\ \vdots \\ \mu_K \end{pmatrix} + \boldsymbol{\varepsilon}
 $$
 
-检验：
+**例子**：$K = 3$ 组，每组 $n_k = 2$ 个观测：
 
 $$
-H_0:\alpha_1=\dots=\alpha_K=0
+\begin{pmatrix} Y_{11} \\ Y_{12} \\ Y_{21} \\ Y_{22} \\ Y_{31} \\ Y_{32} \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix} + \begin{pmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{21} \\ \varepsilon_{22} \\ \varepsilon_{31} \\ \varepsilon_{32} \end{pmatrix}
 $$
 
-等价于所有组均值相同。好处是：ANOVA 可以看作带分类解释变量的线性模型。
+**参数含义**：$\mu_k$ 直接就是第 $k$ 组的均值。**没有截距**。
 
-**具体解决 / Konkrete Loesung.**  
-看 `anova(fit)` 中因子对应的 $F$ 检验。如果显著，只说明至少两个组均值不同；哪两组不同需要进一步对比。
+**检验**：$H_0: \mu_1 = \mu_2 = \cdots = \mu_K$
 
-**R 练习 / R-Uebung.**
+---
 
-```r
-data(PlantGrowth)
-fit <- lm(weight ~ group, data = PlantGrowth)
-anova(fit)
-boxplot(weight ~ group, data = PlantGrowth)
-```
-
-## 5.5 两因素方差分析 / Zweifaktorielle Varianzanalyse
-
-**遇到的问题 / Problem.**  
-很多实验同时有两个分类因素，例如处理组和剂量、机器和工人。我们要区分主效应和交互效应。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-无交互模型：
+### 3.2 b) 效应编码模型（Effekt-Kodierung）——有截距
 
 $$
-E(Y\mid A,B)=\mu+\alpha_A+\gamma_B
+Y_{kl} = \mu + \tau_k + \varepsilon_{kl} \quad \text{其中 } \sum_{k=1}^{K} \tau_k = 0
 $$
 
-有交互模型：
+矩阵形式：
 
 $$
-E(Y\mid A,B)=\mu+\alpha_A+\gamma_B+(\alpha\gamma)_{AB}
+\mathbf{Y} = (\mathbf{e} \;\; Z_1^e(C) \;\; \cdots \;\; Z_{K-1}^e(C)) \begin{pmatrix} \mu \\ \tau_1 \\ \vdots \\ \tau_{K-1} \end{pmatrix} + \boldsymbol{\varepsilon}
 $$
 
-好处是：主效应描述单个因素平均作用，交互描述一个因素的作用是否依赖另一个因素。
-
-**具体解决 / Konkrete Loesung.**  
-先画 interaction plot。若线条明显不平行，说明可能存在交互；模型中应加入 `A:B` 或 `A * B`。
-
-**R 练习 / R-Uebung.**
-
-```r
-data(ToothGrowth)
-ToothGrowth[["dose_f"]] <- factor(ToothGrowth[["dose"]])
-
-fit_add <- lm(len ~ supp + dose_f, data = ToothGrowth)
-fit_int <- lm(len ~ supp * dose_f, data = ToothGrowth)
-
-anova(fit_add, fit_int)
-interaction.plot(ToothGrowth[["dose_f"]],
-                 ToothGrowth[["supp"]],
-                 ToothGrowth[["len"]])
-```
-
-## 5.6 交互的解释 / Interpretation der Interaktion
-
-**遇到的问题 / Problem.**  
-有交互时，主效应不能孤立解释。例如处理 A 的效果可能在不同剂量下不同。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若模型为：
+**例子**：$K = 3$，$n_k = 2$：
 
 $$
-Y=\beta_0+\beta_1x+\beta_2z+\beta_3xz+\varepsilon
+\mathbf{X} = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & -1 & -1 \\ 1 & -1 & -1 \end{pmatrix}
 $$
 
-则 $x$ 的斜率为：
+**参数含义**：
+- $\mu = \frac{1}{K}\sum_{k=1}^K \mu_k$：**总体均值**（所有组的平均）
+- $\tau_k = \mu_k - \mu$：第 $k$ 组**偏离总体均值**的程度
+- 即 $\mu_k = \mu + \tau_k$
+
+**检验**：$H_0: \tau_1 = \tau_2 = \cdots = \tau_{K-1} = 0$
+
+---
+
+### 3.3 c) 参考编码模型（Referenzkodierung）——有截距
 
 $$
-\frac{\partial E(Y\mid x,z)}{\partial x}=\beta_1+\beta_3z
+Y_{kl} = \mu_K + \tau_k + \varepsilon_{kl} \quad \text{其中 } \tau_K = 0
 $$
 
-对于两个分类变量，交互表示组均值差异不是简单相加。
-
-**具体解决 / Konkrete Loesung.**  
-有交互时优先解释“简单效应”：在某一水平下另一个变量的作用，而不是只读主效应系数。
-
-## 5.7 ANCOVA：离散变量与连续变量结合
-
-**遇到的问题 / Problem.**  
-有时既有分组变量，又有连续协变量。只比较组均值会忽略连续协变量的影响。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-协方差分析模型可写为：
+矩阵形式：
 
 $$
-Y_i=\beta_0+\beta_1x_i+\gamma_1D_{i1}+\dots+\gamma_mD_{im}+\varepsilon_i
+\mathbf{Y} = (\mathbf{e} \;\; Z_1(C) \;\; \cdots \;\; Z_{K-1}(C)) \begin{pmatrix} \mu_K \\ \tau_1 \\ \vdots \\ \tau_{K-1} \end{pmatrix} + \boldsymbol{\varepsilon}
 $$
 
-若允许不同组有不同斜率，加入交互：
+**例子**：$K = 3$，$n_k = 2$：
 
 $$
-Y_i=\beta_0+\beta_1x_i+\gamma D_i+\delta x_iD_i+\varepsilon_i
+\mathbf{X} = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 0 \\ 1 & 0 & 0 \end{pmatrix}
 $$
 
-好处是：可以比较在连续协变量调整后的组差异。
+**参数含义**：
+- $\mu = \mu_K$：**参考组的均值**（最后一组）
+- $\tau_k = \mu_k - \mu_K$：第 $k$ 组**相对于参考组**的差异
+- 即 $\mu_k = \mu_K + \tau_k$
 
-**R 练习 / R-Uebung.**
+**检验**：$H_0: \tau_1 = \tau_2 = \cdots = \tau_{K-1} = 0$
 
-```r
-data(mtcars)
-mtcars[["cyl_f"]] <- factor(mtcars[["cyl"]])
+> **Note**
+> 
+> R 语言中 `lm()` 默认使用的就是**参考编码**（treatment contrast），最后一个类别（或字母顺序第一个）作为参考组。
 
-fit_parallel <- lm(mpg ~ wt + cyl_f, data = mtcars)
-fit_slopes <- lm(mpg ~ wt * cyl_f, data = mtcars)
+---
 
-anova(fit_parallel, fit_slopes)
-```
+### 3.4 三种编码的对比总结
 
-## 5.8 平方和类型与前后测比较
+| | 均值模型 | 效应编码 | 参考编码 |
+|---|---|---|---|
+| **截距** | 无 | $\mu = \frac{1}{K}\sum \mu_k$（总均值） | $\mu = \mu_K$（参考组均值） |
+| **系数含义** | $\mu_k$ = 各组均值 | $\tau_k = \mu_k - \mu$（偏离总均值） | $\tau_k = \mu_k - \mu_K$（偏离参考组） |
+| **约束条件** | 无 | $\sum \tau_k = 0$ | $\tau_K = 0$ |
+| **$R^2$** | 相同 | 相同 | 相同 |
+| **参数个数** | $K$ | $K$（$1 + (K-1)$） | $K$（$1 + (K-1)$） |
 
-**遇到的问题 / Problem.**  
-不平衡设计中，不同类型平方和可能给出不同检验结果；前后测数据也不能简单当成独立两组。
+> **Important**
+> 
+> **三种编码导致完全相同的模型拟合**（$R^2$ 一样），但参数的**解释不同**！
+> 参数和估计值可以在三种表达之间直接互相转换。
 
-**本课采用的方法及好处 / Methode und Vorteil.**
+---
 
-- Type I: 顺序平方和，依赖变量顺序。
-- Type II: 在不含高阶交互的条件下检验主效应。
-- Type III: 在包含其他所有项的条件下检验，依赖编码和模型设定。
+## 4 二因素方差分析（Zweifaktorielle Varianzanalyse）
 
-前后测可使用差值：
+### 4.1 设定
+
+两个离散变量 $C$（$K_1$ 个类别）和 $D$（$K_2$ 个类别）。
+
+**注意：这里不能用均值模型了！**
+
+### 4.2 a) 效应编码——只有主效应（无交互）
 
 $$
-D_i=Y_{i,post}-Y_{i,pre}
+\mathbf{Y} = (\mathbf{e} \;\; Z_1^e(C) \cdots Z_{K_1-1}^e(C) \;\; Z_1^e(D) \cdots Z_{K_2-1}^e(D)) \begin{pmatrix} \mu \\ \tau_1 \\ \vdots \\ \tau_{K_1-1} \\ \gamma_1 \\ \vdots \\ \gamma_{K_2-1} \end{pmatrix} + \boldsymbol{\varepsilon}
 $$
 
-然后对 $D_i$ 建模；也可用包含个体效应的模型，后续 mixed model 会更系统处理。
+**参数含义**：
+- $\mu$：总均值
+- $\tau_k$：因子 $C$ 的第 $k$ 类**偏离总均值**
+- $\gamma_l$：因子 $D$ 的第 $l$ 类**偏离总均值**
 
-**具体解决 / Konkrete Loesung.**  
-报告 ANOVA 时必须说明平方和类型、模型公式和编码方式。对前后测，先确认观测是否配对。
+**检验**：
+- 因子 $C$ 的效应：$H_0: \tau_1 = \cdots = \tau_{K_1-1} = 0$
+- 因子 $D$ 的效应：$H_0: \gamma_1 = \cdots = \gamma_{K_2-1} = 0$
 
-**R 练习 / R-Uebung.**
+### 4.3 具体数值例子（无交互）
 
-```r
-data(sleep)
-wide <- reshape(sleep, idvar = "ID", timevar = "group", direction = "wide")
-wide[["diff"]] <- wide[["extra.2"]] - wide[["extra.1"]]
-t.test(wide[["diff"]])
-```
+设 $\mu = 1$，因子 A（2 水平）：$\tau_1 = 2 \Rightarrow \tau_2 = -2$，因子 B（3 水平）：$\gamma_1 = 1, \gamma_2 = 2 \Rightarrow \gamma_3 = -3$
 
-## 5.9 选择题 / Multiple-Choice-Fragen
+| 因子 A | 因子 B | 均值 $= \mu + \tau_k + \gamma_l$ |
+|--------|--------|------|
+| 1 | 1 | $1 + 2 + 1 = 4$ |
+| 1 | 2 | $1 + 2 + 2 = 5$ |
+| 1 | 3 | $1 + 2 - 3 = 0$ |
+| 2 | 1 | $1 - 2 + 1 = 0$ |
+| 2 | 2 | $1 - 2 + 2 = 1$ |
+| 2 | 3 | $1 - 2 - 3 = -4$ |
 
-1. 含截距模型中，$K$ 个类别通常需要几个 dummy？  
-   A. $K-1$  
-   B. $K$  
-   C. $n$  
-   D. $1$  
-   答案 / Antwort: A
+**图形特征：两条线平行！** 间距 = $\tau_1 - \tau_2 = 4$。平行 ⇔ 无交互。
 
-2. Dummy coding 中截距通常表示什么？  
-   A. 参考组均值  
-   B. 所有残差之和  
-   C. 样本量  
-   D. 方差  
-   答案 / Antwort: A
+### 4.4 设计矩阵例子
 
-3. Effect coding 常用约束是什么？  
-   A. $\sum_k \alpha_k=0$  
-   B. 所有 $\alpha_k=1$  
-   C. $Y=0$  
-   D. $R^2=0$  
-   答案 / Antwort: A
+2 水平 × 3 水平因子，每个组合 2 个观测，效应编码：
 
-4. 有交互时，主效应应如何解释？  
-   A. 结合另一个变量的水平解释  
-   B. 完全忽略交互  
-   C. 只看截距  
-   D. 不能使用线性模型  
-   答案 / Antwort: A
+$$
+\mathbf{X} = \begin{pmatrix} 1 & 1 & 1 & 0 \\ 1 & 1 & 1 & 0 \\ 1 & 1 & 0 & 1 \\ 1 & 1 & 0 & 1 \\ 1 & 1 & -1 & -1 \\ 1 & 1 & -1 & -1 \\ 1 & -1 & 1 & 0 \\ 1 & -1 & 1 & 0 \\ 1 & -1 & 0 & 1 \\ 1 & -1 & 0 & 1 \\ 1 & -1 & -1 & -1 \\ 1 & -1 & -1 & -1 \end{pmatrix}
+$$
 
-5. ANCOVA 主要处理什么结构？  
-   A. 连续响应 + 分组变量 + 连续协变量  
-   B. 只有一个二元响应  
-   C. 只有时间序列误差  
-   D. 只有随机森林  
-   答案 / Antwort: A
+第 1 列 = 截距，第 2 列 = 因子 A 的效应编码（$K_1 - 1 = 1$ 列），第 3-4 列 = 因子 B 的效应编码（$K_2 - 1 = 2$ 列）。
 
-## 5.10 本章总结 / Zusammenfassung
+---
 
-中文总结：
+## 5 交互作用（Interaktion）——最重要的概念之一
 
-- 离散解释变量通过编码进入设计矩阵。
-- Dummy coding 以参考组为基准，系数表示相对参考组差异。
-- Effect coding 用约束让组效应围绕总体均值解释。
-- ANOVA 是线性模型在分类解释变量场景下的特殊形式。
-- 两因素模型要区分主效应和交互。
-- ANCOVA 把分类变量和连续协变量放在同一个线性模型里。
-- 不平衡设计中平方和类型会影响检验解释。
+### 5.1 什么是交互？
 
-Deutsche Zusammenfassung:
+**一个变量的影响取决于另一个变量的值。**
 
-- Diskrete Einflussgroessen werden durch Kodierung in die Designmatrix aufgenommen.
-- Dummykodierung interpretiert Effekte relativ zu einer Referenzkategorie.
-- Effektkodierung interpretiert Abweichungen vom Gesamtmittel.
-- Varianzanalyse ist ein Spezialfall des linearen Modells.
-- Interaktionen bedeuten, dass ein Effekt vom Niveau eines anderen Faktors abhaengt.
+例子：
+- 药物的效果在男性和女性中**不同** → 药物 × 性别 交互
+- 学习时间对成绩的提升在优等生和差生中**不同** → 学习时间 × 学生水平 交互
+- 年龄对生活满意度的影响因性别**不同** → 年龄 × 性别 交互
 
-## 5.11 专业德语单词汇总 / Fachwortschatz
+> **Important**
+> 
+> **交互 ≠ 相关！**
+> - 相关/多重共线性：两个**自变量**之间的关系
+> - 交互：两个自变量**对因变量的联合效应**
+> 
+> 交互一定涉及因变量 $Y$！
 
-| Deutsch | 中文 | 说明 |
-|---|---|---|
-| diskrete Einflussgroesse | 离散解释变量 | 分类变量 |
-| Dummykodierung | dummy 编码 | 参考组对比 |
-| Referenzkategorie | 参考类别 | 截距对应 |
-| Effektkodierung | 效应编码 | 组效应和为零 |
-| einfache Varianzanalyse | 单因素方差分析 | one-way ANOVA |
-| zweifaktorielle Varianzanalyse | 双因素方差分析 | two-way ANOVA |
-| Haupteffekt | 主效应 | main effect |
-| Interaktion | 交互 | effect modification |
-| Kovarianzanalyse | 协方差分析 | ANCOVA |
-| Typ-I-Quadratsumme | I 型平方和 | 顺序平方和 |
-| Vorher-Nachher-Vergleich | 前后测比较 | paired structure |
+### 5.2 图形直觉
+
+- **无交互**：两条线**平行** → 因子 A 的效果不受因子 B 影响
+- **有交互**：两条线**不平行**（交叉或发散）→ 因子 A 的效果取决于因子 B 的水平
+
+---
+
+### 5.3 效应编码 + 交互项
+
+交互项 = 各主效应编码变量的**乘积** $Z_k^e(C) \cdot Z_l^e(D)$
+
+完整模型：
+
+$$
+Y_{kl} = \mu + \tau_k + \gamma_l + (\tau\gamma)_{kl} + \varepsilon_{kl}
+$$
+
+约束条件：
+
+$$
+\sum_{k=1}^{K_1} \tau_k = 0, \quad \sum_{l=1}^{K_2} \gamma_l = 0
+$$
+
+$$
+\sum_{k=1}^{K_1} (\tau\gamma)_{kl} = 0 \;\text{对每个 } l, \quad \sum_{l=1}^{K_2} (\tau\gamma)_{kl} = 0 \;\text{对每个 } k
+$$
+
+**参数含义**：
+- $\tau_k$：因子 A 第 $k$ 类偏离总均值
+- $\gamma_l$：因子 B 第 $l$ 类偏离总均值
+- $(\tau\gamma)_{kl}$：单元格 $(k, l)$ 相对于**仅考虑主效应时**的额外偏差
+
+**检验交互**：$H_0: (\tau\gamma)_{11} = \cdots = (\tau\gamma)_{K_1-1, K_2-1} = 0$
+
+### 5.4 带交互的数值例子
+
+在之前例子基础上增加交互项：
+
+$(\tau\gamma)_{11} = -2, \; (\tau\gamma)_{12} = 0 \;\Rightarrow\; (\tau\gamma)_{13} = 2$
+
+$(\tau\gamma)_{21} = 2, \; (\tau\gamma)_{22} = 0 \;\Rightarrow\; (\tau\gamma)_{23} = -2$
+
+| 因子 A | 因子 B | 均值 $= \mu + \tau_k + \gamma_l + (\tau\gamma)_{kl}$ |
+|--------|--------|------|
+| 1 | 1 | $1 + 2 + 1 - 2 = 2$ |
+| 1 | 2 | $1 + 2 + 2 + 0 = 5$ |
+| 1 | 3 | $1 + 2 - 3 + 2 = 2$ |
+| 2 | 1 | $1 - 2 + 1 + 2 = 2$ |
+| 2 | 2 | $1 - 2 + 2 + 0 = 1$ |
+| 2 | 3 | $1 - 2 - 3 - 2 = -6$ |
+
+**图形特征：两条线不再平行 ⇔ 存在交互！**
+
+### 5.5 带交互的设计矩阵（效应编码）
+
+2 水平 × 3 水平因子，每个组合 1 个观测：
+
+$$
+\mathbf{X}\boldsymbol{\beta} = \begin{pmatrix} 1 & 1 & 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 & 0 & 1 \\ 1 & 1 & -1 & -1 & -1 & -1 \\ 1 & -1 & 1 & 0 & -1 & 0 \\ 1 & -1 & 0 & 1 & 0 & -1 \\ 1 & -1 & -1 & -1 & 1 & 1 \end{pmatrix} \cdot \begin{pmatrix} \mu \\ \tau_1 \\ \gamma_1 \\ \gamma_2 \\ (\tau\gamma)_{11} \\ (\tau\gamma)_{12} \end{pmatrix}
+$$
+
+第 5-6 列 = 第 2 列 × 第 3 列、第 2 列 × 第 4 列（**主效应列的逐元素乘积**）。
+
+---
+
+### 5.6 参考编码 + 交互项
+
+$$
+Y_{kl} = \mu + \tau_k + \gamma_l + (\tau\gamma)_{kl} + \varepsilon_{kl}
+$$
+
+约束条件：$\tau_{K_1} = 0, \; \gamma_{K_2} = 0, \; (\tau\gamma)_{K_1 l} = 0, \; (\tau\gamma)_{k K_2} = 0$
+
+**参数含义**：
+- $\mu$：**参考组**（$C = K_1, D = K_2$）的均值
+- $\tau_k$：当 $D$ 为参考类时，$C = k$ 相对于 $C = K_1$ 的差异
+- $\gamma_l$：当 $C$ 为参考类时，$D = l$ 相对于 $D = K_2$ 的差异
+- $(\tau\gamma)_{kl}$：单元格 $(k, l)$ 相对于参考组的额外偏差（扣除主效应后）
+
+设计矩阵（参考编码）：
+
+$$
+\mathbf{X}\boldsymbol{\beta} = \begin{pmatrix} 1 & 1 & 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 & 0 & 1 \\ 1 & 1 & 0 & 0 & 0 & 0 \\ 1 & 0 & 1 & 0 & 0 & 0 \\ 1 & 0 & 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 & 0 & 0 \end{pmatrix} \cdot \begin{pmatrix} \mu \\ \tau_1 \\ \gamma_1 \\ \gamma_2 \\ (\tau\gamma)_{11} \\ (\tau\gamma)_{12} \end{pmatrix}
+$$
+
+> **Tip**
+> 
+> 参考编码中，最后一行（参考组）全是 0（除截距），所以 $\mu$ 直接就是参考组的均值。R 的 `lm()` 默认就是这种。
+
+---
+
+## 6 离散 + 连续混合（协方差分析 Kovarianzanalyse）
+
+### 6.1 平行线模型（无交互）
+
+$K = 3$ 组，每组 2 个观测，加一个连续变量 $x$：
+
+$$
+\mathbf{X} = \begin{pmatrix} 1 & 0 & 0 & x_1 \\ 1 & 0 & 0 & x_2 \\ 0 & 1 & 0 & x_3 \\ 0 & 1 & 0 & x_4 \\ 0 & 0 & 1 & x_5 \\ 0 & 0 & 1 & x_6 \end{pmatrix}, \quad \boldsymbol{\beta} = \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \alpha_3 \\ \beta_4 \end{pmatrix}
+$$
+
+**解释**：三条**平行直线**，截距分别为 $\alpha_1, \alpha_2, \alpha_3$，**斜率相同** $= \beta_4$。
+
+### 6.2 不同斜率模型（有交互）
+
+$$
+Y_{kl} = \alpha_k + \beta_k X_{kl} + \varepsilon_{kl}
+$$
+
+$$
+\mathbf{X} = \begin{pmatrix} 1 & 0 & 0 & x_1 & 0 & 0 \\ 1 & 0 & 0 & x_2 & 0 & 0 \\ 0 & 1 & 0 & 0 & x_3 & 0 \\ 0 & 1 & 0 & 0 & x_4 & 0 \\ 0 & 0 & 1 & 0 & 0 & x_5 \\ 0 & 0 & 1 & 0 & 0 & x_6 \end{pmatrix}, \quad \boldsymbol{\beta} = \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \alpha_3 \\ \beta_1 \\ \beta_2 \\ \beta_3 \end{pmatrix}
+$$
+
+**交互的含义**：斜率不同！检验交互 = 检验 $\beta_1 = \beta_2 = \beta_3$。
+
+### 6.3 参考编码下的不同斜率模型
+
+$$
+Y_{kl} = \alpha_3 + \alpha_k + \beta_3 X_{kl} + \beta_k X_{kl} + \varepsilon_{kl} \quad (k = 1, 2)
+$$
+
+$$
+\mathbf{X} = \begin{pmatrix} 1 & 1 & 0 & x_1 & x_1 & 0 \\ 1 & 1 & 0 & x_2 & x_2 & 0 \\ 1 & 0 & 1 & x_3 & 0 & x_3 \\ 1 & 0 & 1 & x_4 & 0 & x_4 \\ 1 & 0 & 0 & x_5 & 0 & 0 \\ 1 & 0 & 0 & x_6 & 0 & 0 \end{pmatrix}, \quad \boldsymbol{\beta} = \begin{pmatrix} \alpha_3 \\ \alpha_1 \\ \alpha_2 \\ \beta_3 \\ \beta_1 \\ \beta_2 \end{pmatrix}
+$$
+
+检验交互：$H_0: \beta_1 = \beta_2 = 0$（即其他组的斜率和参考组一样）。
+
+> **Important**
+> 
+> **离散 × 连续的交互**在几何上非常直观：
+> - 无交互 = 平行线（斜率相同，截距不同）
+> - 有交互 = 非平行线（斜率不同）
+
+---
+
+## 7 平方和的类型（Typen von Quadratsummen）
+
+### 7.1 三种类型
+
+| 类型 | 含义 | 特点 |
+|------|------|------|
+| **Type I** | 顺序平方和 | 按变量进入顺序依次计算贡献，**顺序不同结果不同** |
+| **Type II** | 偏平方和（不含高阶交互） | 每个主效应在控制其他同阶效应后的贡献，但不控制包含该变量的交互项 |
+| **Type III** | 偏平方和 | 每个效应在控制**所有其他效应**后的贡献，**顺序无关** |
+
+### 7.2 例子理解
+
+模型包含效应：X1, X2, X3, X1\*X2, X1\*X3, X2\*X3, X1\*X2\*X3
+
+| 检验效应 | Type I 中已有的变量 | Type III 中已有的变量 | Type II 中已有的变量 |
+|----------|------------------|-------------------|-------------------|
+| X1 | — | 所有其他 | X2, X3, X2\*X3 |
+| X2 | X1 | 所有其他 | X1, X3, X1\*X3 |
+| X1\*X2 | X1, X2, X3 | 所有其他 | X1, X2, X3, X1\*X3, X2\*X3 |
+| X1\*X2\*X3 | 所有其他 | 所有其他 | 所有其他 |
+
+> **Important**
+> 
+> **Type I 的陷阱**：变量相关时，先进入模型的变量"抢走"了共同解释的部分——**"先到先得"**！换顺序结果就变了。
+> 
+> **Type III 不受顺序影响**，是最常用的选择。
+> 
+> 如果存在交互项，**主效应的系数很难直接解释**——应该看图（Effect Plot）！
+
+---
+
+## 8 实际案例：前后对比（Vorher-Nachher Vergleich）
+
+**场景**：$X_1$ = 时间点 1 的血值，$X_2$ = 时间点 2 的血值，$Z$ = 分组（0 = 安慰剂，1 = 真药）
+
+**问题**：两组有没有差异？
+
+| 方法 | 做法 | 优点 |
+|------|------|------|
+| **方法 1** | 算差值 $D = X_2 - X_1$，做两样本 t 检验 | 简单直观 |
+| **方法 2** | 回归 $X_2 = \beta_0 + \beta_1 X_1 + \gamma Z + \varepsilon$，检验 $H_0: \gamma = 0$ | 控制了"回归到均值"效应，考虑了差值对初始值的依赖 |
+
+> **Tip**
+> 
+> 方法 2 本质就是**协方差分析**（ANCOVA）：连续变量 $X_1$（基线值）+ 离散变量 $Z$（分组），看 $Z$ 的效应是否显著。
+> 在临床试验中，方法 2 通常更有效率（统计功效更高）。
+
+---
+
+## 9 总结：关键记忆点
+
+> **Important**
+> 
+> 1. **ANOVA = 线性回归**，只是自变量是离散的
+> 2. **三种编码**（均值/效应/参考）→ 同样的拟合，不同的参数解释
+> 3. **效应编码**：截距 = 总均值，系数 = 偏离总均值
+> 4. **参考编码**：截距 = 参考组均值，系数 = 偏离参考组（R 默认）
+> 5. **交互**：一个变量的效应取决于另一个变量 → 图中线条不平行
+> 6. **离散 × 连续交互** = 不同组有不同斜率
+> 7. **Type I 平方和受顺序影响，Type III 不受** → 优先用 Type III
+> 8. 有交互时，主效应难以直接解释 → 看 Effect Plot

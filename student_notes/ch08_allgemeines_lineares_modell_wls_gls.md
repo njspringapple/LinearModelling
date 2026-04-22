@@ -1,327 +1,483 @@
-# 第 8 章学生笔记：一般线性模型、WLS 与 GLS / Kapitel 8: Allgemeines lineares Modell
+# 8. Das allgemeine lineare Modell（一般线性模型）
 
-材料 / Grundlage:
+**Lineare Modelle SoSe 2025 — Sabine Hoffmann, LMU**
 
-- 讲义 / Folien: `chapter_pdfs/LinearModellingPPT/08_Das_allgemeine_lineare_Modell_Gewichtete_KQ-Methode_Autokorrelierte_und_heteroskedastische_Stor.pdf`
-- 主教材 / Hauptlehrbuch: `Regression.pdf`, Chapter 4.1
-- 辅助教材 / Hilfslehrbuch: Faraway, `Linear Models with R`, Chapter 6.1, Chapter 6.2
+加权最小二乘、自相关与异方差误差项
 
-## 覆盖审核 / Abdeckungspruefung
+理论推导 + 直觉理解 + 每一步都搞懂
 
-| 来源 / Quelle | 内容点 / Inhaltspunkt | 笔记位置 / Wo |
-|---|---|---|
-| 讲义 8 | 一般线性模型 | 8.1 |
-| 讲义 8 | 模型变换 | 8.2 |
-| 讲义 8 | weighted least squares | 8.3 |
-| 讲义 8 | generalized least squares | 8.4 |
-| 讲义 8 | 一般 Gauss-Markov 定理 | 8.5 |
-| 讲义 8 | 方差结构、AR(1) | 8.6 |
-| 讲义 8 | 估计策略、ML/REML | 8.7 |
-| 讲义 8 | 关于 $\beta$ 方差的推断 | 8.8 |
-| 主教材 | WLS、GLS、异方差和自相关误差 | 全章 |
-| Faraway | R 中 GLS/WLS 实操思想 | R 练习 |
+---
 
-## 8.1 为什么需要一般线性模型
+## 章节导航
 
-**遇到的问题 / Problem.**  
-前面经典线性模型假设 $V(\varepsilon)=\sigma^2I$。实际中误差可能异方差或相关，例如不同观测精度不同、时间序列误差相邻相关。
+| 主题 | 对应内容 | 关键领悟 |
+|------|---------|---------|
+| 1 | 异方差模型（对角 $V$） | 每个观测的误差方差不同 |
+| 2 | 模型变换的核心思想 | 除以 $\sqrt{v_i}$ 使方差齐性化 |
+| 3 | 加权 KQ 估计量 | 用 $V^{-1}$ 加权，方差小的观测权重大 |
+| 4 | 一般协方差结构（任意 $V$） | 误差可以相关（如时间序列） |
+| 5 | 广义 Gauss-Markov 定理 | $\hat{\beta}_W$ 是 BLUE |
+| 6 | 协方差结构的典型例子 | 分组异方差、AR(1)、纵向数据 |
+| 7 | ML 与 REML 估计 | 当 $V$ 未知时如何估计协方差参数 |
+| 8 | 关于 $\beta$ 的推断 | 近似 $t$-检验与自由度估计 |
 
-**可能的解决路径 / Moegliche Wege.**
+---
 
-- 继续用 OLS：系数可能仍可用，但标准误和效率有问题。
-- 使用 WLS：处理独立但方差不同。
-- 使用 GLS：处理一般协方差结构。
+## 1 出发点：为什么需要一般化？
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-一般线性模型：
+标准线性模型假设：
 
 $$
-Y=X\beta+\varepsilon,\quad E(\varepsilon)=0,\quad V(\varepsilon)=\sigma^2\Sigma
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}, \quad \boldsymbol{\varepsilon} \sim N(\mathbf{0}, \sigma^2 \mathbf{I})
 $$
 
-其中 $\Sigma$ 不一定是单位矩阵。好处是：把异方差和相关误差纳入同一矩阵框架。
+即所有误差项**等方差**且**不相关**。但现实中经常违反：
 
-**R 练习 / R-Uebung.**
+| 情境 | 违反了什么 | 例子 |
+|------|---------|------|
+| 分组数据，各组方差不同 | 等方差 | 不同医院的治疗效果 |
+| 计数数据 | 等方差（方差随均值变） | 事故次数 |
+| 时间序列 | 不相关 | 月度经济数据 |
+| 纵向数据（同一个体重复测量） | 不相关 | 临床试验中的重复测量 |
 
-```r
-data(cars)
-fit_ols <- lm(dist ~ speed, data = cars)
-plot(fitted(fit_ols), residuals(fit_ols))
-abline(h = 0, col = "gray")
-```
+**解决方案**：允许误差的协方差矩阵不再是 $\sigma^2 \mathbf{I}$，而是 $\sigma^2 \mathbf{V}$。
 
-## 8.2 模型变换 / Transformation des Modells
+---
 
-**遇到的问题 / Problem.**  
-若 $V(\varepsilon)=\sigma^2\Sigma$，OLS 的球形误差假设不成立。我们希望把模型变换成误差协方差为 $\sigma^2I$ 的形式。
+## 2 异方差模型（Das allgemeine lineare Modell — 对角情形）
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若存在矩阵 $A$ 使：
+### 2.1 模型设定
 
 $$
-A\Sigma A^T=I
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
 $$
 
-则变换：
-
 $$
-AY=AX\beta+A\varepsilon
+\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \sigma^2 \mathbf{V})
 $$
 
-变换后误差满足：
-
 $$
-V(A\varepsilon)=\sigma^2I
+\mathbf{V} = \text{diag}(v_1, v_2, \ldots, v_n)
 $$
 
-好处是：可以在变换后的模型上使用普通最小二乘思想。
+这里 $\mathbf{V}$ 是**已知的**对角矩阵，描述各观测的相对方差。
 
-**具体解决 / Konkrete Loesung.**  
-理论上可用 $\Sigma^{-1/2}$ 变换；实际中常直接使用 GLS 公式或软件函数。
+第 $i$ 个观测的方差为 $\text{Var}(\varepsilon_i) = v_i \sigma^2$。
 
-## 8.3 加权最小二乘 / Gewichtete KQ-Methode
-
-**遇到的问题 / Problem.**  
-若误差独立但方差不同：
+**权重矩阵（Gewichtsmatrix）**：
 
 $$
-V(\varepsilon_i)=\frac{\sigma^2}{w_i}
+\mathbf{W} = \mathbf{V}^{-1} = \text{diag}(v_1^{-1}, v_2^{-1}, \ldots, v_n^{-1})
 $$
 
-高方差观测不应和低方差观测同等权重。
+> **直觉**：$v_i$ 大的观测方差大、不可靠，应该给低权重 $w_i = 1/v_i$；$v_i$ 小的观测方差小、可靠，给高权重。
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-WLS 最小化：
+---
 
-$$
-\sum_{i=1}^n w_i(Y_i-x_i^T\beta)^2
-$$
+### 2.2 变换的核心思想（Transformation）
 
-矩阵形式：
+**基本想法**：把异方差模型**变换**成等方差模型，然后用标准 OLS。
 
-$$
-\widehat{\beta}_{WLS}
-=(X^TWX)^{-1}X^TWY
-$$
-
-好处是：精度高的观测权重大，精度低的观测权重小。
-
-**具体解决 / Konkrete Loesung.**  
-权重 $w_i$ 应与误差方差成反比。若只知道方差结构的相对形式，可用估计的权重。
-
-**R 练习 / R-Uebung.**
-
-```r
-data(cars)
-fit_ols <- lm(dist ~ speed, data = cars)
-
-weights <- 1 / cars[["speed"]]^2
-fit_wls <- lm(dist ~ speed, data = cars, weights = weights)
-
-coef(fit_ols)
-coef(fit_wls)
-```
-
-## 8.4 广义最小二乘 / Verallgemeinerte KQ-Methode
-
-**遇到的问题 / Problem.**  
-WLS 只处理对角协方差矩阵。若误差之间相关，需要更一般的 GLS。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若：
+原始模型：
 
 $$
-V(\varepsilon)=\sigma^2\Sigma
+y_i = \beta_0 \cdot 1 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip} + \varepsilon_i, \quad \text{Var}(\varepsilon_i) = v_i \sigma^2
 $$
 
-且 $\Sigma$ 已知，则 GLS 估计为：
+两边除以 $\sqrt{v_i}$：
 
 $$
-\widehat{\beta}_{GLS}
-=
-(X^T\Sigma^{-1}X)^{-1}X^T\Sigma^{-1}Y
+\frac{y_i}{\sqrt{v_i}} = \beta_0 \cdot \frac{1}{\sqrt{v_i}} + \beta_1 \frac{x_{i1}}{\sqrt{v_i}} + \cdots + \beta_p \frac{x_{ip}}{\sqrt{v_i}} + \frac{\varepsilon_i}{\sqrt{v_i}}
 $$
 
-好处是：当 $\Sigma$ 正确时，GLS 比 OLS 更有效。
-
-**具体解决 / Konkrete Loesung.**  
-GLS 的核心是用 $\Sigma^{-1}$ 重新定义距离：不是最小化普通残差平方和，而是最小化：
+此时：
 
 $$
-(Y-X\beta)^T\Sigma^{-1}(Y-X\beta)
+\text{Var}\!\left(\frac{\varepsilon_i}{\sqrt{v_i}}\right) = \frac{v_i \sigma^2}{v_i} = \sigma^2 \quad \checkmark
 $$
 
-**R 练习 / R-Uebung.** Base R 没有通用 `gls()`，下面手动构造一个简单 AR(1) 协方差示例。
+变换后的误差项**等方差**了！
 
-```r
-data(Nile)
-y <- as.numeric(Nile)
-t <- seq_along(y)
-X <- model.matrix(~ t)
-n <- length(y)
-rho <- 0.6
-Sigma <- outer(seq_len(n), seq_len(n), function(i, j) rho^abs(i - j))
+> ⚠️ **注意**：变换后截距项的"自变量"变成了 $1/\sqrt{v_i}$，不再是常数 1。所以变换后的模型**没有通常意义上的截距**。
 
-beta_gls <- solve(t(X) %*% solve(Sigma, X),
-                  t(X) %*% solve(Sigma, y))
-coef(lm(y ~ t))
-as.vector(beta_gls)
-```
+---
 
-## 8.5 一般 Gauss-Markov 定理 / Allgemeines Gauss-Markov-Theorem
+### 2.3 矩阵形式的变换
 
-**遇到的问题 / Problem.**  
-经典 Gauss-Markov 假设 $V(\varepsilon)=\sigma^2I$。若协方差不是单位矩阵，OLS 不再是最佳线性无偏估计。
+定义 $\mathbf{W}^{1/2}$ 为 $\mathbf{W}$ 的（对角）平方根矩阵，即 $\mathbf{W}^{1/2}(\mathbf{W}^{1/2})' = \mathbf{W}$。
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-在 $V(\varepsilon)=\sigma^2\Sigma$ 且 $\Sigma$ 已知时，GLS 是 BLUE。
-
-这意味着：正确利用误差协方差结构，可以在保持无偏的同时降低估计方差。
-
-**具体解决 / Konkrete Loesung.**  
-先判断问题来自异方差还是相关性；再选择 WLS 或 GLS；最后用相应协方差矩阵计算标准误。
-
-## 8.6 方差结构与 AR(1)
-
-**遇到的问题 / Problem.**  
-误差结构必须被参数化，否则 $\Sigma$ 太大，无法稳定估计。
-
-**常见结构 / Hauefige Strukturen.**
-
-- 独立异方差：
+变换后的量：
 
 $$
-\Sigma=\operatorname{diag}(\sigma_1^2,\dots,\sigma_n^2)
+\mathbf{Y}^* := \mathbf{W}^{1/2}\mathbf{Y}
 $$
 
-- AR(1) 时间序列结构：
-
 $$
-\operatorname{Corr}(\varepsilon_t,\varepsilon_s)=\rho^{|t-s|}
+\mathbf{X}^* := \mathbf{W}^{1/2}\mathbf{X}
 $$
 
-好处是：用少数参数描述误差结构。
-
-**R 练习 / R-Uebung.**
-
-```r
-rho <- 0.7
-n <- 8
-Sigma_ar1 <- outer(seq_len(n), seq_len(n), function(i, j) rho^abs(i - j))
-round(Sigma_ar1, 2)
-```
-
-## 8.7 估计策略、ML 与 REML
-
-**遇到的问题 / Problem.**  
-现实中 $\Sigma$ 或方差参数 $\theta$ 通常未知。要使用 GLS，必须先估计方差结构。
-
-**可能的解决路径 / Moegliche Wege.**
-
-- 先用 OLS 残差估计方差结构，再做 feasible GLS。
-- 用 ML 同时估计 $\beta$ 和方差参数。
-- 用 REML 估计方差参数，减少固定效应估计带来的偏差。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若 $\theta$ 已知，$\beta$ 的条件 MLE 就是加权/广义最小二乘。若 $\theta$ 未知，则需要先估计 $\theta$。REML 会在 mixed model 中再次出现。
-
-**具体解决 / Konkrete Loesung.**  
-记住三层：
-
-1. $\Sigma$ 已知：直接 GLS。
-2. $\Sigma(\theta)$ 已知形式但 $\theta$ 未知：估计 $\theta$ 后 GLS。
-3. 方差结构复杂：使用 ML/REML 软件拟合。
-
-## 8.8 关于 $\beta$ 的推断
-
-**遇到的问题 / Problem.**  
-使用 WLS/GLS 后，系数标准误也必须按照新的协方差结构计算。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-若 $\Sigma$ 已知：
-
 $$
-V(\widehat{\beta}_{GLS})
-=
-\sigma^2(X^T\Sigma^{-1}X)^{-1}
+\boldsymbol{\varepsilon}^* := \mathbf{W}^{1/2}\boldsymbol{\varepsilon}
 $$
 
-这替代了 OLS 的：
+则：
 
 $$
-\sigma^2(X^TX)^{-1}
+\mathbf{Y}^* = \mathbf{X}^*\boldsymbol{\beta} + \boldsymbol{\varepsilon}^*
 $$
 
-**具体解决 / Konkrete Loesung.**  
-不要用 OLS 的标准误解释 GLS/WLS 的系数；估计方法变了，方差公式也必须变。
+$$
+\boldsymbol{\varepsilon}^* \sim N(\mathbf{0}, \sigma^2 \mathbf{I})
+$$
 
-## 8.9 选择题 / Multiple-Choice-Fragen
+> **关键领悟**：变换后就是一个**标准线性模型**！所有之前学过的理论（OLS、F-检验、$t$-检验、置信区间……）都**直接适用于变换后的模型**。参数 $\boldsymbol{\beta}$ 不变！
 
-1. 一般线性模型允许什么？  
-   A. $V(\varepsilon)=\sigma^2\Sigma$  
-   B. 只能有 $V(\varepsilon)=0$  
-   C. 不能有解释变量  
-   D. 只能做 logistic 回归  
-   答案 / Antwort: A
+---
 
-2. WLS 权重应与什么相关？  
-   A. 误差方差的倒数  
-   B. 观测编号  
-   C. 响应变量名字  
-   D. 截距个数  
-   答案 / Antwort: A
+## 3 加权 KQ 估计量（Der gewichtete KQ-Schätzer）
 
-3. GLS 估计公式包含哪个矩阵？  
-   A. $\Sigma^{-1}$  
-   B. $Y^{-1}$  
-   C. $\varepsilon^{-1}$  
-   D. $R^2$  
-   答案 / Antwort: A
+对变换后的模型应用标准 OLS：
 
-4. AR(1) 结构常用于什么？  
-   A. 时间序列相关误差  
-   B. 只有分类变量的编码  
-   C. 删除截距  
-   D. 单因素 ANOVA  
-   答案 / Antwort: A
+$$
+\hat{\boldsymbol{\beta}}_W := (\mathbf{X}^{*'}\mathbf{X}^*)^{-1}\mathbf{X}^{*'}\mathbf{Y}^*
+$$
 
-5. REML 主要用于什么？  
-   A. 方差参数估计  
-   B. 把概率限制到 $[0,1]$  
-   C. 画散点图  
-   D. 计算 dummy 变量  
-   答案 / Antwort: A
+展开：
 
-## 8.10 本章总结 / Zusammenfassung
+$$
+\hat{\boldsymbol{\beta}}_W = (\mathbf{X}'\mathbf{W}^{1/2'}\mathbf{W}^{1/2}\mathbf{X})^{-1}\mathbf{X}'\mathbf{W}^{1/2'}\mathbf{W}^{1/2}\mathbf{Y}
+$$
 
-中文总结：
+$$
+= (\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}
+$$
 
-- 一般线性模型把误差协方差从 $\sigma^2I$ 扩展为 $\sigma^2\Sigma$。
-- WLS 适合独立但方差不同的观测，权重应与方差倒数相关。
-- GLS 适合一般协方差结构，最小化加权二次型。
-- 若协方差结构正确，GLS 是一般 Gauss-Markov 意义下的 BLUE。
-- AR(1) 是常见时间序列误差相关结构。
-- ML 和 REML 用于估计未知方差参数。
+**方差估计**：
 
-Deutsche Zusammenfassung:
+$$
+\hat{\sigma}^2 = \frac{\hat{\boldsymbol{\varepsilon}}'\mathbf{V}^{-1}\hat{\boldsymbol{\varepsilon}}}{n - p'}
+$$
 
-- Das allgemeine lineare Modell erlaubt $V(\varepsilon)=\sigma^2\Sigma$.
-- WLS behandelt heteroskedastische, aber unkorrelierte Fehler.
-- GLS behandelt allgemeine Kovarianzstrukturen.
-- Bei bekannter Kovarianzstruktur ist GLS der BLUE.
-- ML und REML werden zur Schaetzung von Varianzparametern verwendet.
+### 3.1 $\hat{\boldsymbol{\beta}}_W$ 最小化什么？
 
-## 8.11 专业德语单词汇总 / Fachwortschatz
+$\hat{\boldsymbol{\beta}}_W$ 最小化的是**加权残差平方和**：
 
-| Deutsch | 中文 | 公式 / Hinweis |
-|---|---|---|
-| allgemeines lineares Modell | 一般线性模型 | $V(\varepsilon)=\sigma^2\Sigma$ |
-| gewichtete KQ-Methode | 加权最小二乘 | WLS |
-| verallgemeinerte KQ-Methode | 广义最小二乘 | GLS |
-| Varianzstruktur | 方差结构 | $\Sigma$ |
-| heteroskedastische Stoerterme | 异方差误差 | 方差不同 |
-| autokorrelierte Stoerterme | 自相关误差 | 误差相关 |
-| AR(1)-Struktur | 一阶自回归结构 | $\rho^{|t-s|}$ |
-| ML-Schaetzung | 最大似然估计 | likelihood |
-| REML-Schaetzung | 限制最大似然 | variance components |
-| allgemeines Gauss-Markov-Theorem | 一般 Gauss-Markov 定理 | GLS 是 BLUE |
+$$
+(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})'\mathbf{V}^{-1}(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) = \sum_{i=1}^n \frac{1}{v_i}(y_i - \mathbf{x}_i'\boldsymbol{\beta})^2
+$$
+
+**直觉解读**：这就是给每个观测的残差平方乘以权重 $w_i = 1/v_i$。方差大的观测（$v_i$ 大）权重小，方差小的观测权重大。
+
+> **类比**：想象你在做加权平均。你会更信任方差小的测量值，给它们更大的权重。加权最小二乘做的就是同样的事情。
+
+### 3.2 与普通 OLS 的对比
+
+| | 普通 OLS | 加权 KQ |
+|---|---------|--------|
+| 最小化 | $\sum (y_i - \mathbf{x}_i'\boldsymbol{\beta})^2$ | $\sum \frac{1}{v_i}(y_i - \mathbf{x}_i'\boldsymbol{\beta})^2$ |
+| 估计量 | $(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Y}$ | $(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}$ |
+| 方差 | $\sigma^2(\mathbf{X}'\mathbf{X})^{-1}$ | $\sigma^2(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}$ |
+| $\sigma^2$ 估计 | $\hat{\boldsymbol{\varepsilon}}'\hat{\boldsymbol{\varepsilon}}/(n-p')$ | $\hat{\boldsymbol{\varepsilon}}'\mathbf{V}^{-1}\hat{\boldsymbol{\varepsilon}}/(n-p')$ |
+| 适用条件 | $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{I}$ | $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{V}$ |
+
+当 $\mathbf{V} = \mathbf{I}$ 时，加权 KQ 退化为普通 OLS。
+
+---
+
+## 4 一般协方差结构（Verallgemeinerte KQ-Methode）
+
+### 4.1 模型
+
+$$
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
+$$
+
+$$
+\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \sigma^2 \mathbf{V})
+$$
+
+这里 $\mathbf{V} \in \mathbb{R}^{n \times n}$ 是**任意的已知正定矩阵**，不再要求是对角矩阵。这意味着误差项之间**可以相关**。
+
+### 4.2 变换
+
+定义 $\mathbf{W} := \mathbf{V}^{-1}$。存在可逆矩阵 $\mathbf{W}^{1/2}$（例如通过 Cholesky 分解），使得：
+
+$$
+\mathbf{W}^{1/2}(\mathbf{W}^{1/2})' = \mathbf{W}
+$$
+
+同样定义变换后的量：
+
+$$
+\mathbf{Y}^* := \mathbf{W}^{1/2}\mathbf{Y}, \quad \mathbf{X}^* := \mathbf{W}^{1/2}\mathbf{X}, \quad \boldsymbol{\varepsilon}^* := \mathbf{W}^{1/2}\boldsymbol{\varepsilon}
+$$
+
+验证：
+
+$$
+\text{Var}(\boldsymbol{\varepsilon}^*) = \mathbf{W}^{1/2} \cdot \sigma^2\mathbf{V} \cdot (\mathbf{W}^{1/2})' = \sigma^2 \mathbf{W}^{1/2} \mathbf{V} (\mathbf{W}^{1/2})' = \sigma^2 \mathbf{W}^{1/2} \mathbf{W}^{-1} (\mathbf{W}^{1/2})' 
+$$
+
+由于 $\mathbf{V} = \mathbf{W}^{-1}$，而 $\mathbf{W}^{1/2}(\mathbf{W}^{1/2})' = \mathbf{W}$，所以 $\mathbf{W}^{1/2}\mathbf{W}^{-1}(\mathbf{W}^{1/2})' = \mathbf{W}^{1/2}(\mathbf{W}^{1/2})'^{-1} \cdot (\mathbf{W}^{1/2})^{-1} \cdot (\mathbf{W}^{1/2})' $。更直接地：
+
+$$
+\text{Var}(\boldsymbol{\varepsilon}^*) = \sigma^2 \mathbf{W}^{1/2}\mathbf{V}(\mathbf{W}^{1/2})' = \sigma^2 \mathbf{I} \quad \checkmark
+$$
+
+### 4.3 广义 KQ 估计量
+
+$$
+\hat{\boldsymbol{\beta}}_W = (\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}
+$$
+
+$$
+\hat{\sigma}^2 = \frac{\hat{\boldsymbol{\varepsilon}}'\mathbf{V}^{-1}\hat{\boldsymbol{\varepsilon}}}{n - p'}
+$$
+
+形式上和异方差情形完全相同。唯一的区别是 $\mathbf{V}$ 现在可以有非零的非对角元素（即误差之间可以相关）。
+
+---
+
+## 5 性质与广义 Gauss-Markov 定理
+
+### 5.1 基本性质
+
+$$
+E(\hat{\boldsymbol{\beta}}_W) = \boldsymbol{\beta}
+$$
+
+$$
+\text{Var}(\hat{\boldsymbol{\beta}}_W) = \sigma^2(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}
+$$
+
+$\hat{\boldsymbol{\beta}}_W$ 同时也是 **ML 估计量**（在正态假设下）。
+
+所有标准的检验方法和平方和分解都可以在变换后的模型 $\mathbf{Y}^* = \mathbf{X}^*\boldsymbol{\beta} + \boldsymbol{\varepsilon}^*$ 中进行，从而**归结为等方差情形**。
+
+### 5.2 广义 Gauss-Markov 定理（Allgemeines Gauss-Markov-Theorem）
+
+**定理**：给定模型
+
+$$
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}, \quad \text{rg}(\mathbf{X}) = p', \quad E(\boldsymbol{\varepsilon}) = \mathbf{0}, \quad \text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{V}
+$$
+
+其中 $\mathbf{V}$ 已知。则 $\hat{\boldsymbol{\beta}}_W = (\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}$ 是所有线性无偏估计量中**方差最小的**（即 BLUE）。
+
+> **注意**：这个定理**不需要正态假设**，只需要 $E(\boldsymbol{\varepsilon}) = \mathbf{0}$ 和 $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{V}$。正态假设只是为了推导精确的 $t$- 和 $F$-分布。
+
+> **直觉**：如果你知道了误差的协方差结构但忽略它（仍然用 OLS），你的估计仍然无偏，但**不再是最有效的**。加权 KQ 利用了协方差结构的信息，因此效率更高。
+
+### 5.3 如果用错了权重会怎样？
+
+| 情况 | 无偏？ | BLUE？ | CI/检验正确？ |
+|------|:----:|:----:|:----:|
+| 用正确的 $\mathbf{V}$ 做 WLS | ✅ | ✅ | ✅ |
+| 忽略 $\mathbf{V}$，用普通 OLS | ✅ | ❌ | ❌ |
+| 用错误的 $\mathbf{V}$ 做 WLS | ✅ | ❌ | ❌ |
+
+OLS 在异方差/自相关下仍然无偏（Gauss-Markov 不需要等方差），但标准误和检验都会出错。
+
+---
+
+## 6 协方差结构的典型例子
+
+### 6.1 分组异方差
+
+各组的方差不同，但组内等方差且观测之间独立：
+
+$$
+\mathbf{V} = \text{diag}(\underbrace{v_1, \ldots, v_1}_{n_1 \text{ 个}}, \underbrace{v_2, \ldots, v_2}_{n_2 \text{ 个}}, \ldots)
+$$
+
+实践中 $v_k$ 可以通过各组的残差方差来估计。
+
+### 6.2 AR(1) 结构（时间序列）
+
+误差项服从一阶自回归过程：
+
+$$
+\varepsilon_i = \rho \varepsilon_{i-1} + \eta_i
+$$
+
+其中 $\eta_i$ 独立同分布，$\text{Var}(\eta_i) = \sigma^2$，$\text{Var}(\varepsilon_1) = \sigma^2/(1-\rho^2)$。
+
+协方差矩阵为：
+
+$$
+\mathbf{V} = \frac{\sigma^2}{1 - \rho^2} \begin{pmatrix} 1 & \rho & \rho^2 & \cdots & \rho^{n-1} \\ \rho & 1 & \rho & \cdots & \rho^{n-2} \\ \rho^2 & \rho & 1 & \cdots & \rho^{n-3} \\ \vdots & & & \ddots & \vdots \\ \rho^{n-1} & \rho^{n-2} & \rho^{n-3} & \cdots & 1 \end{pmatrix}
+$$
+
+**性质**：
+
+| 特征 | 说明 |
+|------|------|
+| $\text{Corr}(\varepsilon_i, \varepsilon_{i+k}) = \rho^k$ | 相关性随距离指数衰减 |
+| $\|\rho\| < 1$ | 平稳性条件 |
+| $\rho > 0$ | 正自相关（最常见） |
+| $\rho = 0$ | 退化为标准模型 |
+
+> **直觉**：如果这个月的误差偏高，下个月的误差也倾向于偏高（$\rho > 0$）。随着时间间隔增大，相关性衰减。
+
+### 6.3 纵向数据（块对角结构）
+
+每个个体有 $T$ 次重复测量，个体之间独立，但同一个体内部的测量相关：
+
+$$
+\mathbf{V} = \begin{pmatrix} \mathbf{V}_1 & \mathbf{0} & \cdots & \mathbf{0} \\ \mathbf{0} & \mathbf{V}_2 & \cdots & \mathbf{0} \\ \vdots & & \ddots & \vdots \\ \mathbf{0} & \mathbf{0} & \cdots & \mathbf{V}_m \end{pmatrix}
+$$
+
+每个 $\mathbf{V}_k$ 是 $T \times T$ 的协方差矩阵。
+
+### 6.4 对称结构 / 复合对称（Compound Symmetry）
+
+常见于混合效应模型。同一组内任意两个观测的相关系数相同：
+
+$$
+\mathbf{V}_k = \begin{pmatrix} 1 & \rho & \rho & \cdots & \rho \\ \rho & 1 & \rho & \cdots & \rho \\ \vdots & & & \ddots & \vdots \\ \rho & \rho & \rho & \cdots & 1 \end{pmatrix}
+$$
+
+这等价于假设组内有一个共同的随机效应（random intercept）。
+
+---
+
+## 7 当 $\mathbf{V}$ 未知时：ML 与 REML 估计
+
+### 7.1 问题
+
+之前假设 $\mathbf{V}$ 已知，但实践中 $\mathbf{V}$ 通常依赖于未知参数 $\boldsymbol{\vartheta}$（如 AR(1) 中的 $\rho$，或分组异方差中的各组方差）。
+
+写作 $\mathbf{V} = \mathbf{V}(\boldsymbol{\vartheta})$，需要同时估计 $\boldsymbol{\beta}$ 和 $\boldsymbol{\vartheta}$。
+
+### 7.2 对数似然函数
+
+$$
+l(\boldsymbol{\beta}, \boldsymbol{\vartheta}) = -\frac{1}{2}\left(\ln|\mathbf{V}(\boldsymbol{\vartheta})| + (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})'\mathbf{V}^{-1}(\boldsymbol{\vartheta})(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})\right)
+$$
+
+（省略了与参数无关的常数项）
+
+### 7.3 两步策略：Profile Likelihood
+
+**步骤 1**：如果 $\boldsymbol{\vartheta}$ 已知，$\boldsymbol{\beta}$ 的 MLE 就是加权 KQ 估计量：
+
+$$
+\hat{\boldsymbol{\beta}}(\boldsymbol{\vartheta}) = \left(\mathbf{X}'\mathbf{V}(\boldsymbol{\vartheta})^{-1}\mathbf{X}\right)^{-1}\mathbf{X}'\mathbf{V}^{-1}(\boldsymbol{\vartheta})\mathbf{Y}
+$$
+
+**步骤 2**：将 $\hat{\boldsymbol{\beta}}(\boldsymbol{\vartheta})$ 代入似然函数，得到**Profile Log-Likelihood**（只关于 $\boldsymbol{\vartheta}$ 的函数）：
+
+$$
+l(\boldsymbol{\vartheta}) = -\frac{1}{2}\left(\ln|\mathbf{V}(\boldsymbol{\vartheta})| + (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}(\boldsymbol{\vartheta}))'\mathbf{V}^{-1}(\boldsymbol{\vartheta})(\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}(\boldsymbol{\vartheta}))\right)
+$$
+
+**步骤 3**：最大化 $l(\boldsymbol{\vartheta})$ 得到 $\hat{\boldsymbol{\vartheta}}_{\text{ML}}$，然后 $\hat{\boldsymbol{\beta}} = \hat{\boldsymbol{\beta}}(\hat{\boldsymbol{\vartheta}}_{\text{ML}})$。
+
+### 7.4 REML（Restricted Maximum Likelihood）
+
+**问题**：ML 估计 $\boldsymbol{\vartheta}$（特别是方差参数）时往往**有偏**——系统性地低估方差。
+
+> **类比**：就像普通线性模型中 $\hat{\sigma}^2_{\text{ML}} = \text{RSS}/n$（有偏），而 $\hat{\sigma}^2 = \text{RSS}/(n-p')$（无偏）。ML 没有考虑到估计 $\boldsymbol{\beta}$ 时"用掉了" $p'$ 个自由度。
+
+**REML 的解决方案**：最大化一个修正后的似然函数：
+
+$$
+L_R(\boldsymbol{\vartheta}) = l(\boldsymbol{\vartheta}) - \frac{1}{2}\ln|\mathbf{X}'\mathbf{V}(\boldsymbol{\vartheta})^{-1}\mathbf{X}|
+$$
+
+第二项 $-\frac{1}{2}\ln|\mathbf{X}'\mathbf{V}(\boldsymbol{\vartheta})^{-1}\mathbf{X}|$ 是一个**修正项**，补偿了因估计 $\boldsymbol{\beta}$ 而损失的自由度。
+
+**在简单线性模型中**（$\mathbf{V} = \mathbf{I}$），REML 估计恰好给出 $\hat{\sigma}^2 = \text{RSS}/(n-p')$，即**无偏估计**。
+
+### 7.5 ML vs REML 对比
+
+| | ML | REML |
+|---|------|------|
+| 估计 $\boldsymbol{\vartheta}$ | 有偏（低估方差） | 近似无偏 |
+| 小样本表现 | 较差 | **更好** |
+| 模型比较（不同固定效应） | ✅ 可以用似然比检验 | ❌ 不可以（不同 $\mathbf{X}$ 时 REML 不可比） |
+| 模型比较（不同协方差结构） | ✅ | ✅ |
+| 实践中 | 较少使用 | **更常用**（推荐） |
+
+> **经验法则**：
+> - 比较**不同的协方差结构**（相同固定效应）→ 用 REML
+> - 比较**不同的固定效应**（相同协方差结构）→ 用 ML
+
+---
+
+## 8 关于 $\boldsymbol{\beta}$ 的推断
+
+### 8.1 $\hat{\boldsymbol{\beta}}$ 的分布
+
+如果 $\boldsymbol{\vartheta}$ **已知**：
+
+$$
+\hat{\boldsymbol{\beta}}(\boldsymbol{\vartheta}) \sim N\left(\boldsymbol{\beta},\; \sigma^2(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\right)
+$$
+
+这是**精确的**正态分布，所有标准推断（$t$-检验、$F$-检验、置信区间）都**精确成立**。
+
+### 8.2 $\boldsymbol{\vartheta}$ 未知时的困难
+
+当 $\mathbf{V}$ 用 (RE)ML 估计量 $\mathbf{V}(\hat{\boldsymbol{\vartheta}})$ 替代时：
+
+$$
+\text{Var}(\hat{\boldsymbol{\beta}}) \approx \sigma^2(\mathbf{X}'\mathbf{V}(\hat{\boldsymbol{\vartheta}})^{-1}\mathbf{X})^{-1}
+$$
+
+但这只是**近似的**，因为 $\hat{\boldsymbol{\vartheta}}$ 本身也有不确定性。
+
+**后果**：
+
+$$
+\frac{\hat{\beta}_j - \beta_j}{\widehat{\text{s.e.}}(\hat{\beta}_j)}
+$$
+
+**不再精确服从** $t$ 分布。
+
+### 8.3 实践中的解决方案：近似 $t$-检验
+
+在实践中，人们仍然用 $t$-检验的形式：
+
+$$
+T_j = \frac{\hat{\beta}_j - \beta_j}{\widehat{\text{s.e.}}(\hat{\beta}_j)} \;\dot{\sim}\; t(\nu)
+$$
+
+但需要**估计自由度 $\nu$**。常用的方法包括 Satterthwaite 近似和 Kenward-Roger 近似。
+
+| 方法 | 说明 | 适用 |
+|------|------|------|
+| Satterthwaite | 基于方差估计的矩匹配 | R 中 `lmerTest` 包 |
+| Kenward-Roger | 对协方差矩阵做小样本修正 | 更精确，但计算更复杂 |
+
+> **注意**：对于特殊模型（如平衡的方差分析），渐近正态性已被严格证明。但**一般情况下**，渐近正态性的严格证明尚不完整。实践中需要依赖近似方法。
+
+---
+
+## 9 全章逻辑总结
+
+整个第 8 章的逻辑链条：
+
+**问题**：标准模型假设 $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{I}$ 太强，实际中经常违反。
+
+**解决方案**：
+
+1. 允许 $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2\mathbf{V}$
+
+2. 如果 $\mathbf{V}$ **已知**：
+   - 用 $\mathbf{W}^{1/2}$ 变换模型 → 标准模型
+   - 加权 KQ 估计量 $\hat{\boldsymbol{\beta}}_W = (\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}$
+   - 广义 Gauss-Markov 定理保证 BLUE
+   - 所有标准推断（$t$, $F$, CI）在变换后的模型中精确成立
+
+3. 如果 $\mathbf{V}$ **未知**（$\mathbf{V} = \mathbf{V}(\boldsymbol{\vartheta})$）：
+   - 用 ML 或 REML 估计 $\boldsymbol{\vartheta}$
+   - REML 在小样本中更可靠
+   - 推断是**近似的**（需要估计自由度）
+
+| 步骤 | $\mathbf{V}$ 已知 | $\mathbf{V}$ 未知 |
+|------|:----:|:----:|
+| 估计 $\boldsymbol{\beta}$ | $(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{Y}$ | 同左，但用 $\mathbf{V}(\hat{\boldsymbol{\vartheta}})$ 替代 |
+| $\hat{\boldsymbol{\beta}}$ 是 BLUE？ | ✅（精确） | ⚠️ 近似 |
+| 推断精确？ | ✅ | ⚠️ 近似（需要 Satterthwaite 等） |
+| $\hat{\sigma}^2$ 无偏？ | ✅ | ML: ❌ / REML: ≈ ✅ |

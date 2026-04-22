@@ -1,330 +1,426 @@
-# 第 6 章学生笔记：连续解释变量、交互、多项式与样条 / Kapitel 6: Metrische Einflussgroessen
+# 6. metrische Einflussgrößen（连续型自变量的处理）
 
-材料 / Grundlage:
+## 章节导航
 
-- 讲义 / Folien: `chapter_pdfs/LinearModellingPPT/06_Metrische_Einflugroen_Interaktionen_Polynomiale_Regression_Trigonometrische_Polynome_Regression.pdf`
-- 主教材 / Hauptlehrbuch: `Regression.pdf`, Chapter 3.1.3, Chapter 8.1, Chapter 9.3
-- 辅助教材 / Hilfslehrbuch: Faraway, `Linear Models with R`, Chapter 7, Chapter 13
-- 扩展教材 / Erweiterung: Faraway, `Extending The Linear Model With R`, Chapter 14, Chapter 15
+| 主题 | 对应内容 | 关键领悟 |
+|------|---------|---------|
+| 1 | 连续变量的交互作用 | 效果不再是常数，而是随另一个变量变化 |
+| 2 | 连续变量的 8 种处理方式 | 从简单线性到 spline，灵活度逐步递增 |
+| 3 | 通用基函数框架 | 所有方法都可以写成 $\beta_0 + \sum \beta_j B_j(x)$ |
+| 4 | 多重检验与同时置信区间 | Bonferroni、Scheffé、Tukey/Hothorn |
+| 5 | 置信椭球体 | 多维参数的联合置信域 |
 
-## 覆盖审核 / Abdeckungspruefung
+---
 
-| 来源 / Quelle | 内容点 / Inhaltspunkt | 笔记位置 / Wo |
-|---|---|---|
-| 讲义 6 | 连续变量交互 | 6.1 |
-| 讲义 6 | 连续解释变量的处理策略 | 6.2 |
-| 讲义 6 | 变量变换、多项式、trigonometric polynomials | 6.3, 6.4 |
-| 讲义 6 | basis functions / 基函数一般框架 | 6.5 |
-| 讲义 6 | trend model | 6.5 |
-| 讲义 6 | 多重检验、同时置信区间 | 6.6 |
-| 主教材 | 非线性协变量效应、splines、interactions | 全章 |
-| Faraway | transformation、ANCOVA 和 R 中 `poly()`、`I()` | R 练习 |
+## 1 连续变量的交互作用（Interaktionen bei metrischen Variablen）
 
-## 6.1 连续变量交互 / Interaktionen bei metrischen Variablen
+### 1.1 模型
 
-**遇到的问题 / Problem.**  
-两个连续解释变量可能不是简单相加。例如汽车重量对油耗的影响可能随马力不同而变化。
-
-**可能的解决路径 / Moegliche Wege.**
-
-- 只用加性模型：假设每个变量作用不依赖其他变量。
-- 加入乘积项：允许一个变量的斜率随另一个变量改变。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-交互模型：
+两个连续变量 $x_1, x_2$ 加上交互项：
 
 $$
-E(Y\mid x,z)=\beta_0+\beta_1x+\beta_2z+\beta_3xz
+E(Y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 \cdot x_2
 $$
 
-$x$ 的边际斜率为：
+### 1.2 怎么理解？两种等价视角
+
+**视角 A**：固定 $x_1$，看 $x_2$ 的效果
 
 $$
-\frac{\partial E(Y\mid x,z)}{\partial x}=\beta_1+\beta_3z
+E(Y) = \underbrace{(\beta_0 + \beta_1 x_1)}_{\text{截距随 } x_1 \text{ 变}} + \underbrace{(\beta_2 + \beta_3 x_1)}_{\text{斜率随 } x_1 \text{ 变}} \cdot x_2
 $$
 
-好处是：模型仍对参数线性，但可以表达“作用随条件改变”。
+→ $x_2$ 对 $Y$ 的边际效应**不是常数**，而是 $\beta_2 + \beta_3 x_1$，取决于 $x_1$ 的值。
 
-**具体解决 / Konkrete Loesung.**  
-解释交互时，不要孤立解释 $\beta_1$ 或 $\beta_2$。要说明在给定 $z$ 水平下，$x$ 的作用是多少。
-
-**R 练习 / R-Uebung.**
-
-```r
-data(mtcars)
-fit_add <- lm(mpg ~ wt + hp, data = mtcars)
-fit_int <- lm(mpg ~ wt * hp, data = mtcars)
-
-anova(fit_add, fit_int)
-coef(fit_int)
-```
-
-## 6.2 连续解释变量的处理策略 / Behandlung metrischer Einflussgroessen
-
-**遇到的问题 / Problem.**  
-连续变量的关系未必是直线。若直接放入 $x$，可能错设函数形式。
-
-**可能的解决路径 / Moegliche Wege.**
-
-- 线性项 $x$：最简单、最可解释。
-- 变量变换 $g(x)$：如 $\log(x)$、$1/x$。
-- 多项式 $x,x^2,x^3$：表达平滑曲率。
-- 分段函数和样条：局部灵活。
-- 非参数或 additive model：更灵活，后续章节展开。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-仍保持线性模型框架：
+**视角 B**：固定 $x_2$，看 $x_1$ 的效果
 
 $$
-E(Y\mid x)=\beta_0+\beta_1b_1(x)+\dots+\beta_kb_k(x)
+E(Y) = (\beta_0 + \beta_2 x_2) + (\beta_1 + \beta_3 x_2) \cdot x_1
 $$
 
-其中 $b_j(x)$ 是基函数。好处是：模型对参数 $\beta$ 仍是线性的，所以可继续用最小二乘。
+→ $x_1$ 对 $Y$ 的边际效应是 $\beta_1 + \beta_3 x_2$。
 
-**具体解决 / Konkrete Loesung.**  
-先画散点图和残差图。若弯曲明显，再考虑变换、多项式或 spline，而不是只机械看 $p$ 值。
+### 1.3 ⚠️ 解释陷阱
 
-**R 练习 / R-Uebung.**
+$\beta_1$ 的含义是"**当 $x_2 = 0$ 时**，$x_1$ 的斜率"。$\beta_2$ 同理是"**当 $x_1 = 0$ 时**，$x_2$ 的斜率"。
 
-```r
-data(women)
-fit_linear <- lm(weight ~ height, data = women)
-fit_quad <- lm(weight ~ height + I(height^2), data = women)
+问题：$x_2 = 0$ 或 $x_1 = 0$ 往往没有实际意义！
 
-anova(fit_linear, fit_quad)
-plot(women[["height"]], women[["weight"]])
-abline(fit_linear, col = "red", lwd = 2)
-h <- seq(min(women[["height"]]), max(women[["height"]]), length.out = 100)
-lines(h, predict(fit_quad, newdata = data.frame(height = h)),
-      col = "blue", lwd = 2)
-```
+> **解决方案：中心化（Zentrierung）**
+>
+> 将变量替换为 $\tilde{x}_1 = x_1 - \bar{x}_1$，$\tilde{x}_2 = x_2 - \bar{x}_2$。
+> 这样 $\beta_1$ 就是"当 $x_2$ 取**均值**时，$x_1$ 的斜率"——有意义得多！
 
-## 6.3 变量变换 / Transformationen
+### 1.4 直觉图示
 
-**遇到的问题 / Problem.**  
-关系可能在原始尺度上非线性，但在变换尺度上近似线性。
+想象一个三维曲面 $E(Y)$ 对 $(x_1, x_2)$：
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-常见形式：
+| 模型 | 曲面形状 |
+|------|---------|
+| 无交互项（$\beta_3 = 0$） | 平面，各方向斜率固定 |
+| 有交互项（$\beta_3 \neq 0$） | 扭曲的曲面，斜率随位置变化 |
 
-$$
-E(Y\mid z)=\beta_0+\beta_1\log(z)
-$$
+---
 
-或：
+## 2 连续型自变量的 8 种处理方式
+
+这是本章最核心的内容。从简单到复杂，列出了**8 种方法**来建模 $x$ 对 $Y$ 的非线性效应。
+
+### 方式 ① 简单线性
 
 $$
-E(Y\mid z)=\beta_0+\beta_1\frac{1}{z}
+E(Y) = \beta_0 + \beta_1 x
 $$
 
-若变换响应变量：
+最简单，假设效应是一条直线。适用于效应确实是线性的情况。
+
+---
+
+### 方式 ② 变量变换
 
 $$
-\log(Y)=\beta_0+\beta_1x+\varepsilon
+E(Y) = \beta_0 + \beta_1 T(x)
 $$
 
-解释会改变，因为：
+对 $x$ 做一个已知的变换 $T(\cdot)$，然后线性回归。常见选择：
+
+| 变换 | 公式 | 适用情况 |
+|------|------|---------|
+| 对数 | $T(x) = \ln(x)$ | 效应递减、正偏分布 |
+| 保零对数 | $T(x) = \ln(1 + x)$ | $x$ 可以取 0 |
+| 幂变换 | $T(x) = x^c$（$c$ 已知） | 如 $\sqrt{x}$（$c = 0.5$） |
+
+**关键点**：$\beta_1$ 的解释**随变换而变**！
+
+例如 $T(x) = \ln(x)$：$\beta_1$ 表示 "$x$ 增加 1%（而非增加 1 个单位）时 $Y$ 的期望变化约为 $\beta_1 / 100$"。
+
+> **仍然是线性模型！** 因为对参数 $\beta$ 仍然是线性的：$E(Y) = \beta_0 + \beta_1 \cdot [\text{新变量}]$。
+> 只是"新变量"不再是 $x$，而是 $T(x)$。
+
+---
+
+### 方式 ③ 多项式回归（Polynomiale Regression）
 
 $$
-E[\log(Y)\mid x]\neq \log(E[Y\mid x])
+E(Y) = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \cdots + \beta_k x^k
 $$
 
-**具体解决 / Konkrete Loesung.**  
-变换解释变量时，仍解释 $Y$ 的均值随变换后变量变化；变换响应变量时，要特别谨慎反变换预测和参数解释。
+用 $x$ 的幂次来拟合曲线。
 
-**R 练习 / R-Uebung.**
+**核心问题**：$k$ 选多大？
 
-```r
-data(cars)
-fit1 <- lm(dist ~ speed, data = cars)
-fit2 <- lm(log(dist) ~ speed, data = cars)
+**解决思路**：逐步检验——用**序贯平方和（Sequentielle Quadratsummen）**
 
-par(mfrow = c(1, 2))
-plot(fitted(fit1), residuals(fit1))
-abline(h = 0, col = "gray")
-plot(fitted(fit2), residuals(fit2))
-abline(h = 0, col = "gray")
-par(mfrow = c(1, 1))
-```
+从高次项开始检验 $H_0: \beta_l = \cdots = \beta_k = 0$，如果不显著就降低次数。
 
-## 6.4 多项式与三角多项式 / Polynome und trigonometrische Polynome
+**优点**：简单直观
+**缺点**：
 
-**遇到的问题 / Problem.**  
-有些关系有曲率或周期性。单一直线无法表达。
+- 高次多项式在数据边缘容易剧烈振荡（Runge 现象）
+- $x, x^2, x^3, \ldots$ 之间高度共线
+- 实践中一般不超过 3 次或 4 次
 
-**本课采用的方法及好处 / Methode und Vorteil.**  
-多项式模型：
+---
+
+### 方式 ④ 分段常数函数（Stückweise konstante Funktion）
 
 $$
-E(Y\mid x)=\beta_0+\beta_1x+\beta_2x^2+\dots+\beta_kx^k
+E(Y) = \begin{cases} \beta_0 & x \leq x_0 \\ \beta_1 & x_0 < x < x_1 \\ \vdots \\ \beta_h & x > x_{h-1} \end{cases}
 $$
 
-它关于 $x$ 非线性，但关于参数 $\beta$ 线性。周期性关系可用三角基函数：
+本质上就是把连续变量**分组/分箱（Kategorisierung）**，变成类别变量。
+
+**用途**：当 $x$ 只有少数几个取值时，可以用来**检验线性假设是否成立**。
+
+做法：拟合分段常数模型 vs 简单线性模型，比较拟合效果。如果两者差不多，说明线性假设合理。
+
+**缺点**：
+
+- 信息损失（把连续变量变成离散）
+- 切点（断点）的选择是主观的
+- 函数不连续，跳跃式
+
+---
+
+### 方式 ⑤ 分段线性函数（Stückweise lineare Funktion）
 
 $$
-E(Y\mid t)=\beta_0+\sum_{j=1}^k
-\left[a_j\sin(jt)+b_j\cos(jt)\right]
+E(Y) = \beta_0 + \beta_1 x + \beta_2 (x - g_1)_+ + \beta_3 (x - g_2)_+ + \cdots + \beta_h (x - g_k)_+
 $$
 
-好处是：基函数扩展后仍能用普通线性模型估计。
+其中截断函数 $t_+ = \max(t, 0)$，$g_1, g_2, \ldots, g_k$ 是**已知的断点（Knoten / Knots）**。
 
-**具体解决 / Konkrete Loesung.**  
-多项式阶数越高越灵活，但越容易过拟合和边界震荡。实际中要结合图形、交叉验证或后续模型选择。
+**工作原理**：
 
-**R 练习 / R-Uebung.**
+- 当 $x < g_1$ 时：$E(Y) = \beta_0 + \beta_1 x$（一条直线）
+- 当 $g_1 \leq x < g_2$ 时：$E(Y) = \beta_0 + \beta_1 x + \beta_2(x - g_1)$，斜率变为 $\beta_1 + \beta_2$
+- 每过一个断点，斜率增加 $\beta_j$
 
-```r
-data(women)
-fit_raw <- lm(weight ~ height + I(height^2), data = women)
-fit_orth <- lm(weight ~ poly(height, 2), data = women)
+→ 整体是一条**连续的折线**，在每个断点处斜率可以改变。
 
-summary(fit_raw)
-summary(fit_orth)
-```
+**优点**：连续，简单，可解释
+**缺点**：在断点处**不可微**（有"尖角"）
 
-练习 / Uebung: `poly(height, 2)` 和 `I(height^2)` 的拟合值是否通常相同？  
-答案 / Antwort: 若模型空间相同，拟合值相同；参数解释不同，因为 `poly()` 默认使用正交多项式。
+---
 
-## 6.5 基函数与 trend model / Basisfunktionen
-
-**遇到的问题 / Problem.**  
-多项式、三角多项式、样条看似不同，其实都可以统一成基函数展开。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-一般形式：
+### 方式 ⑥ 回归样条（Regressionsspline）
 
 $$
-E(Y\mid x)=\beta_0+\sum_{j=1}^K \beta_j b_j(x)
+E(Y) = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \beta_4 (x - g_1)^3_+ + \beta_5 (x - g_2)^3_+
 $$
 
-其中 $b_j(x)$ 可以是：
+这是一个**三次样条（kubischer Spline）**：
 
-- $x^j$；
-- $\sin(jx)$ 和 $\cos(jx)$；
-- 分段线性函数；
-- spline basis。
+- 基础部分 $\beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ 是全局三次多项式
+- 每个断点处加一个 $(x - g_j)^3_+$ 项来局部调整形状
 
-好处是：只要基函数事先确定，估计仍是线性模型。
+**为什么用三次？**
 
-**具体解决 / Konkrete Loesung.**  
-先选择一组能表达问题结构的基函数，再把它们作为设计矩阵的列。后续 spline 和 additive model 就是这个思想的系统扩展。
+因为 $x^3$ 在 0 点处**二阶连续可微**（$f(0) = 0, f'(0) = 0, f''(0) = 0$ 都连续）。
 
-**R 练习 / R-Uebung.**
+所以 $(x - g_j)^3_+$ 保证了**整个函数在断点处二阶连续可微**——曲线光滑，没有尖角！
 
-```r
-data(women)
-h <- women[["height"]]
-B <- cbind(1, h, h^2)
-head(B)
+| 方法 | 连续性 | 一阶可微 | 二阶可微 |
+|------|--------|---------|---------|
+| 分段常数 | ✗ | ✗ | ✗ |
+| 分段线性 | ✓ | ✗ | ✗ |
+| 三次样条 | ✓ | ✓ | ✓ |
 
-coef_manual <- solve(t(B) %*% B, t(B) %*% women[["weight"]])
-coef_lm <- coef(lm(weight ~ height + I(height^2), data = women))
+**断点的选择**：仍然需要预先指定。实践中常用数据的分位数。
 
-cbind(manual = as.vector(coef_manual), lm = coef_lm)
-```
+---
 
-## 6.6 多重检验与同时置信区间 / Multiples Testen und simultane Konfidenzbereiche
+### 方式 ⑦ 分数多项式（Fraktionale Polynome）
 
-**遇到的问题 / Problem.**  
-如果对很多点、很多参数或很多模型同时做检验，单个 $95\%$ 区间不再保证整体错误率为 $5\%$。
-
-**可能的解决路径 / Moegliche Wege.**
-
-- Bonferroni：简单保守。
-- Scheffe：适合所有线性组合的同时推断。
-- 椭球置信域：从参数向量整体看不确定性。
-- 最大统计量方法：基于最大偏差控制同时覆盖。
-
-**本课采用的方法及好处 / Methode und Vorteil.**  
-Bonferroni 思想：
+例：Grad (-2, 2)
 
 $$
-\alpha_{single}=\frac{\alpha}{m}
+E(Y) = \beta_0 + \beta_1 x^{-2} + \beta_2 x^{-1} + \beta_3 x^{-0.5} + \beta_4 \ln(x) + \beta_5 x^{0.5} + \beta_6 x + \beta_7 x^2
 $$
 
-若有 $m$ 个区间，每个用更小显著性水平，整体错误率可被控制在 $\alpha$ 以内。
+**想法**：不再局限于整数幂 $x, x^2, x^3, \ldots$，而是允许**分数幂和对数**。
 
-**具体解决 / Konkrete Loesung.**  
-若只是少数预先指定的比较，可用 Bonferroni；若要对整条曲线做同时置信带，需要 Scheffe 或最大统计量思想。
+标准的幂次集合为 $\{-2, -1, -0.5, 0, 0.5, 1, 2, 3\}$，其中 $x^0$ 约定为 $\ln(x)$。
 
-**R 练习 / R-Uebung.**
+**优点**：
 
-```r
-data(mtcars)
-fit <- lm(mpg ~ wt + hp + cyl, data = mtcars)
+- 非常灵活，能拟合各种 U 形、J 形、饱和型曲线
+- 有系统的选择策略（Sauerbrei et al., Uni Freiburg）
+- 不需要选择断点
 
-alpha <- 0.05
-m <- 3
-confint(fit, level = 1 - alpha / m)
-```
+**缺点**：
 
-## 6.7 选择题 / Multiple-Choice-Fragen
+- 需要 $x > 0$
+- 解释不如简单线性直观
 
-1. 交互项 $xz$ 的作用是什么？  
-   A. 允许 $x$ 的作用随 $z$ 改变  
-   B. 删除 $x$ 和 $z$  
-   C. 强制线性关系不存在  
-   D. 只用于二元响应  
-   答案 / Antwort: A
+---
 
-2. 多项式回归为什么仍属于线性模型？  
-   A. 因为它关于参数 $\beta$ 线性  
-   B. 因为 $x^2$ 是直线  
-   C. 因为不需要误差项  
-   D. 因为只能有一个参数  
-   答案 / Antwort: A
+### 方式 ⑧ 三角多项式（Trigonometrische Polynome）
 
-3. $E[\log(Y)\mid x]\neq \log(E[Y\mid x])$ 提醒什么？  
-   A. 变换响应变量后解释要谨慎  
-   B. 不能使用任何变换  
-   C. 所有模型都无效  
-   D. $R^2$ 必须为 $1$  
-   答案 / Antwort: A
+用于建模**周期性/季节性**效应：
 
-4. 基函数模型的核心形式是什么？  
-   A. $E(Y\mid x)=\beta_0+\sum_j\beta_jb_j(x)$  
-   B. $Y=0$  
-   C. $X=Y$  
-   D. $\varepsilon=1$  
-   答案 / Antwort: A
+$$
+E(Y) = \beta_0 + \beta_1 \sin\!\left(\frac{2\pi}{T} x\right) + \beta_2 \cos\!\left(\frac{2\pi}{T} x\right) + \beta_3 \sin\!\left(\frac{2\pi}{T} \cdot 2x\right) + \beta_4 \cos\!\left(\frac{2\pi}{T} \cdot 2x\right)
+$$
 
-5. Bonferroni 方法主要解决什么问题？  
-   A. 多重检验错误率控制  
-   B. 只估计截距  
-   C. 删除所有异常值  
-   D. logistic 回归分类阈值  
-   答案 / Antwort: A
+其中 $T$ = 周期长度，$x$ = 时间。
 
-## 6.8 本章总结 / Zusammenfassung
+**数学事实**：
 
-中文总结：
+$$
+A_1 \cos(x) + A_2 \sin(x) = A_3 \sin(x + \phi)
+$$
 
-- 连续变量之间可以有交互，交互表示一个变量的作用依赖另一个变量。
-- 非线性关系可以通过变换、多项式、三角多项式和样条进入线性模型。
-- 这些方法的统一语言是基函数 $b_j(x)$。
-- 模型可以关于 $x$ 非线性，但只要关于参数 $\beta$ 线性，仍能用线性模型估计。
-- 多重检验需要控制整体错误率，不能把许多单独区间当成一个整体区间。
+即 sin + cos 的线性组合仍然是一个正弦波（振幅 $A_3 = \sqrt{A_1^2 + A_2^2}$，相移 $\phi$）。
 
-Deutsche Zusammenfassung:
+**替代方案**：季节性虚拟变量（Saison-Dummy），但虚拟变量需要更多参数。
 
-- Interaktionen bedeuten, dass ein Effekt vom Wert einer anderen Variablen abhaengt.
-- Nichtlineare Effekte koennen durch Transformationen, Polynome und Basisfunktionen modelliert werden.
-- Das Modell bleibt linear in den Parametern.
-- Bei vielen Tests oder Intervallen braucht man simultane Verfahren.
+---
 
-## 6.9 专业德语单词汇总 / Fachwortschatz
+## 3 通用基函数框架（Allgemeiner Ansatz mit Basisfunktionen）
 
-| Deutsch | 中文 | 说明 |
-|---|---|---|
-| metrische Einflussgroesse | 连续解释变量 | quantitative covariate |
-| Interaktion | 交互 | $xz$ |
-| Effektmodifikation | 效应修饰 | 作用随另一变量变化 |
-| Transformation | 变量变换 | $\log(x)$, $1/x$ |
-| polynomiale Regression | 多项式回归 | $x,x^2,x^3$ |
-| trigonometrisches Polynom | 三角多项式 | sine/cosine basis |
-| Basisfunktion | 基函数 | $b_j(x)$ |
-| Spline | 样条 | 分段平滑函数 |
-| simultaner Konfidenzbereich | 同时置信区间/带 | family-wise control |
-| Bonferroni | Bonferroni 校正 | $\alpha/m$ |
-| Konfidenzellipsoid | 置信椭球 | 参数向量不确定性 |
-| Scheffe | Scheffe 方法 | 所有线性组合 |
+**统一视角**：上述所有方法都可以写成
+
+$$
+E(Y) = \beta_0 + \beta_1 B_1(x) + \beta_2 B_2(x) + \beta_3 B_3(x) + \cdots
+$$
+
+其中 $B_1, B_2, B_3, \ldots$ 是**已知的基函数（Basisfunktionen）**。
+
+| 方法 | 基函数 $B_j(x)$ |
+|------|----------------|
+| 简单线性 | $B_1(x) = x$ |
+| 多项式 | $B_j(x) = x^j$ |
+| 分段线性 | $B_1(x) = x,\; B_{j+1}(x) = (x - g_j)_+$ |
+| 三次样条 | $x, x^2, x^3, (x-g_1)^3_+, (x-g_2)^3_+, \ldots$ |
+| 三角多项式 | $\sin(\cdot), \cos(\cdot)$ |
+
+> **关键领悟**：只要基函数是已知的，模型对**参数 $\beta$** 仍然是线性的！
+> → 所有标准线性模型的理论（OLS、F-检验、置信区间……）都直接适用。
+
+**P-Splines（惩罚 B 样条）**：选择大量基函数 + 用惩罚项防止过拟合。这属于更高级的方法（广义线性模型课程内容）。
+
+---
+
+## 4 示例：巴登-符腾堡州狐狸种群趋势
+
+$Y$：射杀狐狸数量（种群大小指标），$t$：时间
+
+**模型 1**：二次多项式
+
+$$
+\ln(Y) = \beta_0 + \beta_1 t + \beta_2 t^2
+$$
+
+**模型 2**：三次样条
+
+$$
+\ln(Y) = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + \beta_4 (t - 70)^3_+ + \beta_5 (t - 85)^3_+
+$$
+
+注意：因变量取了对数 $\ln(Y)$，这是对**因变量的变换**，使得原始尺度上的效应是乘性的。
+
+---
+
+## 5 多重检验与同时置信区间（Multiples Testen）
+
+### 5.1 问题
+
+在多元线性模型中，我们经常同时做**多个检验**或构建**多个置信区间**。
+
+如果每个检验单独的显著性水平是 $\alpha = 0.05$，做 $k$ 个检验时：
+
+$$
+P(\text{至少一个错误拒绝}) \gg 0.05
+$$
+
+例如 $k = 20$ 个独立检验：$P(\text{至少一个}) = 1 - (1-0.05)^{20} \approx 0.64$。
+
+### 5.2 三种水平的区分
+
+| 概念 | 定义 |
+|------|------|
+| **局部水平（lokales Niveau）** | 单个检验的显著性水平 |
+| **全局水平（globales Niveau）** | 当**所有** $H_0$ 都成立时，至少拒绝一个的概率 |
+| **多重水平（multiples Niveau）** | 至少**错误地**拒绝一个 $H_0$ 的概率 $< \alpha$（FWER） |
+
+### 5.3 四种常用策略
+
+#### ① Bonferroni 校正
+
+做 $k$ 个检验时，每个检验用水平 $\alpha_l = \alpha / k$。
+
+**原理**：Bonferroni 不等式
+
+$$
+P\!\left(\bigcup E_i\right) \leq \sum P(E_i)
+$$
+
+所以 $\sum_{i=1}^k \frac{\alpha}{k} = \alpha$，保证了多重水平 $\leq \alpha$。
+
+| 优点 | 缺点 |
+|------|------|
+| 极其通用，对任何检验都适用 | 当 $k$ 很大时过于保守 |
+| 实施简单 | 检验力（Power）低 |
+| 严格控制 FWER | — |
+
+#### ② Scheffé 方法
+
+适用于线性模型中**任意多个**线性组合 $\gamma = \mathbf{a}'\boldsymbol{\beta}$ 的同时置信区间。
+
+对参数 $\beta_j$ 的 Scheffé 同时置信区间为：
+
+$$
+\hat{\beta}_j \pm \sqrt{p' \cdot F_{1-\alpha}(p', n - p')} \;\cdot\; \hat{\sigma}_{\hat{\beta}_j}
+$$
+
+对任意线性组合 $\gamma = \mathbf{a}'\boldsymbol{\beta}$：
+
+$$
+\hat{\gamma} \pm \sqrt{p' \cdot F_{1-\alpha}(p', n - p')} \;\cdot\; \hat{\sigma}_{\hat{\gamma}}
+$$
+
+其中 $p'$ 是参数个数，$n$ 是样本量。
+
+**注意**：和普通 $t$-区间的区别仅在于用 $\sqrt{p' \cdot F_{1-\alpha}(p', n-p')}$ 代替了 $t_{1-\alpha/2}(n-p')$。当只看一个参数时，Scheffé 区间比 $t$-区间更宽（更保守），但它同时对**所有可能的线性组合**有效。
+
+#### ③ Tukey / Hothorn et al. 方法（最大统计量）
+
+给定同时假设 $\mathbf{A}\boldsymbol{\beta} = \mathbf{0}$，对每一行构造学生化统计量：
+
+$$
+T_i = \frac{\mathbf{d}_i'\boldsymbol{\beta}}{\hat{\sigma}_{\mathbf{d}_i'\boldsymbol{\beta}}}, \quad i = 1, \ldots, a
+$$
+
+取最大值：
+
+$$
+Q = \max_i |T_i|
+$$
+
+设 $Q(n - p', \mathbf{R})$ 是在相关矩阵 $\mathbf{R}$ 下 $t$-分布最大值的分布。找临界值 $q$ 使得 $P(Q \leq q) = 1 - \alpha$，则：
+
+$$
+P\!\left(\forall\, i:\; \mathbf{d}_i'\boldsymbol{\beta} \in \left[-q \cdot \hat{\sigma}_{\mathbf{d}_i'\boldsymbol{\beta}},\; +q \cdot \hat{\sigma}_{\mathbf{d}_i'\boldsymbol{\beta}}\right]\right) = 1 - \alpha
+$$
+
+即得到**同时置信区间**。
+
+**优点**：
+
+- 比 Bonferroni 更精确（利用了统计量之间的相关结构）
+- 非常通用，可用于任何（渐近）正态的检验统计量
+- R 实现：`multcomp` 包（Hothorn, Bretz, Westfall, 2008；被引用超过 9000 次）
+
+#### ④ 封闭检验过程（Abschlussprozeduren）
+
+对于检验系统（如 3 组比较），通常比其他方法**更有检验力**。
+
+**应避免的方法**：Duncan multiple range、Fisher LSD、Newman-Keuls——这些方法**不控制多重水平**。
+
+---
+
+## 6 置信椭球体（Konfidenzellipsoide）
+
+### 6.1 参数向量的联合置信域
+
+在正态线性模型 $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$，$\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \sigma^2 \mathbf{I})$ 下：
+
+$$
+\left\{\boldsymbol{\beta} \;\middle|\; (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})' (\mathbf{X}'\mathbf{X}) (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}}) \leq p' \hat{\sigma}^2 F_{1-\alpha}(p', n - p')\right\}
+$$
+
+是 $\boldsymbol{\beta}$ 的 $1-\alpha$ 置信域。
+
+**几何含义**：这是以 $\hat{\boldsymbol{\beta}}$ 为中心、以 $(\mathbf{X}'\mathbf{X})^{-1}$ 决定形状的**椭球体**。
+
+### 6.2 线性变换的置信域
+
+对于 $\boldsymbol{\gamma} = \mathbf{A}\boldsymbol{\beta}$：
+
+$$
+\left\{\boldsymbol{\gamma} \;\middle|\; (\boldsymbol{\gamma} - \hat{\boldsymbol{\gamma}})' \widehat{V(\hat{\boldsymbol{\gamma}})}^{-1} (\boldsymbol{\gamma} - \hat{\boldsymbol{\gamma}}) < \dim(\boldsymbol{\gamma}) \cdot F_{1-\alpha}(\dim(\boldsymbol{\gamma}), n - p')\right\}
+$$
+
+是 $\boldsymbol{\gamma}$ 的 $1-\alpha$ 置信域。
+
+> **联系**：Scheffé 同时置信区间就是从这个椭球体投影到各个坐标轴上得到的。
+> 椭球体内的**每一个点**对应的所有线性组合都被同时覆盖。
+
+---
+
+## 7 各方法对比总结
+
+| 方法 | 灵活度 | 参数数量 | 光滑度 | 需要选择 | 仍是线性模型？ |
+|------|--------|---------|--------|---------|-------------|
+| ① 简单线性 | ★☆☆☆ | 2 | ∞ | 无 | ✓ |
+| ② 变量变换 | ★★☆☆ | 2 | 取决于 $T$ | 变换形式 | ✓ |
+| ③ 多项式 | ★★★☆ | $k+1$ | $C^\infty$ | 阶数 $k$ | ✓ |
+| ④ 分段常数 | ★★☆☆ | $h+1$ | 不连续 | 断点 | ✓ |
+| ⑤ 分段线性 | ★★★☆ | $k+2$ | $C^0$ | 断点 | ✓ |
+| ⑥ 三次样条 | ★★★★ | $k+4$ | $C^2$ | 断点 | ✓ |
+| ⑦ 分数多项式 | ★★★★ | 灵活 | 取决于幂次 | 幂次集合 | ✓ |
+| ⑧ 三角多项式 | ★★★☆ | $2m+1$ | $C^\infty$ | 周期 $T$、阶数 | ✓ |
+
+> **最重要的结论**：所有这些方法都是**对参数线性的**，因为基函数 $B_j(x)$ 是已知的。
+> 所以 OLS 估计、F-检验、$t$-检验、置信区间——**全部照常使用**！

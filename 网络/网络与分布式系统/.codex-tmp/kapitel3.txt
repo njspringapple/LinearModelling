@@ -1,0 +1,2487 @@
+ Rechnernetze &
+Verteilte Systeme
+Ludwig-Maximilians-Universität München
+        Sommersemester 2026
+        Prof. Dr. D. Kranzlmüller
+
+      https://www.ifi.lmu.de/rnvs
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              2
+             (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                3
+               (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                         4
+                      (Prof. Dr. D. Kranzlmüller)
+Anwendung des                                                  WH
+
+
+
+Internet-Schichtenmodells
+                                       send_http_request
+  Anwendung                            (host, message)
+
+   Transport
+
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                           5
+                     (Prof. Dr. D. Kranzlmüller)
+Anwendung des                                                        WH
+
+
+
+Internet-Schichtenmodells
+  Anwendung
+                                    ICI = { host, port } ⎫
+                                                           IDU
+                                    ID = { request } ⎭   ⎬
+   Transport
+
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                                 6
+                     (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                      Bob
+
+
+                                                                              Nachricht,
+• Transport der Nachricht                                                        Ziel
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                  7
+                          (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                               WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              8
+                                       (Prof. Dr. D. Kranzlmüller)
+Ende-zu-Ende Betrachtung im
+ISO/OSI Referenzmodell
+            Endsystem A                                                              Endsystem B
+                      7                                                                   7
+                      6                                                                   6
+                      5      Virtuelle, zuverlässige Verbindungen                         5
+                                  (aus Sicht der Endsysteme)
+                      4                                                                   4
+                      3 A
+                  Entität     3                       3                     3             3 B
+                                                                                      Entität
+
+
+
+Transportsystem
+                      2       2                       2            ...      2             2
+                      1       1                       1                     1             1
+                            Router                 Router                 Router
+
+
+                                     Netz 1                    Netz 2      ...     Netz n
+
+
+                                     Rechnernetze und verteilte Systeme
+                                                                                                9
+                                         (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+                                                                              Nachricht,
+• Transport der Nachricht                                                        Ziel
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                  10
+                          (Prof. Dr. D. Kranzlmüller)
+Anforderung an Transportschicht
+• Dienste der darüberliegenden Anwendungsschicht
+  erwarten
+   • Transport der Nachricht zwischen den Endsystemen
+   • mit oder ohne Zuverlässigkeitsgarantien
+
+• Dienste der darunterliegenden Vermittlungsschicht
+  bieten
+   • Übertragung der Nachrichten über Transitsysteme
+   • ohne Zuverlässigkeitsgarantien
+     (nach dem „Best Effort“-Prinzip)  Beispiel: Bei Überlastung können
+                                                           Pakete in der Vermittlungsschicht
+                                                           verworfen werden.
+                      Rechnernetze und verteilte Systeme
+                                                                                    11
+                          (Prof. Dr. D. Kranzlmüller)
+Mögliche Probleme bei der
+Nachrichtenzustellung
+(in einem unzuverlässigen Netz)
+• Verlust von Nachrichten
+• Verdoppelung von Nachrichten
+• Verfälschung der Inhalte von Nachrichten
+• Vertauschung der Reihenfolge mehrere
+  Nachrichten
+• Verzögerung bei der Übertragung der Nachrichten
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       12
+                      (Prof. Dr. D. Kranzlmüller)
+                                                         Jerome H. Saltzer, David P. Reed, David D. Clark,
+                                                              „End-to-end arguments in system design“,
+                                                              ACM Transactions on Computer Systems,
+                                                                                         November 1984
+
+Ende-zu-Ende Argument                                         https://doi.org/10.1145/357401.357402
+
+
+
+
+• Grundproblem aus Sicht der Nutzer von
+  Endsystemen:
+  • Transitsysteme sind allgemein außerhalb der Kontrolle
+    der Anwendung und oft unzuverlässig
+  • Die Anwendung hat gewisse Anforderungen an die
+    Transitsysteme, die nur die Anwendung kennt.
+• Ende-zu-Ende Argument:
+  • Unzuverlässigkeit der Transitsysteme wird akzeptiert
+  • In den Endsystemen wird in den höheren Schichten
+    eine umfangreiche Fehlerbehandlung durchgeführt
+
+                    Rechnernetze und verteilte Systeme
+                                                                                            13
+                        (Prof. Dr. D. Kranzlmüller)
+Ende-zu-Ende Argument
+Zuverlässigkeitsgarantien:
+   • Auslieferungsgarantien
+   • Unterdrückung von Nachrichtenverdopplung
+   • Sichere Datenübertragung
+   • Garantierte Zustellungsreihenfolge
+
+
+Zielkonflikt:
+ZuverlässigkeitsgarantienKommunikationsleistung
+➔ Trade-Off (Kosten-Nutzen-Abwägung) erforderlich
+
+                   Rechnernetze und verteilte Systeme
+                                                        14
+                       (Prof. Dr. D. Kranzlmüller)
+Ende-zu-Ende Betrachtung im                                                                       WH
+
+
+
+ISO/OSI Referenzmodell
+           Endsystem A                                                            Endsystem B
+                  7                                                                      7
+                  6                                                                      6
+                  5       Virtuelle, zuverlässige Verbindungen                           5
+                               (aus Sicht der Endsysteme)
+                  4                                                                      4
+                  3        3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2        2                       2            ...      2               2
+                  1        1                       1                     1               1
+                         Router                 Router                 Router
+
+
+                                  Netz 1                    Netz 2      ...     Netz n
+
+
+                                  Rechnernetze und verteilte Systeme
+                                                                                             15
+                                      (Prof. Dr. D. Kranzlmüller)
+Realisierung des
+Transportdienstes
+Endsystem A     Virtuelle, zuverlässige Verbindungen         Endsystem B
+                     (aus Sicht der Endsysteme)
+     4                                                            4
+
+
+• Verbindungslos: keine Verbindung zwischen Entitäten
+   • Zustand der Entitäten irrelevant (keine zeitliche Abhängigkeit)
+   • Geringe Möglichkeiten zur Fehlererkennung/-korrektur
+   • Hohe Übertragungsleistung (aufgrund des geringen
+     Synchronisations-/Verarbeitungsaufwands)
+• Verbindungsorientiert:
+   • Abhängigkeit zwischen den Entitäten (Kontext relevant)
+   • Umfangreiche Fehlerbehandlung (Zuverlässigkeit)
+   • Höherer Verarbeitungsaufwand (notwendig)
+                        Rechnernetze und verteilte Systeme
+                                                                       16
+                            (Prof. Dr. D. Kranzlmüller)
+Verbindungsloser Dienst
+(connectionless service)
+• Keine Verbindung zwischen den Entitäten
+• Keine Empfangsbestätigung (Quittierung)
+• Sender hat keine Information darüber, ob die
+  Nachricht das Ziel erreicht hat
+• ICI enthält alle Informationen zum Ziel
+• Nachricht sucht selbständig Weg durch das Netz
+• Geringer Verwaltungsaufwand ➔ Hohe Leistung
+  (im Vergleich zur verbindungsorienterten
+  Kommunikation)
+                  Rechnernetze und verteilte Systeme
+                                                       17
+                      (Prof. Dr. D. Kranzlmüller)
+Fragen
+• Ist das „Beispiel:Telefongespräch“ aus Kapitel 2
+  verbindungslos oder verbindungsorientiert?
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        18
+                       (Prof. Dr. D. Kranzlmüller)
+                                                                                      WH
+
+Beispiel:Telefongespräch
+
+Anfang                                                                         Ende
+
+
+
+
+           Keine/unverständliche
+                                             „Hallo“
+                  Antwort
+ frei
+           Angerufener legt auf
+
+wählen        Falscher Name                                         Auflegen
+
+              Richtiger Name
+
+                                               Begrüßungsphase
+                                            Informationsaustausch
+                                            Verabschiedungsphase
+
+             Rechnernetze und verteilte Systeme
+                                                                                19
+                 (Prof. Dr. D. Kranzlmüller)
+Fragen
+• Ist das „Beispiel:Telefongespräch“ aus Kapitel 2
+  verbindungslos oder verbindungsorientiert?
+• Welche Arten von Fehlern werden im
+  „Beispiel:Telefongespräch“ vom Protokoll
+  behandelt?
+
+• Nennen Sie ein Beispiel für eine verbindungslose
+  Ende-zu-Ende Kommunikation
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        20
+                       (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                21
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                22
+               (Prof. Dr. D. Kranzlmüller)
+Verbindungsorientierter Dienst
+(connection-oriented service)
+• Aufbau einer logischen Verbindung (Sitzung)
+• Strategien zur Fehlerbehandlung:
+   • Kein Verlust von Nachrichten
+   • Keine Verdoppelung von Nachrichten
+   • Keine Verfälschung der Inhalte von Nachrichten
+   • Keine Vertauschung der Reihenfolge mehrere
+     Nachrichten
+• Verbindungsmanagement durch Flusssteuerung
+  und Staukontrolle zur Handhabung von
+  Verzögerungen bei der Nachrichtenübertragung
+                    Rechnernetze und verteilte Systeme
+                                                         23
+                        (Prof. Dr. D. Kranzlmüller)
+Verbindungsorientierter Dienst
+Techniken:
+• Verbindungsauf-/-abbau
+• Sequenznummern und Quittungen
+• Flusssteuerung und Staukontrolle
+
+Vorgehensweise:
+1. Theoretische Überlegungen
+2. Technische Umsetzung
+3. Implementierung (TCP / UDP)
+                 Rechnernetze und verteilte Systeme
+                                                      24
+                     (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                25
+               (Prof. Dr. D. Kranzlmüller)
+Verbindungsaufbau
+• Anforderung: Am Beginn einer Kommunikation
+  zum Aufbau einer logischen Verbindung
+
+• Fragestellungen:
+   • Wie wird dem Kommunikationspartner der Wunsch zum
+     Aufbau einer neuen Verbindung mitgeteilt?
+   • Wie kann der Empfänger einen neuen
+     Verbindungswunsch von früheren Aufbauwünschen
+     unterscheiden?
+• Lösungskonzept: Handschlag-Protokoll
+                     Rechnernetze und verteilte Systeme
+                                                          26
+                         (Prof. Dr. D. Kranzlmüller)
+Handschlag-Protokoll -
+Vorbereitung
+• Festlegung spezieller Nachrichtentypen für das
+  Verbindungsmanagement als Teil der
+  Steuerinformation (PCI):
+   • SYN = Bitte zum Aufbau einer Verbindung (oder zur
+     Synchronisation)
+   • CLS = Bitte zum Abbau der Verbindung (“close“)
+   • ACK = Positive Bestätigung („acknowledge“)
+   • NAK = Negative Bestätigung
+• Teil der Protokollbeschreibung
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         27
+                        (Prof. Dr. D. Kranzlmüller)
+       Handschlag-Protokoll
+        Sender   Virtuelle, zuverlässige Verbindungen         Empfänger
+                      (aus Sicht der Endsysteme)
+        Alice                                                   Bob
+
+
+
+
+Zeit
+
+
+
+
+                         Rechnernetze und verteilte Systeme
+                                                                          28
+                             (Prof. Dr. D. Kranzlmüller)
+       2-Wege-Handschlag
+       (2-Way Handshake)
+        Sender   Virtuelle, zuverlässige Verbindungen         Empfänger
+                      (aus Sicht der Endsysteme)
+        Alice                                                   Bob
+
+
+
+
+Zeit
+
+
+
+
+                         Rechnernetze und verteilte Systeme
+                                                                          29
+                             (Prof. Dr. D. Kranzlmüller)
+       Problem
+       beim 2-Wege-Handschlag
+        Sender   Virtuelle, zuverlässige Verbindungen         Empfänger
+                      (aus Sicht der Endsysteme)
+        Alice                                                   Bob
+
+
+
+
+Zeit
+
+
+
+
+                                                                   wird
+                                                                   ignoriert,
+                                                                   da erster
+                         Rechnernetze und verteilte Systeme        Versuch
+                                                                       30
+                             (Prof. Dr. D. Kranzlmüller)           noch aktiv
+Problem
+beim 2-Wege-Handschlag
+• Es gibt eine Reihe von Möglichkeiten, wie
+  Kommunikationsfehler einen Verbindungsaufbau
+  verhindern können.
+
+• Übung: Finden Sie ein anderes Beispiel, bei dem
+  der 2-Wege-Handschlag nicht zum
+  Verbindungsaufbau führt.
+
+• Frage: Wie kann man das Problem lösen?
+
+                  Rechnernetze und verteilte Systeme
+                                                       31
+                      (Prof. Dr. D. Kranzlmüller)
+       Handschlag-Protokoll
+        Sender   Virtuelle, zuverlässige Verbindungen         Empfänger
+                      (aus Sicht der Endsysteme)
+        Alice                                                   Bob
+
+
+
+
+Zeit
+
+
+
+
+                         Rechnernetze und verteilte Systeme
+                                                                          32
+                             (Prof. Dr. D. Kranzlmüller)
+Handschlag-Protokoll -
+Protokollerweiterung
+• Festlegung spezieller Nachrichtentypen für das
+  Verbindungsmanagement als Teil der
+  Steuerinformation (PCI):
+   • SYN = Bitte zum Aufbau einer Verbindung (oder zur
+     Synchronisation)
+   • SYNB = Bestätigung des Aufbauwunsches
+   • SYNBP bzw. SYNBN = positive bzw. negative Bestätigung
+     der Bestätigung
+   • CLS = Bitte zum Abbau der Verbindung (“close“)
+   • ACK = Positive Bestätigung („acknowledge“)
+   • NAK = Negative Bestätigung
+                    Rechnernetze und verteilte Systeme
+                                                         33
+                        (Prof. Dr. D. Kranzlmüller)
+       3-Wege-Handschlag
+       (3-Way Handshake)
+        Sender   Virtuelle, zuverlässige Verbindungen         Empfänger
+                      (aus Sicht der Endsysteme)
+        Alice                                                   Bob
+
+
+
+
+Zeit
+
+
+
+
+                              Kommunikation
+                                  …
+                         Rechnernetze und verteilte Systeme
+                                                                          34
+                             (Prof. Dr. D. Kranzlmüller)
+Verbindungsabbau
+• Anforderung: Am Ende einer Kommunikation zum
+  Beenden/Schließen einer logischen Verbindung
+
+• Fragestellungen:
+   • Wie wird dem Kommunikationspartner der Wunsch zum
+     Abbau einer neuen Verbindung mitgeteilt?
+   • Wie können beide Kommunikationspartner die
+     Kommunikation beenden?
+   • Müssen beide Kommunikationspartner gleichzeitig
+     aufhören?
+
+                     Rechnernetze und verteilte Systeme
+                                                          35
+                         (Prof. Dr. D. Kranzlmüller)
+Handschlag-Protokoll -
+Erweiterung Verbindungsabbau
+• Festlegung spezieller Nachrichtentypen für das
+  Verbindungsmanagement als Teil der
+  Steuerinformation (PCI):
+   • CLS = Bitte zum Abbau der Verbindung (“close“)
+   • CLSB = Bestätigung des Abbauwunsches
+
+• Der Verbindungsabbau muss von beiden
+  Kommunikationspartner initiiert werden ➔ beide
+  „Halbverbindungen“ werden explizit geschlossen
+• Übung: Entwerfen Sie ein Zustandsdiagramm
+                    Rechnernetze und verteilte Systeme
+                                                         36
+                        (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+• Verbindungsauf- und -abbau sind Funktionen eines
+  verbindungsorientierten Dienstes
+• Für den Aufbau einer Verbindung verwenden wir
+  den 3-Wege-Handschlag
+• Der Abbau einer Verbindung wird durch die
+  symmetrische Verbindungsfreigabe (=Schließen
+  beider Halbverbindungen) durchgeführt
+• Für beide Funktionen werden spezielle
+  Nachrichtentypen als Teil des PCI festgelegt
+
+                  Rechnernetze und verteilte Systeme
+                                                       37
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                38
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                39
+               (Prof. Dr. D. Kranzlmüller)
+Zuverlässige Kommunikation
+• Zur Erinnerung:
+   • Ein verbindungsorientierter Dienst realisiert eine
+     zuverlässige Kommunikation trotz unzuverlässiger
+     Transitsysteme
+• Zuverlässigkeitsgarantien:
+   • Auslieferungsgarantien
+   • Unterdrückung von Nachrichtenverdopplung
+   • Sichere Datenübertragung
+   • Garantierte Zustellungsreihenfolge
+• Frage: Wie könnte man das Problem lösen?
+                     Rechnernetze und verteilte Systeme
+                                                          40
+                         (Prof. Dr. D. Kranzlmüller)
+Sequenznummern
+• Zähler für Nachrichtenübermittlung: Jede
+  übertragene Nachricht (PDU) wird
+  durchnummeriert
+   • Auslieferungsgarantie durch Bestätigung
+     angekommener Nachrichten (➔ Quittung)
+   • Nachrichtenverdopplung wird anhand identischer
+     Nummern erkannt
+   • Fehlende Nachrichten erkennt man durch Lücken in der
+     Nummerierung
+   • Zustellungsreihenfolge kann durch Sortierung erreicht
+     werden.
+• Standardlösung verbindungsorientierter Protokolle
+                    Rechnernetze und verteilte Systeme
+                                                         41
+                        (Prof. Dr. D. Kranzlmüller)
+Quittungen
+• Empfangsbestätigung: Empfänger quittiert den
+  erfolgreichen Empfang einer Nachricht (PDU)
+• Mögliche Realisierung:
+   • Positiv/Negativ: PDU mit Sequenznummer N ist
+     angekommen/nicht angekommen
+   • Sammelquittung für mehrere aufeinander folgende
+     PDUs: PDUs bis Sequenznummer N sind angekommen
+   • Selektive Quittung für eine Untermenge der PDUs
+• Erweiterung durch Timer (Zeitschalter)
+   • Ankunft innerhalb festgelegten Zeitfensters erwartet
+
+                     Rechnernetze und verteilte Systeme
+                                                            42
+                         (Prof. Dr. D. Kranzlmüller)
+Notation: Sequenznummern
+                  PCI[N] = {i→j, SeqNr, AckNr, ...}
+      snn [i→j]                                           sne [i→j]
+                  PCI[N] = {j→i, SeqNr, AckNr, ...}
+      sne [j→i]                                           snn [j→i]
+         Pi               Protokollinstanz                   Pj
+
+• snn [i→j]: SeqNr der nächsten zu sendenden PDU
+• sne [i→j]: SeqNr der nächsten erwarteten PDU
+• PCI[N] = {i→j, SeqNr, AckNr, ...} =
+  Steuerinformationen
+  • i→j:      Verbindungs- und Richtungskennung
+  • SeqNr:    SeqNr der Nachricht
+  • AckNr:    SeqNr der nächsten erwarteten Nachricht (= sne)
+                     Rechnernetze und verteilte Systeme
+                                                                      43
+                         (Prof. Dr. D. Kranzlmüller)
+Beispiel: Sequenznummern
+       Nachricht
+           The quick brown fox jumps over the lazy frog.
+
+
+
+
+              PDU (Protocol Data Unit):
+   0   T      • UD = { je ein Buchstabe der Nachricht }
+              • PCI = { Sequenznummer: 1 Ziffer pro PDU }
+
+
+
+
+                       Rechnernetze und verteilte Systeme
+                                                            44
+                           (Prof. Dr. D. Kranzlmüller)
+Beispiel: Sequenznummern
+         Nachricht
+         The quick brown fox jumps over the lazy frog.
+
+
+
+
+         0     T
+         1     h
+         2     e
+         3
+         4     q
+         5     u
+         6         i
+             ...
+              5?                                                 4 ✓
+                                                               012
+                                                                 3
+                                                                 6
+                                                                 5
+0,1,2,3,4,5,6 ✓                                               Quittung
+
+                         Rechnernetze und verteilte Systeme
+                                                                         45
+                             (Prof. Dr. D. Kranzlmüller)
+Trace: Sequenznummern
+                             PCI[N] = {i→j, SeqNr, AckNr, ...}
+              snn [i→j]                                               sne [i→j]
+                             PCI[N] = {j→i, SeqNr, AckNr, ...}
+              sne [j→i]                                               snn [j→i]
+                 Pi                  Protokollinstanz                      Pj
+
+
+Zeitschritt     Protokoll-     Komm.-           UD        snn[i→j]    PCI[N]       PCI[N]
+                 instanz       richtung                              {SeqNr}      {AckNr}
+   t=1                Pi         i→j             T             0       0            7*
+   t=2                Pj         j→i                                   7            1
+   t=3                Pi         i→j             h             1       1            8
+   t=4                Pj         j→i                                   8            2
+   t=5                Pi         i→j             e             2       2            9
+                                                                                         * beliebig
+
+                                Rechnernetze und verteilte Systeme
+                                                                                            46
+                                    (Prof. Dr. D. Kranzlmüller)
+Optimierungen
+für höhere Leistung
+Im Beispiel:
+• Jedes Zeichen wird einzeln versendet und bestätigt
+
+Verbesserungen:
+• Mehr Daten in den UD (im Beispiel nur 1 Zeichen)
+• Senden von mehreren PDUs während gleichzeitig
+  auf den Empfang der Quittungen gewartet wird
+• Sammelquittungen oder selektive Quittungen für
+  eine Untermenge der PDUs
+                  Rechnernetze und verteilte Systeme
+                                                       47
+                      (Prof. Dr. D. Kranzlmüller)
+Weitere Fragestellungen
+• Wie viele Sequenznummern gibt es eigentlich?
+  Ist die Anzahl der Sequenznummern begrenzt?
+             ➔ Bestimmung der Größe des
+               Sequenznummernraumes
+
+• Wie lange können Nachrichten im Netz unterwegs
+  sein? Wie lange „leben“ Nachrichten?
+              ➔ Maximale Lebensdauer
+                   von Nachrichten
+
+                  Rechnernetze und verteilte Systeme
+                                                       48
+                      (Prof. Dr. D. Kranzlmüller)
+Größe des
+Sequenznummernraumes (1/2)
+• Sequenznummernräume sind endlich (und haben meist
+  eine feste Größe – festgelegt im Protokoll).
+• Im Beispiel:
+   • 10 unterschiedliche Sequenznummern (0,1,...,9).
+   • Nachricht 11 verwendet eine Sequenznummer (=0), die
+     bereits früher einmal verwendet wurde.
+   • Gefahr: verzögerte Nachricht mit derselben Sequenznummer
+     (=0) ist noch im Netz unterwegs
+   • Würde die verzögerte Nachricht vor Nachricht 11 ankommen:
+      • Empfänger interpretiert die falsche Nachricht als erwartete
+        Nachricht 11 und
+      • verwirft danach ankommende Nachricht 11 als Duplikat
+
+                        Rechnernetze und verteilte Systeme
+                                                                      49
+                            (Prof. Dr. D. Kranzlmüller)
+Größe des
+Sequenznummernraumes (2/2)
+• Wie lange kann eine Nachricht im Netz unterwegs sein?
+• Gesucht: Mechanismus, um die Dauer der maximalen
+  Verzögerung einer Nachricht zu bestimmen
+• Wähle Sequenznummernraum so, dass innerhalb der
+  maximalen Verzögerung nie dieselbe Sequenznummer
+  doppelt verwendet werden muss
+• Möglichkeit: Sequenznummernraum > Senderate x RTD
+  (engl.: Round Trip Delay).
+• Beispiel:
+   • Sei RTD = 15ms, Senderate 200/ms
+   • Benötigt: 12 Bits zur Codierung der Sequenznummern
+
+                     Rechnernetze und verteilte Systeme
+                                                          50
+                         (Prof. Dr. D. Kranzlmüller)
+                                                          Leslie Lamport, „Time, Clocks and the Ordering
+                                                                      of Events in a Distribnuted System“,
+                                                                             Communications of the ACM,
+
+Maximale Lebensdauer                                                                             July 1978
+                                                                 https://doi.org/10.1145/359545.359563
+
+
+von Nachrichten
+• Begrenzung der Lebensdauer verzögerter
+  Nachrichten auf ein Maximum:
+   • alle Nachrichten erhalten einen Zeitstempel und eine
+     Lebensdauer
+   • zu alte Nachrichten werden einfach verworfen
+• Erfordert aufwändige Schätzung oder bestenfalls
+  synchronisierte Uhren (=> Leslie Lamport)
+
+• Andere Möglichkeit: Zählung der Hops (“Sprünge“)
+
+                     Rechnernetze und verteilte Systeme
+                                                                                             51
+                         (Prof. Dr. D. Kranzlmüller)
+                                                              WH
+
+Verbindungsorientierter Dienst
+Techniken:
+• Verbindungsauf-/-abbau ✓
+• Sequenznummern und Quittungen ✓                    }
+• Flusssteuerung und Staukontrolle
+
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                         52
+                    (Prof. Dr. D. Kranzlmüller)
+Verbindungsorientierter Dienst                                WH
+
+
+
+(connection-oriented service)
+• Aufbau einer logischen Verbindung (Sitzung) ✓
+• Strategien zur Fehlerbehandlung:
+    • Kein Verlust von Nachrichten ✓
+    • Keine Verdoppelung von Nachrichten ✓
+   • Keine Verfälschung der Inhalte von Nachrichten
+   • Keine Vertauschung der Reihenfolge mehrere ✓
+     Nachrichten
+• Verbindungsmanagement durch Flusssteuerung
+  und Staukontrolle zur Handhabung von
+  Verzögerungen bei der Nachrichtenübertragung
+                    Rechnernetze und verteilte Systeme
+                                                         55
+                        (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+• Verbindungsorientierte Protokolle werden oft mit
+  Sequenznummern & Quittungen realisiert
+• Gesendete Nachrichten werden durchnummeriert
+   • Verloren gegangene Nachrichten werden neu
+     angefordert
+   • Duplikate werden verworfen
+   • Nachrichten in falscher Reihenfolge werden neu
+     angeordnet
+
+
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         56
+                        (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+                                                                              Nachricht,
+• Transport der Nachricht                                                        Ziel
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                  57
+                          (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                58
+               (Prof. Dr. D. Kranzlmüller)
+Nutzung des Transportdienstes
+Endsystem A   Virtuelle, zuverlässige Verbindungen         Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                          4
+
+
+
+Grundlagen der Programmierung:
+• Adressierung des Kommunikationsendpunkts
+• Schnittstellenbeschreibung
+• Programmiermodell
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                     59
+                          (Prof. Dr. D. Kranzlmüller)
+Adressierung des
+Kommunikationsendpunkts
+Endsystem A   Virtuelle, zuverlässige Verbindungen         Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                          4
+
+
+   Transportschicht liefert aus Sicht der Endsysteme
+ eine virtuelle, zuverlässige Ende-zu-Ende Verbindung
+Fragen:
+• Gibt es am Endsystem B (=Empfänger) mehr als
+  einen Dienst?
+• Wenn ja, wie wählt man den passenden Dienst
+  am Endsystem B aus?
+                      Rechnernetze und verteilte Systeme
+                                                                     60
+                          (Prof. Dr. D. Kranzlmüller)
+                                     Photo by moren hsu on Unsplash
+
+
+
+
+Rechnernetze und verteilte Systeme
+                                                               61
+    (Prof. Dr. D. Kranzlmüller)
+Ports zur Adressierung des
+Kommunikationsendpunkts
+Ports:
+• TSAP – engl. Transport Service Access Point
+• Adressen von Kommunikationsendpunkten
+  einer Protokollinstanz der Transportschicht
+  auf einem gegebenen Host
+Ziel:
+• Identifikation von Diensten bzw. Protokollen
+• Unterscheidung mehrerer Verbindungen zwischen
+  demselben Paar an Endpunkten
+                 Rechnernetze und verteilte Systeme
+                                                      62
+                     (Prof. Dr. D. Kranzlmüller)
+Eigenschaften von Ports
+• Flacher Adressraum (16-Bit):                   Beispiele für Well Known Ports
+  0-65535 (=216)                                        21 FTP
+• Portnummern von der IANA                              22 Secure Shell (SSH)
+  (engl.: Internet Assigned                             23 telnet
+  Numbers Authority) verwaltet.                         25 SMTP
+Zuordnung lt. RFC 6335:                                 80 HTTP
+• Well Known Ports (0-1023)                             143 IMAP
+                                                 Beispiele für Registered Ports
+• Registered Ports (1024-49151):
+  meist herstellerspezifisch                       2628 DICT
+                                                   2481 Oracle GIOP
+• Dynamic and/or Private Ports
+                                                   6000 X Windows
+  (49152-65535): frei nutzbar
+                   Rechnernetze und verteilte Systeme
+                                                                                  63
+                       (Prof. Dr. D. Kranzlmüller)
+                                              Photo by moren hsu on Unsplash
+
+
+
+
+21           22                  23          25
+FTP         SSH                telnet       SMTP
+
+
+
+
+ 80         143
+HTTP       IMAP
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                                                        64
+           (Prof. Dr. D. Kranzlmüller)
+Nutzung des Transportdienstes
+Endsystem A   Virtuelle, zuverlässige Verbindungen         Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                          4
+
+
+
+Grundlagen der Programmierung:
+• Adressierung des Komm.-endpunkts - Ports ✓
+• Schnittstellenbeschreibung
+• Programmiermodell
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                     65
+                          (Prof. Dr. D. Kranzlmüller)
+Schnittstellen von
+Transportdiensten
+Sockets:
+• plattformunabhängige, standardisierte Schnittstelle
+  (API) für netzglobalen Kommunikationsendpunkt
+• für Zugriff auf Transportdienste
+Endsystem A                                             Endsystem B
+               Virtuelle, zuverlässige Verbindung
+  Port A                                                  Port B
+
+
+
+• Verbindung zwischen zwei Sockets
+
+                   Rechnernetze und verteilte Systeme
+                                                                   66
+                       (Prof. Dr. D. Kranzlmüller)
+Eigenschaften von Sockets
+• vom Betriebssystem verwaltet
+• Spezifikation in BSD 4.1 UNIX (1981)
+• Umgang mit Sockets ähnlich wie mit einer Datei
+   • „Everything is a file in UNIX“
+     https://de.wikipedia.org/wiki/Everything_is_a_file
+
+   • Open: Socket wird erzeugt / geöffnet
+   • Read/Write: Es wird vom Socket gelesen / zum Socket
+     geschrieben
+   • Close: Socket wird geschlossen / zerstört
+
+                     Rechnernetze und verteilte Systeme
+                                                           67
+                         (Prof. Dr. D. Kranzlmüller)
+Sockets
+
+
+
+
+                                               *Analog für UDP
+
+
+          Rechnernetze und verteilte Systeme
+                                                            68
+              (Prof. Dr. D. Kranzlmüller)
+Eigenschaften von Sockets
+• Bidirektional – können senden und empfangen
+• Arten von Internet-Sockets:
+   • Datagramm Sockets: Kommunikation mit Datagrammen
+   • Stream Sockets: Kommunikation mit Zeichenströmen
+
+• Tupel aus Verbindungsendpunkten
+      [      Quelle        —        Senke       ]
+• Verbindungsendpunkt: Tupel aus IP-Adresse und Port:
+      [ (IP-Adresse, Port) — (IP-Adresse, Port) ]
+Vermittlungsschicht ↑      ↑ Transportschicht
+
+• Verbindung immer zwischen zwei Sockets
+
+                        Rechnernetze und verteilte Systeme
+                                                             69
+                            (Prof. Dr. D. Kranzlmüller)
+Nutzung des Transportdienstes
+Endsystem A   Virtuelle, zuverlässige Verbindungen         Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                          4
+
+
+
+Grundlagen der Programmierung:
+• Adressierung des Komm.-endpunkts - Ports ✓
+• Schnittstellenbeschreibung - Sockets ✓
+• Programmiermodell
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                     70
+                          (Prof. Dr. D. Kranzlmüller)
+Client-Server-Paradigma
+• Server Socket:
+   • wartet auf Verbindungsanfragen von Clients
+• Normaler Socket:
+   • wird nach dem Verbindungsaufbau von Client- sowie
+     Serverprozessen zur Kommunikation genutzt.
+• Server/Daemon:
+   • erzeugt neue Threads/Prozesse zur Abwicklung der
+     Kommunikation nach dem Verbindungsaufbau.
+
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          71
+                         (Prof. Dr. D. Kranzlmüller)
+Nutzung des Transportdienstes
+Endsystem A   Virtuelle, zuverlässige Verbindungen         Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                          4
+
+
+
+Grundlagen der Programmierung:
+• Adressierung des Komm.-endpunkts - Ports ✓
+• Schnittstellenbeschreibung - Sockets ✓
+• Programmiermodell – Client-Server ✓
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                     72
+                          (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+                                                                              Nachricht,
+• Transport der Nachricht                                                        Ziel
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+                                                                                 =
+   • Vermittlung/Pfadschaltung                                                 Socket
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                  73
+                          (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+Nutzung des Transportdienstes:
+• Port: Adressierung des Kommunikationsendpunkts
+   • Well-known / Registered - für festgelegte Dienste
+   • Dynamic / Private – frei nutzbar
+
+
+• Socket: Schnittstelle zur Programmierung
+   • Zugriff wie Dateizugriff (open, read, write, close)
+
+
+• Client-Server: Programmiermodell
+                      Rechnernetze und verteilte Systeme
+                                                           74
+                          (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                75
+               (Prof. Dr. D. Kranzlmüller)
+Transportschicht
+Verbindungsloser Dienst:
+• UDP – User Datagram Protocol
+   • Unzuverlässig aber schnell
+
+Verbindungsorientierter Dienst:
+• TCP – Transmission Control Protocol
+   • Zuverlässig aber langsam
+
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          76
+                         (Prof. Dr. D. Kranzlmüller)
+UDP – User Datagram Protocol
+
+
+
+             Rechnernetze und verteilte Systeme
+                                                  77
+                 (Prof. Dr. D. Kranzlmüller)
+Grundlagen von UDP
+Verbindungsloses (unzuverlässiges) Internet
+Transportprotokoll (RFC 768)
+• kein Verbindungsaufbau, -abbau, oder -status
+• keine Sequenznummern
+  ➔ keine Reihenfolgesicherung, Duplikats- oder
+  Verlusterkennung
+• kein Verkehrsmanagement - keine Regulierung der
+  Senderate
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      78
+                     (Prof. Dr. D. Kranzlmüller)
+UDP Header (PCI)
+
+
+
+
+• Quellport/Zielport (je 16 Bit): zur Adressierung
+• Datagrammlänge (16 Bit): Maximallänge von 65515
+  Bytes (bei Verwendung von IPv4)
+• Prüfsumme (16 Bit): (optionale) Prüfsumme über
+  IP-Pseudoheader und UDP-Datagramm
+
+                   Rechnernetze und verteilte Systeme
+                                                        79
+                       (Prof. Dr. D. Kranzlmüller)
+UDP Eigenschaften
+• 2*32 Bit = 64 Bit = 8 Byte Header
+  (vgl. TCP mit mindestens 20 Byte)
+• UDP-Ports: Unterstützten Multiplexen von
+  Anwendungen
+• UDP-Sockets: zur Adressierung von Anwendungen
+• Protokolle die UDP verwenden:
+  • TFTP (Trivial File Transfer Protocol)
+  • DNS (Domain Name System)
+  • RPC (Remote Procedure Call)
+  • SNMP (Simple Network Management Protocol)
+                  Rechnernetze und verteilte Systeme
+                                                       80
+                      (Prof. Dr. D. Kranzlmüller)
+Verwendung von UDP
+• Programmierung mit UDP Sockets
+   • Senden/Empfangen isolierter Datagramme
+   • Sicht auf lokales Socket
+   • Senden/Empfangen zu/von mehreren Hosts (IP-Adresse
+     und Port des Empfängers werden i.d.R. beim Senden
+     jedes einzelnen Datagramms angegeben)
+• Reihenfolgesicherung,
+  Verlust- und Duplikatsbehandlung,
+  sowie Steuerung der Senderate
+  obliegen Anwendungsprogramm.
+
+                   Rechnernetze und verteilte Systeme
+                                                        81
+                       (Prof. Dr. D. Kranzlmüller)
+UDP-Socket-Programm
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               82
+              (Prof. Dr. D. Kranzlmüller)
+TCP – Transmission Control Protocol
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                   83
+                  (Prof. Dr. D. Kranzlmüller)
+Grundlagen TCP
+• Verbindungsorientiertes (zuverlässiges) Internet
+  Transportprotokoll (RFC 793)
+• unterstützt Ende-zu-Ende-Transportverbindungen
+   • Vollduplex (gleichzeitig Senden/Empfangen in beide
+     Richtungen)
+   • mit Fehlerbehandlung (Verlust, Duplikate, usw.)
+   • mit Flusssteuerung und Staukontrolle
+• Kommunikationsaufbau per Drei-Wege-Handschlag
+• Byte-Strom-orientiert: Sequenz- und
+  Quittungsnummern beziehen sich auf Bytes.
+                    Rechnernetze und verteilte Systeme
+                                                          84
+                        (Prof. Dr. D. Kranzlmüller)
+TCP Header (PCI)                                (1/4)
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                        85
+               (Prof. Dr. D. Kranzlmüller)
+TCP Header (PCI)                                       (2/4)
+• Quellport/Zielport (je 16 Bit): Endpunkte der
+  Verbindung
+• Sequenznummer (32 Bit): Bytestromnummer des
+  ersten Nutzdaten-Bytes des Segments.
+• Quittungsnummer (32 Bit): Bytestromnummer des
+  nächsten erwarteten Nutzdaten-Bytes – nur
+  lückenlos fehlerfrei empfangene Daten werden
+  quittiert.
+• Header Länge (4 Bit): Anzahl der 32 Bit Wörter im
+  Header.
+                  Rechnernetze und verteilte Systeme
+                                                               86
+                      (Prof. Dr. D. Kranzlmüller)
+TCP Header (PCI)                                          (3/4)
+• NB (6 Bit): werden nicht benutzt.
+• Flags (je 1 Bit):
+   • URG: Urgent Pointer verwendet (Interrupt Data)
+   • ACK: Acknowledge (Quittungsnummer gültig)
+   • PSH: Push Data (nicht puffern, sondern sofort zustellen)
+   • RST: Reset (abgestürzt, Aufbauwunsch abgelehnt, …)
+   • SYN: Synchronize (Verbindungsaufbau)
+   • FIN: Finalize (Abbauwunsch/keine weiteren Daten)
+• Fenstergröße (16 Bit): Anzahl der Bytes, die ab
+  letzter Quittung gesendet werden dürfen.
+
+                     Rechnernetze und verteilte Systeme
+                                                                  87
+                         (Prof. Dr. D. Kranzlmüller)
+TCP Header (PCI)                                       (4/4)
+• Prüfsumme (16 Bit): Einerkomplement der Summe
+  aller 16-Bit-Worte über Pseudoheader und TCP-
+  Segment (Der Pseudoheader enthält die folgenden
+  Felder aus dem IP-Header: Quell- und Zieladresse,
+  Protokoll, und Länge des TCP-Segments).
+• Urgent Pointer (16 Bit): Zeigt auf erstes Byte nach
+  einer Kette von dringenden Daten (engl.: out-of-
+  band data).
+• Optionen (n * 32 Bit): Wählbare Eigenschaften, wie
+  z.B. maximale Segmentgröße und Timestamp-
+  Option.
+                  Rechnernetze und verteilte Systeme
+                                                               88
+                      (Prof. Dr. D. Kranzlmüller)
+Handschlag-Protokoll –
+Realisierung mit TCP
+            TCP URG    ACK         PSH           RST         SYN   FIN
+   Bisher
+   SYN                                                       X
+   SYNB                X                                     X
+   SYNBP               X
+   SYNBN                                         X
+   CLS                                                             X
+   CLSB                X
+   ACK                 X
+   NAK                 X*
+              *Wiederholen einer alten Quittung: Quittungsduplikate
+
+
+                        Rechnernetze und verteilte Systeme
+                                                                         89
+                            (Prof. Dr. D. Kranzlmüller)
+Verbindungsauf-/-abbau
+mit Sequenznummern
+• Frage: Wie realisiert TCP den Drei-Wege-
+  Handschlag mit Sequenznummern?
+• Im Speziellen: Synchronisation am Beginn einer
+  Kommunikation:
+      Wie wird einem Kommunikationspartner
+         bei einer neuen Verbindung die erste
+      verwendete Sequenznummer mitgeteilt?
+• Problem: auf Empfängerseite müssen verzögerte
+  Duplikate alter Aufbauwünsche von aktuellen
+  Aufbauwünschen unterschieden werden
+                  Rechnernetze und verteilte Systeme
+                                                       90
+                      (Prof. Dr. D. Kranzlmüller)
+Verbindungsaufbau: Drei-Wege-Handschlag
+                                                          Quelle                             Ziel
+Initiale Sequenznummern                                                   Zeit
+• gewählt aufgrund Zeitgeber                        SeqNr= 4711
+• Eindeutigkeit bei oft auf-                        Flags = SYN
+
+
+
+
+                                Verbindungsaufbau
+     /abgebauten Verbindungen                                                       SeqNr= 5010
+                                                                                    ACK = 4712
+Sequenznummern werden                                                               Flags = SYN, ACK
+erhöht aufgrund von
+• SYN und FIN (Schutz des                           SeqNr= 4712
+   Verbindungsmanagement,                           ACK = 5011
+   jeweils +1)                                      Flags = ACK
+
+
+                                                                   Verbindung aufgebaut
+Drei-Wege-Handschlag
+mit Sequenznummern
+• Erste Nachricht (SYN) enthält erste
+  Sequenznummer für Kommunikation von Pi → Pj
+• Antwort (SYN,ACK) bestätigt Sequenznummer und
+  enthält Retoursequenznummer für den Verkehr
+  von Pj → Pi.
+• Bestätigung (ACK) bestätigt Retoursequenznummer
+  (und kann je nach Implementierung auch bereits
+  erste Daten enthalten).
+• Verzögerte Duplikate alter SYN Nachrichten können
+  anhand der verwendeten Sequenznummern
+  erkannt werden
+                  Rechnernetze und verteilte Systeme
+                                                       92
+                      (Prof. Dr. D. Kranzlmüller)
+Notation: Sequenznummern
+                   PCI[N] = {i→j, SeqNr, AckNr, ...}
+       snn [i→j]                                           sne [i→j]
+                   PCI[N] = {j→i, SeqNr, AckNr, ...}
+       sne [j→i]                                           snn [j→i]
+          Pi               Protokollinstanz                   Pj
+
+• snn [i→j]: SeqNr des nächsten zu sendenden Bytes
+• sne [i→j]: SeqNr des nächsten erwarteten Bytes
+• PCI[N] = {i→j, SeqNr, AckNr, ...} =
+  Steuerinformationen
+   • i→j:      Verbindungs- und Richtungskennung
+   • SeqNr:    SeqNr der Nachricht (erstes Byte der Nachricht)
+   • AckNr:    SeqNr der nächsten erwarteten Nachricht (= sne)
+                      Rechnernetze und verteilte Systeme
+                                                                       93
+                          (Prof. Dr. D. Kranzlmüller)
+Verbindungsaufbau: Drei-Wege-Handschlag
+                                                               Quelle                              Ziel
+Initiale Sequenznummern                                                         Zeit
+• gewählt aufgrund Zeitgeber                            SeqNr= 4711
+• Eindeutigkeit bei oft auf-                            Flags = SYN
+
+
+
+
+                                 Verbindungsaufbau
+     /abgebauten Verbindungen                                                             SeqNr= 5010
+                                                                                          ACK = 4712
+                                                                                          Flags = SYN, ACK
+  Sequenznummern werden
+  erhöht aufgrund von                                   SeqNr= 4712
+  • SYN und FIN (Schutz des                             ACK = 5011
+     Verbindungsmanagement,                             Flags = ACK
+     jeweils +1)
+  • Segmenten mit Nutzdaten
+     (um 1 pro Byte Nutzdaten)                                           Verbindung aufgebaut
+  • sonst: „leere“ Segmente ->
+     „alte“ Seq. Nr. (z.B.                              SeqNr= 4712
+
+
+
+
+                                 Nutzdatenübertragung
+     Quittungen)                                        ACK = 5011
+                                                        Flags = ACK
+                                                        Data = 10 Byte                    SeqNr= 5011
+                                                                                          ACK = 4722
+                                                                                          Flags = ACK
+
+
+                                                                ..                                   ..
+                                                                 .                                    .
+Beidseitiger Verbindungsabbau
+                     Quelle                               Ziel
+                                         Zeit
+                SeqNr = 4731
+                ACK = 5040
+                Flags = FIN, ACK
+                                                    SeqNr = 5040
+                                                    ACK = 4732
+                                                    Flags = ACK
+
+                     Verbindung Quelle          Ziel geschlossen
+                                                    SeqNr = 5040
+                SeqNr = 4732                        ACK = 4732
+                ACK = 5050                          Flags = ACK
+                Flags = ACK                         Data = 10 Byte
+                                                   SeqNr = 5050
+                SeqNr = 4732                       ACK = 4732
+                ACK = 5051                         Flags = FIN, ACK
+                Flags = ACK
+
+                     Verbindung Quelle      Ziel geschlossen
+TCP Eigenschaften
+• TCP-PDU wird „Segment“ genannt
+• TCP-Ports: Erlaubt Multiplexen von Anwendungen
+• TCP-Sockets: zur Adressierung von Anwendungen
+• Puffern: Dienstdaten werden zwischengespeichert
+• Protokolle die TCP verwenden:
+  • HTTP (Hypertext Transfer Protocol)
+  • SMTP (Simple Mail Transfer Protocol)
+  • IMAP (Internet Message Access Protocol)
+  • FTP (File Transfer Protocol)
+
+                   Rechnernetze und verteilte Systeme
+                                                        96
+                       (Prof. Dr. D. Kranzlmüller)
+TCP-Socket-Programm
+                                      Serverprozess auf Host B
+    Clientprozess auf Host A
+                                   int p = ...; //Portnummer
+                                   ServerSocket welcomeSocket;
+ int p = ...; //bekannte Portnr.   Socket connectionSocket;
+                                   // Erzeuge Server socket
+                                   welcomeSocket =
+                                        new ServerSocket (p);
+
+ //Erzeuge Socket und verbinde
+ //es mit Host B auf Port p
+ clientSocket = new Socket(B,p);   // Warte auf Verbindung von
+                                   Client
+                                   // Anm: blockierender Aufruf
+                                   connectionSocket =
+                                   welcomeSocket.accept();
+ //Sende Anfrage an Server
+ clientSocket.write();
+                                   // Lese Anfrage von Client
+                                   connectionSocket.read();
+
+
+ //Lese Antwort von Server         // Sende Antwort
+ clientSocket.read();              connectionSocket.write();
+
+
+
+ clientSocket.close();             // Schliesse Verbindung
+                                   connectionSocket.close();
+Typische TCP-Zustände im Client
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                98
+               (Prof. Dr. D. Kranzlmüller)
+Typische TCP-Zustände im Server
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                99
+               (Prof. Dr. D. Kranzlmüller)
+   Beispiel: Verbindungssocket
+
+                             Well known port
+                                                                                 Server Socket
+Socket [11024 — 80 ]                                                      Nimmt Verbindungswunsch
+                       Ports                          Ports               entgegen [ 80 — * ]
+                         .                                .
+                         .                                .
+                         .                                .
+                       11024                            80
+      Web                                                                   Web
+    browser                                                                server
+
+
+                Sockets          Verbindung steht? Ja
+                                                   Nein                    Socket   [ 80 — 11024 ]
+
+
+
+
+                                     Rechnernetze und verteilte Systeme
+                                                                                              100
+                                         (Prof. Dr. D. Kranzlmüller)
+Nutzung von Sockets
+• Ende-zu-Ende-Verbindung an Dienst bzw.
+  Anwendung gebunden
+• Socket: Endpunkt für Kommunikation
+  • Tupel aus Verbindungsendpunkten
+    (jeweils IP-Adresse und Portnummer)
+  • erzeugt von / „gehört“ einem Prozess
+• Verbindung gegeben durch ein Socket-Paar
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        101
+                       (Prof. Dr. D. Kranzlmüller)
+webserver:~$ netstat -tulpn
+Active Internet connections (only servers)
+Proto   Local Address        Foreign Address         State            PID/Program name
+tcp     127.0.0.53:53        0.0.0.0:*               LISTEN           303/systemd-resolve
+tcp        0.0.0.0:34541     0.0.0.0:*               LISTEN           555/rpc.statd
+tcp        0.0.0.0:22        0.0.0.0:*               LISTEN           552/sshd: /usr/sbin
+tcp        0.0.0.0:80        0.0.0.0:*               LISTEN           628/apache2
+tcp        0.0.0.0:443       0.0.0.0:*               LISTEN           628/apache2
+tcp        0.0.0.0:5355      0.0.0.0:*               LISTEN           303/systemd-resolve
+tcp        0.0.0.0:6556      0.0.0.0:*               LISTEN           627/xinetd
+udp      127.0.0.1:731       0.0.0.0:*                                555/rpc.statd
+udp     127.0.0.53:53        0.0.0.0:*                                303/systemd-resolve
+udp        0.0.0.0:45154     0.0.0.0:*                                555/rpc.statd
+udp        0.0.0.0:5355      0.0.0.0:*                                303/systemd-resolve
+
+webserver:~$ netstat -tupn
+Active Internet connections (w/o servers)
+Proto Local Address         Foreign Address          State            PID/Program name
+tcp     10.163.95.35:685    10.163.95.10:731         TIME_WAIT        -
+tcp     10.163.95.35:22     10.163.96.50:60647       ESTABLISHED 46734/sshd: user
+tcp     10.163.95.35:1012   10.163.95.32:2049        ESTABLISHED -
+tcp     10.163.95.35:686    10.163.95.10:615         TIME_WAIT        -
+tcp     10.163.95.35:443    10.163.96.50:60664       ESTABLISHED 2369/apache2
+
+                                 Rechnernetze und verteilte Systeme
+                                                                                            102
+                                     (Prof. Dr. D. Kranzlmüller)
+Multiplexen von Anwendungen
+          Endsystem A                                                Endsystem B
+Prozesse     Ports                                                       Ports
+                                                                                   Prozesse
+               1                                                          1
+Prozess        2        7                        3          3    7        2
+   1           3                                                                   Prozess
+               .        6                        2          2    6        3
+               .                                                           .          1
+               .        5                        1          1              .
+                                                                 5         .
+  Web        11024      4                                        4        80        Web
+browser                 3      3          3                                        server
+                                                                 3
+               .        2      2          2          3           2         .
+               .                                                           .
+Prozess        .        1      1          1                      1         .
+                                                     2
+   n         65535                                                       65535
+                                                     1
+
+
+
+
+                                                                        Socket
+                                                                        Data link
+                            Rechnernetze und verteilte Systeme          Pfad       103
+                                (Prof. Dr. D. Kranzlmüller)             E2E-Verbindung
+Zusammenfassung
+• UDP und TCP sind Protokolle der Transportschicht
+• Beide bieten Ende-zu-Ende Kommunikation
+• UDP ist verbindungslos, daher unzuverlässig, aber
+  schnell
+• TCP ist verbindungsorientiert, daher zuverlässig,
+  aber langsam
+• Programmierung in beiden Fällen über Sockets
+• Ports erlauben Multiplexen von
+  Anwendungen/Diensten
+                  Rechnernetze und verteilte Systeme
+                                                       104
+                      (Prof. Dr. D. Kranzlmüller)
+Ausblick
+• UDP mit hoher Kommunikationsleistung, aber
+  unzuverlässig
+• TCP mit Zuverlässigkeitsgarantien und weniger
+  Kommunikationsleistung
+
+• UDP kann genutzt werden, um (Teile von) TCP
+  nachzubilden
+• Overhead kann verbessert werden, wenn nicht alle
+  Features von TCP benötigt werden
+⇒ QUIC: UDP-Based Multiplexed and Secure Transport
+   • Designed 2012 von Jim Roskind (Google)
+   • Inzwischen standardisiert von der IETF als RFCs (8999-9002,
+     2021)
+                      Rechnernetze und verteilte Systeme
+                                                                   105
+                          (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 3
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                106
+               (Prof. Dr. D. Kranzlmüller)
+Verbesserungen
+• Kommunikationsleistung
+   • Höherer Durchsatz
+   • Bessere Auslastung
+• Zuverlässigkeit
+   • Flusskontrolle
+   • Staukontrolle / Überlastkontrolle
+
+
+   Ziel: Höhere Leistung bei geringerer Fehlerrate
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          108
+                         (Prof. Dr. D. Kranzlmüller)
+Beispiel: Sequenznummern                                                    WH
+
+
+      Nachricht
+      The quick brown fox jumps over the lazy frog.
+
+
+
+
+                                                            0   T
+                                                            1   h
+                                     2      e
+      3
+      4     q
+      5     u
+      6         i
+          ...
+
+
+0,1        ✓                                               Quittung
+
+                      Rechnernetze und verteilte Systeme
+                                                                      109
+                          (Prof. Dr. D. Kranzlmüller)
+Zur Erinnerung
+Im Beispiel:
+• Es wird jeweils ein Zeichen als Nutzlast übertragen
+• Der Header (=Overhead) ist ein Zeichen (Seq.Nr)
+• Ansatz wird als „Stop-and-Wait“ bezeichnet.
+
+• Verbesserung:
+   • Mehr als ein Zeichen je Segment
+   • Verhältnis Header / Nutzlast dadurch besser
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          110
+                         (Prof. Dr. D. Kranzlmüller)
+Beispiel: Erreichbarer Durchsatz
+bei Stop-and-Wait (1/3)
+                                                       Vgl. S. 242, J. Kurose, K. Ross,
+                                                       „Computernetzwerke - Der Top-Down-Approach“
+                                                       2. Auflage, Pearson Deutschland GmbH, 2014
+
+
+
+
+• Nachricht von
+  Lissabon ➔ Helsinki
+• Ca. 4400 km Leitung
+• Signalausbreitung mit
+  Lichtgeschwindigkeit
+• Roundtripdelay (RTD):
+  ca. 30 ms
+• 1 Gbit/s Übertragungs-
+  geschwindigkeit
+
+                  Rechnernetze und verteilte Systeme
+                                                                                   111
+                      (Prof. Dr. D. Kranzlmüller)
+Beispiel: Erreichbarer Durchsatz
+bei Stop-and-Wait (2/3)
+• Nachricht mit ca. 1000 Byte (= 8000 Bit)
+           8000 𝐵𝑖𝑡/𝑁𝑎𝑐ℎ𝑟𝑖𝑐ℎ𝑡
+• 𝑑𝑡𝑟𝑎𝑛𝑠 =        9           = 8 µs/Nachricht
+                10 𝐵𝑖𝑡/𝑠
+• Wenn die Nachricht bei t=0 verschickt wird:
+   • t=8 µs: das letzte Bit verlässt den Sender
+   • t=15,008 ms: das letzte Bit erreicht den Empfänger
+• Annahme: ACK sehr klein, daher ignorieren wir die
+  Übertragungszeit für die Nachricht
+• t=30,008 ms: Bestätigung des Erhalts beim Sender
+
+                     Rechnernetze und verteilte Systeme
+                                                          112
+                         (Prof. Dr. D. Kranzlmüller)
+Beispiel: Erreichbarer Durchsatz
+bei Stop-and-Wait (3/3)
+Problem:
+• In 30,008 ms wurde eine Nachricht mit der Länge
+  von 1000 Bytes übertragen. Der Kanal war dabei
+  0,008 ms lang belegt.
+                         0,008
+• Auslastung: 𝑈𝑆𝑒𝑛𝑑𝑒𝑟 =        = 0,000267
+                        30,008
+                                                        Photo by Charles Deluvio on Unsplash
+
+• Effektiver Durchsatz: 267 kbit/s
+
+• Ursache: Stop-and-Wait Protokoll
+
+                   Rechnernetze und verteilte Systeme
+                                                                              113
+                       (Prof. Dr. D. Kranzlmüller)
+Verbesserungsmöglichkeiten
+• Anstelle von Stop-and-Wait:
+   • Absender darf mehrere Nachrichten senden, ohne auf
+     die jeweilige Bestätigung warten zu müssen
+• Konsequenzen:
+   • Wertebereich der Sequenznummern muss angepasst
+     werden
+   • Sender und Empfänger müssen mehr als eine Nachricht
+     zwischenspeichern können ➔ Sende/Empfangspuffer
+• Im Beispiel:
+  3 Nachrichten anstatt 1 ➔ 3-facher Durchsatz
+
+                    Rechnernetze und verteilte Systeme
+                                                          114
+                        (Prof. Dr. D. Kranzlmüller)
+                                                     Tanenbaum: „Schiebefensterprotokoll“
+                                                                Ross/Kurose: „Pipelining“
+Fenstertechnik
+(„Sliding Window“)
+• Festlegung eines Teilbereiches des SeqNr-Raumes als
+   • Sendefenster (Sendepuffer)
+      • Größe w
+      • Beginn Sendefenster: zuletzt (lückenlos) quittierte SeqNr snq
+      • Sender sendet nur Nachrichten mit Seq innerhalb Sendefensters
+   • Empfangsfenster (Empfangspuffer)
+      • Größe w*
+      • Beginn Empfangsfenster: nächste erwartete SeqNr (sne)
+      • Nachrichten mit SeqNr außerhalb Empfangsfenster werden
+        verworfen
+• Fenster werden verschoben, wenn Nachrichten
+  quittiert oder empfangen werden
+                       Rechnernetze und verteilte Systeme
+                                                                                115
+                           (Prof. Dr. D. Kranzlmüller)
+Fenstertechnik (Animation)
+             snq
+
+
+
+
+                            snq+w
+
+
+
+
+         snq                                      sne
+         snq + w                                  snq + w*
+
+  •   Lage Sendefenster und Empfangsfenster i.A. verschieden
+  •   snq ≤ sne ≤ snq +w
+  •   w und w*können differieren
+  •   Fenstertechnik unterstützt Fluss-/Staukontrolle
+             Nachricht
+                The quick brown fox jumps over the lazy frog.
+
+
+
+    Quelle/Sender                                       Senke/Empfänger
+
+            0         T
+            1         h
+            2         e
+            3
+            0         q
+            1         u
+                 ..                                             ..
+                  .                                              .
+        0                                                         0
+
+
+3      snn                1                             3       sne   1
+
+
+        2                                                        2
+Prüfung der Sequenznummern
+• Problem: Ist SeqNr neu oder Duplikat?
+• Fenstertechnik:
+                             M-1
+                   M-2                    0
+
+                 snn             Pi           1
+
+
+
+
+                           sne (i→j)
+
+              Neue Nachrichten         Duplikate
+                   3
+
+
+
+     2             Pi          0
+
+
+
+
+                   1
+
+Neue Nachrichten        Duplikate
+Vorteile der Fenstertechnik
+• Allgemein einsetzbar, auch außerhalb RNVS
+• Flexibel an Bedürfnisse konkreter Protokolle
+  anpassbar
+• Fenstergröße = 1: „Stop-and-Wait“ Protokoll.
+• Je nach Protokoll: dynamische Anpassung von
+  Fenstergrößen, u.a. zur Flusskontrolle
+• Grundlegende Verfahren:
+   • Go-Back N
+   • Selective Repeat
+
+                        Rechnernetze und verteilte Systeme
+                                                             120
+                            (Prof. Dr. D. Kranzlmüller)
+Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+2. Auflage, Pearson Deutschland, 2014, S. 244ff
+
+
+
+          Go-Back N
+          (GBN)
+          Einfaches Pipelining:
+
+          Sicht des Senders:
+
+
+
+
+                                                         Rechnernetze und verteilte Systeme
+                                                                                              121
+                                                             (Prof. Dr. D. Kranzlmüller)
+Selective Repeat (SR)
+Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+2. Auflage, Pearson Deutschland, 2014, S. 249ff
+
+
+
+• Bereits bestätigte Segmente innerhalb des
+  Sendefensters werden nicht erneut versandt.
+
+
+
+
+                                              Rechnernetze und verteilte Systeme
+                                                                                   122
+                                                  (Prof. Dr. D. Kranzlmüller)
+                                                 Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                                 2. Auflage, Pearson Deutschland, 2014, S. 249ff
+
+
+
+
+Selective Repeat (SR) Ablauf
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                                                        123
+                (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+• Sequenznummer: fortlaufende Nummerierung
+  (von Bytes) in Segmenten.
+• Acknowledgement (ACK): Quittungen über
+  erfolgreich erhaltene Pakete.
+• Timer: Wird verwendet, um ggf. verloren
+  gegangene Segmente erneut zu übertragen.
+• Fenstertechnik (Pipelining): maximale Anzahl
+  unbestätigter Segmente auf dem Sendekanal.
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       125
+                      (Prof. Dr. D. Kranzlmüller)
+Verbesserungen
+• Kommunikationsleistung ✓
+   • Höherer Durchsatz
+   • Bessere Auslastung
+• Zuverlässigkeit
+   • Flusskontrolle
+   • Staukontrolle / Überlastkontrolle
+
+
+   Ziel: Höhere Leistung bei geringerer Fehlerrate
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          126
+                         (Prof. Dr. D. Kranzlmüller)
+Flusskontrolle vs. Staukontrolle
+• Flusskontrolle/Flusssteuerung
+  (engl. „flow control“)
+   • Maßnahmen beim Sender
+     gegen Überlastung des Empfängers
+• Staukontrolle/Überlastkontrolle
+  (engl. “congestion control“)
+   • Maßnahmen gegen die Überlastung der Transitnetze bei
+     gemeinsamer Nutzung durch mehrere individuelle
+     Kommunikationsbeziehungen
+
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         127
+                        (Prof. Dr. D. Kranzlmüller)
+ Warteschlangen (Grafik)
+                                      Transitnetz
+
+              Sender
+
+
+
+
+Knoten
+
+
+
+
+    Warteschlange
+                       Rechnernetze und verteilte Systeme
+                                                            128
+                           (Prof. Dr. D. Kranzlmüller)
+Lösungsansätze Flusskontrolle
+• Stop and Wait–Technik ➔ Oszillierendes Verhalten,
+  schlecht bei großer RTD
+• Fenstertechnik (mit festem oder dynamischem
+  Fenster) ➔ Problem bei Fensterverkleinerung
+• Sender verlangt Pufferreservierung vor Sendung,
+  Senden nach Bestätigung ➔ zusätzliche
+  Nachrichten und Verzögerung
+• Empfänger stellt Credit über Allokationsnachrichten
+  (z.B. TCP) ➔ Verfahren nicht robust
+• Zeitrasterabhängiges Senden
+
+                  Rechnernetze und verteilte Systeme
+                                                       129
+                      (Prof. Dr. D. Kranzlmüller)
+Flusskontrolle (1/2)
+               Sender   Empfänger   Puffer 4K (2x2K)
+                                       leer
+     Schreibt 2K
+
+
+
+
+     Schreibt 2K
+
+                                    Puffer voll
+
+
+
+                                    Anwendung
+                                      liest 2K
+Flusskontrolle (2/2)
+• Variablen des
+  Senders:
+   • RcvWindow (w)
+   • LastByteSent (snn)
+   • LastByteAcked (snq)
+• Variablen des Empfängers:
+   • RcvBuffer    (w*)
+   • LastByteRcvd (sne): angekommen, aber noch nicht gelesen (im Puffer)
+   • LastByteRead: bereits vom Anwendungsprozess gelesen
+• RcvWindow = RcvBuffer – (LastByteRcvd – LastByteRead)
+• LastByteSent – LastByteAcked ≤ RcvWindow
+• Sammelquittungen über mehrere Segmente
+                        Rechnernetze und verteilte Systeme
+                                                                    131
+                            (Prof. Dr. D. Kranzlmüller)
+Flusskontrolle vs. Staukontrolle
+• Flusskontrolle/Flusssteuerung ✓
+  (engl. „flow control“)
+   • Maßnahmen beim Sender
+     gegen Überlastung des Empfängers
+• Staukontrolle/Überlastkontrolle
+  (engl. “congestion control“)
+   • Maßnahmen gegen die Überlastung der Transitnetze bei
+     gemeinsamer Nutzung durch mehrere individuelle
+     Kommunikationsbeziehungen
+
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         132
+                        (Prof. Dr. D. Kranzlmüller)
+Überlastung der Netze
+Zu viele Transportinstanzen auf zu vielen
+Endsystemen speisen gleichzeitig zu viele Pakete ins
+Netz ein.
+
+                            Internet
+
+
+Alice                                                                                  Bob
+
+                                                                                    Antenna by Kick from the Noun Project
+                                                                                   Car by yanti anis from the Noun Project
+
+                                Carol                                 Computer by Patrick Morrison from the Noun Project
+                                                        Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                   Rechnernetze und verteilte Systeme
+                                                                                                       133
+                       (Prof. Dr. D. Kranzlmüller)
+Überlastung der Netze
+Zu viele Transportinstanzen auf zu vielen
+Endsystemen speisen gleichzeitig zu viele Pakete ins
+Netz ein.
+
+         ➔ Überlastung der Router auf der
+              Vermittlungsschicht
+
+• Wie kann auf Transportschicht festgestellt werden,
+  dass eine Überlastung der Transitnetze besteht?
+• Wie kann man darauf reagieren?
+                   Rechnernetze und verteilte Systeme
+                                                        134
+                       (Prof. Dr. D. Kranzlmüller)
+Feststellen von Überlastung
+• Durch Nutzung eines dedizierten Protokolls, mit
+  dessen Hilfe überlastete Router den Endpunkten
+  explizit eine Überlastung mitteilen
+   • z.B.: XCP – eXplicit Congestion Protocol
+
+• Durch indirekte Indikatoren
+   • z.B. Segmentverlust
+
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           135
+                          (Prof. Dr. D. Kranzlmüller)
+Lösungsansätze Staukontrolle
+• virtuelle Kanäle: sicher, aber Puffervergeudung und
+  Aufbauzeit
+• Begrenzung des Flusses in das Netz
+   • Begrenzung der Anzahl von Verbindungen pro Host/Prozess
+   • Begrenzung der Senderate (Traffic Contract, Leaky Bucket)
+• Sicherstellung des Abflusses aus dem Netz
+   • garantierte Abnahmerate durch Empfänger
+   • Reassembly im Host
+• Konstante Last im Netz (Taxi-Verfahren, nicht optimal)
+• Füllungsregelung pro Verbindung
+• Im Internet: Verwerfen von Segmenten bei Überlast
+                      Rechnernetze und verteilte Systeme
+                                                                 136
+                          (Prof. Dr. D. Kranzlmüller)
+Reaktives Verhalten
+auf Indikatoren
+• Verlorenes Segment (Timeout, ACK-Duplikate)
+  impliziert „Stau“-Situation im Netz
+          → Reaktion: Senderate verringern
+• Angekommenes ACK impliziert guten Datenfluss.
+           → Reaktion: Senderate erhöhen.
+
+• Kontinuierliches Probieren: Senderate erhöhen bis
+  Segment verloren geht. Ab dann:
+          → Reaktion: Senderate verringern
+                  Rechnernetze und verteilte Systeme
+                                                       137
+                      (Prof. Dr. D. Kranzlmüller)
+Überlastungskontrolle (bei TCP)
+in 3 Schritten
+Senderate (ins Netz):
+1. Langsamer Start, exponentielles Wachstum
+   (Slow Start)
+2. Lineares Wachstum
+   (Überlastvermeidung = Congestion Avoidance)
+3. Schnelle Erholung
+   (Fast Recovery)
+
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      138
+                     (Prof. Dr. D. Kranzlmüller)
+Vorbereitung:
+Überlastungskontrolle
+• TCP Instanzen benötigen folgende Variablen:
+   • CongWindow (Congestion Window):
+     steuert die Einspeisung ins Netz wie folgt:
+     LastByteSent – LastByteAcked ≤ CongWindow
+   • Effektives Fenster: min(RcvWindow, CongWindow)
+   • MSS (maximum segment size):
+     maximale Datenmenge pro Segment.
+   • Threshold: obere Schranke für das schnelle Wachstum
+     des Überlastfensters (CongWindow).
+   • RT (retransmission timer): nach Ablauf des Timer
+     werden nicht bestätigte Segmente neu gesendet.
+
+                    Rechnernetze und verteilte Systeme
+                                                           139
+                        (Prof. Dr. D. Kranzlmüller)
+Senderate bei TCP Tahoe
+(bei Netz ohne Last) (1/3)
+1. Slow Start:
+• mit kleinem Überlastfenster
+  (CongWin = 1 MSS).
+Exponentielles Wachstum:
+• Bis zum Threshold: CongWin
+  verdoppeln (je ACK +1 MSS)
+• Jede Runde werden jeweils
+  doppelt so viele Segmente
+  wie davor quittiert
+• 1 Übertragungsrunde =
+  ca. 1 RTD
+                   Rechnernetze und verteilte Systeme
+                                                        140
+                       (Prof. Dr. D. Kranzlmüller)
+                                                        Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                                        2. Auflage, Pearson Deutschland, 2014, S. 295ff
+
+
+
+Senderate bei TCP Tahoe
+(bei Netz ohne Last) (1/3)
+1. Slow Start:
+• mit kleinem Überlastfenster
+  (CongWin = 1 MSS).
+Exponentielles Wachstum:
+• Bis zum Threshold: CongWin
+  verdoppeln (je ACK +1 MSS)
+• Jede Runde werden jeweils
+  doppelt so viele Segmente
+  wie davor quittiert
+• 1 Übertragungsrunde =
+  ca. 1 RTD
+                   Rechnernetze und verteilte Systeme
+                                                                                               141
+                       (Prof. Dr. D. Kranzlmüller)
+Senderate bei TCP Tahoe
+(bei Netz ohne Last) (2/3)
+2. Congestion Avoidance
+Lineares Wachstum:
+• Bei Erreichen von Threshold:
+  CongWin = CongWin + 1 MSS
+  je Runde
+• Wiederhole so lange, bis ein
+  Segment verloren geht
+  (Timeout)
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        142
+                       (Prof. Dr. D. Kranzlmüller)
+Senderate bei TCP Tahoe
+(bei Netzüberlastung) (3/3)
+Bei Timeout (RT):
+Reduzierung der
+Senderate:
+• Reduzierung des
+  Threshold =
+  CongWin/2
+• Neustart mit Slow
+  Start:
+  CongWin = 1 MSS
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           143
+                          (Prof. Dr. D. Kranzlmüller)
+Optimierung bei Verlust (RFC 5681)
+• Grundlage:
+  Bei Segmentverlust
+   ➔alle darauf folgenden empfangene Segmente werden
+    mit der gleichen Quittungsnummer quittiert
+   ➔Quittungsduplikate weisen frühzeitig (noch vor
+    Timeout) auf Segmentverlust hin
+• Mögliche Optimierung:
+   • Schnelle Neuübertragung (Fast Retransmit)
+   • Schnelle Wiederherstellung (Fast Recovery)
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          144
+                         (Prof. Dr. D. Kranzlmüller)
+Optimierung bei Verlust (RFC 5681)
+• Schnelle Neuübertragung (Fast Retransmit):
+  Sender wiederholt bei Empfang eines
+  Quittungsduplikats das folgende Segment
+  (noch vor Erreichen des Timeout).
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       145
+                      (Prof. Dr. D. Kranzlmüller)
+                                                Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                                2. Auflage, Pearson Deutschland, 2014, S. 295ff
+
+
+
+Beispiel:
+Fast Retransmit
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                                                       146
+               (Prof. Dr. D. Kranzlmüller)
+Optimierung bei Verlust (RFC 5681)
+• Schnelle Neuübertragung (Fast Retransmit):
+  Sender wiederholt bei Empfang eines
+  Quittungsduplikats das folgende Segment
+  (noch vor Erreichen des Timeout).
+• Schnelle Wiederherstellung (Fast Recovery):
+  Sendeverhalten nach schneller Neuübertragung:
+  • CongWin wird respektiert, bleibt aber unverändert
+  • ab drittem Segment: Neuberechnung Threshold und
+    CongWin (ohne Slow Start)
+  • Pro empfangenem Quittungsduplikat wird ein Segment
+    neuer Daten gesendet. (virtuelles CongWin)
+                                                       TCP Reno
+                  Rechnernetze und verteilte Systeme
+                                                            147
+                      (Prof. Dr. D. Kranzlmüller)
+Virtuelles CongWin
+Pro empfangenem Quittungsduplikat wird ein
+Segment neuer Daten gesendet:
+• Verlorenes Paket wurde nicht quittiert
+  → CongWin verschiebt sich nicht weiter
+• Um dennoch weiter senden zu können wird
+  CongWin pro Quittungsduplikat um 1 erhöht
+• Effektives CongWin bleibt unververändert
+
+Nach der Schnellen Wiederherstellung wird CongWin
+wieder auf den ursprünglichen Wert zurückgesetzt.
+                 Rechnernetze und verteilte Systeme
+                                                      148
+                     (Prof. Dr. D. Kranzlmüller)
+Senderate bei TCP Reno
+(bei Netzüberlastung)
+Reduzierung des Threshold = CongWin/2
+     (identisch zu TCP Tahoe)
+
+Je nach Fehlerart:
+• Bei 3-fachen Quittungsduplikat:
+       CongWin = neuer Threshold
+       Weiter mit Congestion Avoidance
+• Bei Timeout (identisch zu TCP Tahoe):
+       CongWin = 1 MSS
+       Neustart mit Slow Start
+                  Rechnernetze und verteilte Systeme
+                                                       149
+                      (Prof. Dr. D. Kranzlmüller)
+                                               Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                               2. Auflage, Pearson Deutschland, 2014, S. 299
+
+
+
+Staukontrolle
+Ablaufdiagramm
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                                                                      150
+              (Prof. Dr. D. Kranzlmüller)
+                                               Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                               2. Auflage, Pearson Deutschland, 2014, S. 296
+
+
+
+Staukontrolle
+Zustandsdiagramm
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                                                                      151
+              (Prof. Dr. D. Kranzlmüller)
+                                                        Kurose/Ross, „Computernetzwerke – Der Top-Down-Ansatz“
+                                                        2. Auflage, Pearson Deutschland, 2014, S. 300
+
+
+
+TCP Stauvermeidung
+(pragmatisch)
+Additive Increase Multiple Decrease (AIMD) Prinzip.
+• Ohne Slow Start, linearer Anstieg (Additiv Increase)
+• Bei Paketverlust: Halbierung des CongWin um
+  Faktor 2 (Multiple Decrease).
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                                                               152
+                       (Prof. Dr. D. Kranzlmüller)
+Berechnung des Durchsatzes
+bei TCP
+Gegeben:
+  • w: aktueller Wert von CongWin
+  • W: Wert von CongWin bei Paketverlust
+  • RTD: Round Trip Delay
+
+
+Annahme: W konstant über die Verbindung
+                               𝑊        𝑊
+→ Durchsatz pendelt zwischen       und
+                             2 𝑅𝑇𝐷     𝑅𝑇𝐷
+                                                   0,75 W
+→ Ungefährer Durchsatz bei TCP:
+                                                        𝑅𝑇𝐷
+
+                   Rechnernetze und verteilte Systeme
+                                                              153
+                       (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              154
+             (Prof. Dr. D. Kranzlmüller)
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              155
+             (Prof. Dr. D. Kranzlmüller)
+                                                                                                                 WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+                      Internet
+
+Alice                                                                                     Bob
+
+Endsystem A   Virtuelle, zuverlässige Verbindungen                                   Endsystem B
+                   (aus Sicht der Endsysteme)
+     4                                                                                          4
+
+                                                                         Computer by Patrick Morrison from the Noun Project
+                                                           Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                      Rechnernetze und verteilte Systeme
+                                                                                                          156
+                          (Prof. Dr. D. Kranzlmüller)
+Fragen (1/4)
+1. Welche Parameter beeinflussen die Größe des
+   Sequenznummernraumes?
+2. Wie wird die Eindeutigkeit von Sequenznummern
+   sichergestellt?
+3. Wozu wird die Fenstertechnik eingesetzt?
+4. Wie wirken sich zu kleine Fenster aus?
+5. Wie wirken sich zu kleine
+   Sequenznummernräume aus?
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      157
+                     (Prof. Dr. D. Kranzlmüller)
+Fragen (2/4)
+6. Warum ist für einen sicheren Verbindungsaufbau
+   auf der Transportschicht ein Drei-Wege-
+   Handschlag erforderlich?
+7. Unter welchen Voraussetzungen genügt ein Zwei-
+   Wege-Handschlag für einen Verbindungsaufbau?
+8. Warum muss der Verbindungsabbau beidseitig
+   geschehen?
+9. Was ist der Unterschied zwischen Flusskontrolle
+   und Staukontrolle?
+
+                 Rechnernetze und verteilte Systeme
+                                                      158
+                     (Prof. Dr. D. Kranzlmüller)
+Fragen (3/4)
+10. Welche Anforderungen einer Anwendung können
+    den Einsatz von UDP rechtfertigen?
+11. Wie kann man in einer Anwendung, die UDP
+    verwendet, einen zuverlässigen Datentransfer
+    garantieren?
+12. Alice sendet 2 TCP-Segmente (mit
+    Sequenznummer 90 und 110) an Bob.
+  • Wie viele Daten enthält das erste Segment? Wie lang ist
+    das erste Segment insgesamt?
+  • Wie lautet die Quittungsnummer der Bestätigung von
+    Bob, wenn nur das erste Segment verloren geht?
+
+                    Rechnernetze und verteilte Systeme
+                                                          159
+                        (Prof. Dr. D. Kranzlmüller)
+Fragen (4/4)
+13. Welche Mechanismen verwendet TCP für eine
+    zuverlässige Ende-zu-Ende Verbindung?
+14. Wie realisiert man „Multiplexen“ von
+    Anwendungen auf der Transportschicht?
+15. Wie funktioniert TCP Tahoe zur Staukontrolle?
+16. Können Sende- und Empfangsfenster bei der
+    Fenstertechnik unterschiedlich groß sein?
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       160
+                      (Prof. Dr. D. Kranzlmüller)
+

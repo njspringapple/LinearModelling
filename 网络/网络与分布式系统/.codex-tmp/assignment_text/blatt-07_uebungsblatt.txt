@@ -1,0 +1,82 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 7
+Abgabe bis 15.06.2026 per LMU Moodle.
+1. Verzögerungszeiten (H)
+Eine Nachricht wird auf dem Weg durch das Netz über verschiedene Knoten und Verbindungen geleitet.
+Die Übertragung der Daten erfolgt mit Hilfe von Signalen (z.B. elektrische bei Kupferkabeln, elektro-
+magnetische bei der Funkübertragung und optische bei Lichtwellenleitern). Aufgrund von physikalischen
+Eigenschaften der Signale und Übertragungsmedien, aber auch in den Knoten (Switches, Router) und
+Endgeräten sowie aufgrund der allgemeinen Verkehrssituation im Netz treten bei der Übertragung von
+Daten verschiedene Arten von Verzögerungen auf. Wir unterscheiden u.a. folgende Verzögerungszeiten:
+• Signalverzögerung
+• Verarbeitungsverzögerung
+• Nachrichtendauer (auch: Übertragungsverzögerung)
+• Warteschlangenverzögerung
+(a) Zeigen Sie anhand der folgenden Skizze, wo diese Verzögerungen auftreten und erklären Sie jeweils
+kurz, wie sie entstehen!
+X X
+(b) Erklären Sie den Unterschied zwischen der Nachrichtendauer und der Signalverzögerung!
+(c) Zwei Rechner A und B sollen in einem Heim-Netz miteinander kommunizieren. Rechner A sei
+über ein 20 m langes Kupferkabel (Twisted-Pair-Kabel) an einen DSL-WLAN-Router angeschlossen;
+Rechner B kommuniziert per WLAN und befindet sich 10m vom Router entfernt in Sichtweite von
+diesem. Berechnen Sie die Verzögerung für ein Paket der Größe 1500 B, welches von Rechner A an
+den Rechner B gesendet wird.
+Hinweis:
+• 1 Mbit = 1 × 106 bit
+• Vernachlässigen Sie die Warteschlangenverzögerungen, sowie alle Fehlereinwirkungen (Paket-
+verlust, Übertragungsfehler etc).
+• Die Verarbeitungsverzögerung im Router betrage 2 µs.
+• Die Ausbreitungsgeschwindigkeit von Signalen beträgt
+– 2 × 108 m/s im Kupferkabel
+– 3 × 108 m/s bei Funksignalen
+• Die Übertragungsraten betragen
+– 100 Mbit/s auf dem Kupferkabel
+– 54 Mbit/s bei Funksignalen
+Seite 1 von 2
+
+--- PAGE 2 ---
+2. Paket- und Leitungsvermittlung (H)
+Angenommen eine Applikation überträgt Daten mit einer festen Rate, beispielsweise N Bit alle k Zeit-
+einheiten – wobei k klein ist. Die Applikation wird für eine längere Zeit ausgeführt. Beantworten Sie die
+folgenden Fragen und begründen Sie Ihre Antwort kurz.
+(a) Ist eine Leitungsvermittlung oder die Paketvermittlung für dieses Szenario besser geeignet? Warum?
+(b) Betrachten Sie ein paketvermittelndes Netz dessen Endsysteme ausschließlich aus Applikationen wie
+oben beschrieben bestehen. Die Kapazität, d.h. die maximale Datenrate R, jedes einzelnen Links
+sei größer als die Summe der Datenraten aller Applikationen. In welchem Fall können Paketverluste
+auftauchen?
+3. Fenstergröße beim Sliding-Window-Verfahren (H)
+Eine Sendestation verschickt PDUs an Satelliten, mit einer maximalen Übertragungsrate von 64 kBit/s
+(1 kBit sind 103 Bits). Die Größe der PDUs beträgt 512 Byte und jede PDU, die der Satellit empfängt,
+wird einzeln mit einer 8 Byte langen Antwort über einen separaten Rückkanal bestätigt (Quittung), eben-
+falls mit einer maximalen Übertragungsrate von 64kBit/s. In diesem Szenario soll das Sliding-Window-
+Verfahren (Fenstertechnik) eingesetzt werden, um Flusssteuerung (Flow Control ) zu ermöglichen.
+Es sollen folgende Annahmen gelten:
+• Die Signalverzögerung zwischen Sender und Satellit beträgt 270 ms.
+• Es handelt sich um einen idealen Satellitenkanal, d.h. keine Nachricht geht verloren.
+(a) Berechnen Sie jeweils die maximale effektive Übertragungsrate in kBit/s, wenn die Fenstergröße
+folgende Werte annimmt:
+i. 1 PDU
+ii. 7 PDUs
+iii. 15 PDUs
+Geben Sie zusätzlich die Nutzungseffizienz des Kanals in Prozent an!
+(b) Berechnen Sie die minimale Fenstergröße, mit der die Nutzungseffizienz des Kommunikationskanals
+zum Satelliten 100% erreicht!
+4. Staukontrolle bei TCP (H)
+Bei TCP kommt Slow-Start als Mechanismus zur Staukontrolle zum Einsatz. Es sollen über eine TCP-
+Verbindung mit Netzverzögerung von 100 ms (d.h. RTD = 200 ms) 7500 B Nutzdaten in 15 Segmenten
+gleicher Größe S = 500 B vom Server zum Client übertragen werden.
+Hinweis: Nehmen Sie einen nicht erreichbaren Wert für Threshold an, und vernachlässigen Sie Ver-
+luste, Empfangspuffergröße, Verarbeitungsverzögerung, die Übertragungszeit für Protokollheader sowie
+den Verbindungsabbau. Gehen Sie also davon aus, dass die beiden TCP-Instanzen sofort nach dem
+Verbindungsaufbau die Übertragung beginnen und danach die Slow-Start-Phase nicht verlassen.
+(a) Sei die Übertragungsrate R = 20 kB/s. Erstellen Sie ein Sequenzdiagramm für die Übertragung und
+tragen Sie die Größe des jeweils aktuellen Überlastfensters (CongWin) in das Diagramm ein!
+(b) Bestimmen Sie die Übertragungsdauer gemessen vom Absenden des SYN des Clients bis alle Nutz-
+daten empfangen wurden:
+i. mit Slow-Start.
+ii. ohne Slow-Start mit fester Fenstergröße von 20.
+(c) Wie lange würde die Übertragung jeweils mit und ohne Slow-Start für R = 500 kB/s dauern?
+Seite 2 von 2 (cid:5)

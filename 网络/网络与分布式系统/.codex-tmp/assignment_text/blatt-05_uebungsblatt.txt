@@ -1,0 +1,98 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 5
+Abgabe bis 01.06.2026 per LMU Moodle.
+1. Transportschicht in Pseudocode (H)
+Auf Übungsblatt 3 haben wir die Signatur der Funktion sendto behandelt. Diese implementiert einen
+Teil eines Protokolls des Internet-Modells der Schicht N . Sie verschickt bytes an einen in addr_tuple
+spezifizierten Empfänger.
+Die Implementierung sei durch folgenden Pseudocode gegeben.
+def sendto ( bytes , ( address , dst_port )):
+address_bytes = hton ( address )
+destination_port = hton ( dst_port )
+source_port = hton ( random ())
+length = hton ( len ( bytes ) + 8)
+checksum = build_checksum (
+length , destination_port , source_port )
+PDU = length + destination_port + source_port + checksum + bytes
+route_packet ( address_bytes , PDU )
+return
+Die Funktion hton konvertiert hier jeden beliebigen Typ zu einem für die Übertragung geeigneten Byte-
+Format („big-endian”). Gehen Sie wieder von dem folgenden Beispielaufruf aus.
+msg = bytes ([0 x48 , 0 x65 , 0 x6c , 0 x6c , 0 x6f ])
+recipient = ("192.168.1.135" , 6243)
+sendto ( msg , recipient )
+(a) Welche Aussage können Sie über die (N )-PDU treffen?
+(b) Welche Informationen sind in der (N )-PCI enthalten? Stimmen diese mit der (N )-ICI überein?
+(c) Was entspricht (N − 1)-ICI, -ID bzw. -IDU?
+(d) Handelt es sich um ein verbindungsorientiertes oder -loses Protokoll?
+Gehen Sie von den bisher in der Vorlesung behandelten Protokollen aus. Welches Protokoll der
+Transportschicht wird hier skizziert?
+2. TCP Sequenznummern (H)
+Zwei Hosts A und B kommunizieren über eine TCP Verbindung. Host B hat bereits 126 Bytes von Host
+A vollständig empfangen und Host A sendet zwei weitere Segmente der Größen 80 sowie 40 Bytes. Die
+Sequenznummer des ersten Segments ist 127, der Quellport ist 302 und der Zielport ist 80. Host B sendet
+ein Acknowledgement immer, sobald es ein Segment von Host A empfangen hat.
+(a) Wie lauten Sequenznummer, Quell- sowie Zielport des zweiten Segments von Host A an B?
+(b) Falls das erste Segment vor dem zweiten Segment bei B eintritt, wie lauten im ACK (Quittung) die
+ACK-Nr., Quell- und Zielport?
+(c) Falls das erste Segment nach dem zweiten Segment bei B eintritt, wie lauten im ACK (Quittung)
+die ACK-Nr., Quell- und Zielport?
+(d) Angenommen, beide Segmente kommen in der richtigen Reihenfolge von A zu B. Das erste ACK von
+B geht verloren und das zweite ACK erreicht A nach dem ersten Timeout-Intervall. Zeichnen Sie
+ein Sequenzdiagramm und beschriften Sie jedes versendete Segment vollständig mit Sequenznum-
+mer, Anzahl der Nutzdaten-Bytes. Beschriften Sie des Weiteren alle Quittungen (ACKs) mit der
+korrekten ACK Nummer.
+Seite 1 von 2
+
+--- PAGE 2 ---
+3. Sequenznummern 2 (mit Sendefenster) (H)
+Im Übungsblatt der letzten Woche wurden Sequenznummern im Fall betrachtet, dass nach jeder Nach-
+richt auf die Quittung gewartet werden muss. In dieser Aufgabe können mehrere Nachrichten auf einmal
+gesendet werden. Ansonsten gelten die selben Festlegungen, sofern nicht anders angegeben:
+• Der Sender benutzt einen Zeitgeber/Timer, um die Zeit bis zum Erhalt der Quittung zu messen. Er
+wiederholt die Nachricht, wenn innerhalb eines Zeitintervalls (Timeout) von 800ms keine Quittung
+eingetroffen ist.
+• Der Empfänger sendet nur positive Einzelquittungen.
+• Der Empfänger kann Nachrichten nur verarbeiten, wenn sie in der richtigen Reihenfolge eintreffen.
+• Alle Nachrichten (mit Nutzdaten, bzw. nur Quittung) sind gleich groß.
+• Die Netzverzögerung beträgt 20ms und ist konstant für alle Nachrichten.
+• Der Sender verwendet ein Sendefenster w = 3, das ihm erlaubt 3 Nachrichten auf einmal abzusen-
+den, bevor die erste Quittung zurück ist.
+(a) Geben Sie ein Sequenzdiagramm für die fehlerfreie Übertragung dreier Nachrichten an. Hinweis:
+Bedenken Sie das festgelegte Sendefenster!
+(b) Zeichnen Sie ein Sequenzdiagramm, in dem der Sender fünf Nachrichten sendet, aber die zweite
+Nachricht auf dem Weg zum Empfänger verloren geht. Führen Sie das Diagramm fort, bis alle
+Nachrichten erfolgreich übertragen wurden.
+Für die folgenden Teilaufgaben gelten neue Festlegungen:
+• Der Sender verwendet ein größeres Sendefenster von w = 5.
+• Der Empfänger sendet nun auch negative Quittungen, sollte eine Nachricht fehlerhaft ankommen.
+• Der Empfänger kann korrekte Nachrichten, die in der falschen Reihenfolge ankommen, speichern
+und später verarbeiten.
+(c) Zeichnen Sie ein Sequenzdiagramm, in dem der Sender fünf Nachrichten sendet, aber die dritte
+Nachricht fehlerhaft beim Empfänger ankommt.
+(d) Welchen Vorteil haben negative Quittungen?
+(e) Wie könnte man den Umgang mit positiven Quittungen optimieren, wenn der Empfänger mehrere
+Nachrichten quittieren soll?
+4. 3-Way-Handshake und Sequenznummern bei TCP
+Protokollkonzepte wie 3-Way-Handshaking und Sequenznummern sind Mechanismen für das Verbin-
+dungsmanagement und für die zuverlässige Kommunikation. Diese Mechanismen werden z.B. im Trans-
+mission Control Protocol (TCP) eingesetzt. Zur Bearbeitung dieser Aufgabe wird die Trace-Datei
+trace3.pcap bereitgestellt, die mitgeschnittenen TCP-Verkehr enthält.
+Die Datei lässt sich z.B. mit dem freien Programm Wireshark1 öffnen, das den mitgeschnittenen TCP-
+Verkehr grafisch aufbereitet anzeigen und filtern kann.
+Wireshark stellt die PDUs verschiedener Schichten tabellarisch dar. In dieser Aufgabe soll es um TCP-
+PDUs (Segmente) gehen. Sie sind daran zu erkennen, dass in der Protocol -Spalte TCP steht. Die Infor-
+mationen der TCP-PCI werden von Wireshark übersichtlich aufbereitet und je Segment dargestellt.
+(a) Identifizieren Sie die zum 3-Way-Handshaking Vorgang gehörenden Segmente in trace3.pcap.
+(b) Identifizieren Sie die zum Verbindungsabbau gehörigen Segmente.
+(c) Berechnen Sie aus den Paketen des 3-Way-Handshake das so genannte Round Trip Delay (RTD).
+Das ist die Zeit, die vom Versenden eines Segments bis zum Erhalt einer Antwort vergeht.
+(d) Welche absoluten und relativen TCP-Sequenznummern besitzen diese Segmente?
+(e) In dem Mitschnitt werden (in der Standardkonfiguration von Wireshark) auch PDUs vom Protokoll
+der Anwendungsschicht (SSHv2 ) angezeigt. Nutzt dieses Protokoll auch TCP? Begründen Sie Ihre
+Vermutung kurz.
+1https://www.wireshark.org/
+Seite 2 von 2 (cid:5)

@@ -1,0 +1,90 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 3
+Abgabe bis 18.05.2026 per LMU Moodle.
+1. Protokollschichtung (H)
+In der Vorlesung haben Sie das Konzept einer Schichtenarchitektur und diverse Modelle kennengelernt.
+Das Bild zeigt das Internet Referenzmodell. Daneben sehen Sie das Gerüst des ISO-OSI Referenzmodells.
+Internet Modell OSI/ISO Modell
+7
+6
+Anwendung
+5
+Transport 4
+Vermittlung 3
+2
+Netzanschluss
+1
+(a) Vervollständigen Sie die Grafik des OSI-Referenzmodells.
+(b) Geben Sie für jede der 7 Schichten des OSI-Referenzmodells kurz in 2–3 Sätzen an, welche Hauptauf-
+gaben diese in der Datenkommunikation übernimmt. Gibt es Aufgaben, die von mehreren Schichten
+übernommen werden?
+(c) Nennen und begründen Sie zwei Vorteile und zwei Nachteile, welche sich durch die Verwendung
+einer Schichtenarchitektur ergeben (im Gegensatz zu einem einzigen Protokoll für den gesamten
+Ablauf der Kommunikation).
+(d) Worin liegt der Unterschied zwischen der OSI- und der Internet-Anwendungsschicht? Welche Aus-
+wirkungen hat dies auf Applikationen, die sich an dem Internet Modell orientieren?
+2. Datenpakete in Python (H)
+Gegeben sei eine Funktion mit folgender Signatur, die ein Teil eines Protokolls im ISO/OSI-Modell (und
+auch des Internet-Modells) der Schicht N in Python implementiert. Sie verschickt bytes an einen in
+addr_tuple spezifizierten Empfänger.
+Hinweis: Der Aufruf könnte äquivalent auch in anderen Programmiersprachen erfolgen. Python wurde
+wegen der einfachen Syntax gewählt.
+def sendto ( bytes , addr_tuple )
+Das folgende Beispiel zeigt einen Aufruf der Funktion. Die Funktion bytes erzeugt ein (in diesem Fall 5
+Byte langes) Byte-Array aus dem übergebenen Array.
+msg = bytes ([0 x48 , 0 x65 , 0 x6c , 0 x6c , 0 x6f ])
+recipient = ("192.168.1.135" , 6243)
+sendto ( msg , recipient )
+(a) Interpretieren Sie die an sendto übergebenen Argumente als Nutzdaten und Steuerinformationen.
+Ordnen Sie die Dateneinheiten aus dem Schema der Vorlesung entsprechend zu.
+(b) Welche Aussage können Sie über die (N )-PDU treffen?
+(c) Die (N + 1)-PDU ist in der Variable msg gespeichert. Wie kann sie durch die aus der Vorlesung
+bekannten Abbildungen zwischen Datenblöcken auf Schicht N bearbeitet werden?
+(d) Dekodieren Sie die Nachricht in bytes unter Verwendung der ASCII-Kodierung.
+Hinweis: Das Dekodieren per Hand erleichtern sog. ASCII-Tabellen.
+Seite 1 von 2
+
+--- PAGE 2 ---
+3. Bestandteile des Schichtenmodells (H)
+Der Kommunikationsaustausch zwischen den Schichten in Rechnernetzen erfolgt über verschiendene
+Daten-Einheiten.
+(a) Wie entsteht eine Protocol Data Unit (PDU) aus einer Service Data Unit (SDU)?
+(b) Eine Protokollinstanz auf Schicht N tauscht PDUs mit ihrer Peer-Entity aus.
+i. Auf welcher Schicht befindet sich die Peer-Entity?
+ii. Wie ist der Zusammenhang zwischen PDU und SDU auf den Schichten N und N − 1?
+iii. Beschreiben Sie den Weg einer Nutzlast jeweils vertikal durch die Schichten in eigenen Worten.
+(c) Schnittbildung: Ordnen Sie jeder der folgenden zwei Abbildungen einen der Begriffe Dienstschnitt,
+Protokollschnitt oder Systemschnitt zu. Begründen Sie Ihre Wahl kurz.
+i.
+United States
+LMU DFN MIT Boston
+Research Network
+United States
+LMU DFN MIT Boston
+Research Network
+LMU Internet MIT Boston
+ii. HTTP
+TCP
+IP
+Ethernet (WAN) Ethernet
+4. ISO/OSI- und Internetmodell: Kritik
+Das ISO/OSI-Referenzmodell steht seit der Veröffentlichung 1984 immer wieder in der Kritik, was aus E-
+Mail-Archiven in früheren Newsgroups hervorgeht. Eine interessante FAQ von 1994, in der die Motivation
+von ISO/OSI sowie auch eine kritische Debatte im Vergleich zum TCP/IP Referenzmodell aufgeführt
+werden, finden Sie unter folgenden Link:
+https://www.cl.cam.ac.uk/~mgk25/osi-faq.txt
+Lesen Sie dieses Dokument und richten Sie ihren Fokus vor allem auf die folgenden Unterkapitel:
+1. What is OSI?
+2. What is the OSI reference model?
+3. How are OSI and TCP/IP related?
+4. Which is better: TCP/IP or OSI?
+5. OSI criticism
+Beantworten Sie anschließend folgende Fragestellungen.
+(a) Welche Schichten sind in ISO/OSI besonderes umstritten? Warum?
+(b) Was sind die wesentlichen Kritikpunkte von ISO/OSI im Vergleich zum Internetmodell?
+(c) Was ist aus Ihrer Sicht der Wert des ISO/OSI Modells?
+(d) Welches Modell sollte Ihrer Meinung nach vornehmlich gelehrt werden?
+Seite 2 von 2 (cid:5)

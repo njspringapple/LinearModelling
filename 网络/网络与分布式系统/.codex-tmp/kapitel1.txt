@@ -1,0 +1,508 @@
+ Rechnernetze &
+Verteilte Systeme
+Ludwig-Maximilians-Universität München
+        Sommersemester 2026
+       Prof. Dr. D. Kranzlmüller
+
+      https://www.ifi.lmu.de/rnvs
+    Kapitel 1:
+  Motivation &
+Organisatorisches
+Guten Morgen in München
+
+
+
+
+                           Tim Reckmann Folgen
+             Weißwürste, Brezel, Senf und Bier zum Oktoberfest
+   https://www.flickr.com/photos/foto_db/14890142579/in/photostream/
+
+                                      Von Alexander Z. - Eigenes Werk, CC BY 3.0,
+                             https://commons.wikimedia.org/w/index.php?curid=8701745
+                 Rechnernetze und verteilte Systeme
+                                                                               3
+                     (Prof. Dr. D. Kranzlmüller)
+Krieg in der Ukraine und das Internet
+https://atlas.ripe.net/results/maps/reachability/?filter=ukraine             Nov. 2022
+
+
+
+
+       Verbindung möglich           Keine Daten                Keine Verbindung möglich
+                              Rechnernetze und verteilte Systeme
+                                                                                          4
+                                  (Prof. Dr. D. Kranzlmüller)
+Krieg in der Ukraine und das Internet
+https://atlas.ripe.net/results/maps/reachability/?filter=ukraine             März 2023
+
+
+
+
+       Verbindung möglich           Keine Daten                Keine Verbindung möglich
+                              Rechnernetze und verteilte Systeme
+                                                                                          5
+                                  (Prof. Dr. D. Kranzlmüller)
+Datenverkehr aus der Ukraine
+
+
+
+
+           Internetverkehr zu Cloudflare aus der Ukraine seit 24.02.22
+
+                      https://blog.cloudflare.com/one-year-of-war-in-ukraine/
+
+
+           Rechnernetze und verteilte Systeme
+                                                                                6
+               (Prof. Dr. D. Kranzlmüller)
+Resilienz und das Internet
+• Fehlertoleranz als
+  Grundgedanke
+   • TCP, BGP, …
+• Viele unabhängige
+  autonome Systeme
+• Flexible Wegewahl
+• Redundanz
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        7
+                       (Prof. Dr. D. Kranzlmüller)
+Wie bleiben die Anschlüsse
+erreichbar?
+→ Dezentralisierung und Peering
+
+
+
+
+              November 2022                                   März 2023
+https://jedi.ripe.net/peer-to-peer/ua/2022/11/23         /peer-to-peer/ua/2023/03/01
+                               Rechnernetze und verteilte Systeme
+                                                                                       8
+                                   (Prof. Dr. D. Kranzlmüller)
+ASN 14593 (Starlink)
+
+
+
+
+       Anteil des Internetverkehrs aus der Ukraine zu Cloudflare über ASN 14593
+                              https://blog.cloudflare.com/one-year-of-war-in-ukraine/
+
+
+                   Rechnernetze und verteilte Systeme
+                                                                                        9
+                       (Prof. Dr. D. Kranzlmüller)
+Berichte
+• One year of war in Ukraine
+  https://blog.cloudflare.com/one-year-of-war-in-ukraine/
+• The Resilience of the Internet in Ukraine
+  https://labs.ripe.net/author/emileaben/the-resilience-of-the-internet-in-ukraine/
+• The degrading treatment of Ukraine’s internet
+  https://www-economist-com.emedien.ub.uni-muenchen.de/science-and-
+  technology/2022/03/26/the-degrading-treatment-of-ukraines-internet
+• Mapping the routes of the Internet for geopolitics: The case of Eastern Ukraine
+  https://firstmonday.org/ojs/index.php/fm/article/download/11700/10128?inline=1
+• Internet traffic patterns in Ukraine since February 21
+  https://blog.cloudflare.com/internet-traffic-patterns-in-ukraine-since-february-21-2022/
+• Warum Elon Musk nicht der Retter des ukrainischen Internets ist
+  https://www.derstandard.de/story/2000134036663/warum-elon-musk-nicht-der-retter-des-
+  ukrainischen-internets-ist
+• Warum das ukrainische Internet noch immer läuft
+  https://www.spiegel.de/netzwelt/netzpolitik/ukraine-krieg-warum-das-ukrainische-internet-
+  noch-immer-laeuft-kolumne-a-de27cbdd-8431-4471-8d98-720d38190263
+• How Ukraine’s Internet still works despite Russian bombs, cyberattacks
+  https://www.washingtonpost.com/technology/2022/03/29/ukraine-internet-faq/
+
+
+                                  Rechnernetze und verteilte Systeme
+                                                                                              10
+                                      (Prof. Dr. D. Kranzlmüller)
+Informatik-Studium
+
+
+      Jede/r Informatiker/in
+          muss wissen
+        „wie das Internet
+          funktioniert“
+
+
+           Rechnernetze und verteilte Systeme
+                                                11
+               (Prof. Dr. D. Kranzlmüller)
+Das Internet ist für uns alle
+„Neuland“
+
+
+
+
+                                                  https://www.youtube.com/watch?v=_FUyPpvs66I
+             Rechnernetze und verteilte Systeme
+                                                                                          12
+                 (Prof. Dr. D. Kranzlmüller)
+Das Internet
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                13
+               (Prof. Dr. D. Kranzlmüller)
+The IT Crowd
+• http://www.channel4.com/programmes/the-it-
+  crowd
+
+• http://www.channel4.com/programmes/the-it-
+  crowd/on-demand/45363-004
+
+• Staffel 3, Folge 4, „Die Rede“
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        14
+                       (Prof. Dr. D. Kranzlmüller)
+In eigener Sache …
+Leibniz-Rechenzentrum
+der Bayerischen Akademie der Wissenschaften
+
+
+
+
+                                                                  Foto: Ernst Graf
+
+Am Campus des Forschungszentrums Garching
+
+
+                             Rechnernetze und verteilte Systeme
+                                                                     17
+                                 (Prof. Dr. D. Kranzlmüller)
+SuperMUC-NG (Next Generation)
+Nationaler Höchstleistungsrechner
+
+
+
+
+                                                          Foto: F. Löchner
+
+
+                     Rechnernetze und verteilte Systeme
+                                                           18
+                         (Prof. Dr. D. Kranzlmüller)
+Münchner Wissenschaftsnetz (MWN)
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                (Prof. Dr. D. Kranzlmüller)      19
+  MWN in Zahlen
+• Netz für Münchner Hochschulen
+  und wissenschaftl. Einrichtungen
+   136.000 Studierende
+   30.000 Mitarbeiter
+• Kennzahlen
+   14 Core-Router (geplant 21)
+   64 Standort-Router
+   2.700 Switches / 6.400 Access Points
+   83 gemietete Dark Fibre
+   40+ private Dark Fibre
+   >200.000 Geräte
+   90 Lokationen mit 650 Gebäuden
+• Übertragene Daten (März 24)
+   6.300 / 2.700 TeraByte / Monat (ein-/ausgehend)
+   70 PetaByte / Monat über das Backbone
+
+                         Rechnernetze und verteilte Systeme
+                             (Prof. Dr. D. Kranzlmüller)      20
+Auslastung
+X-WiN Anschluss Garching
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                21
+               (Prof. Dr. D. Kranzlmüller)
+         Nutzer im MWN
+Akademie der Bildenden Künste
+Bauämter der Universitäten und Hochschulen
+Bayerische Akademie der Wissenschaften
+Bayerische Staatsbibliothek
+Bayerische staatliche Museen und Sammlungen
+Bayerische Theaterakademie August Everding
+Botanischer Garten
+Deutsches Herzzentrum
+Hochschule Weihenstephan-Triesdorf
+Hochschule München
+Fraunhofer-Gesellschaft
+Generaldirektion der Staatlichen
+Naturwissenschaftlichen Sammlungen
+Gründerzentren
+Hochschule für Fernsehen und Film
+Hochschule für Musik und Theater
+Hochschule für Philosophie
+Hochschule für Politik
+Kath. Stiftungsfachhochschule München
+Ludwig-Maximilians-Universität München (LMU)
+Max-Planck-Gesellschaft
+Monumenta Germaniae Historica
+Neues Museum Nürnberg
+Pinakotheken
+Staatliche Antikensammlung
+Staatsinstitut für Schulpädagogik und
+Bildungsforschung
+Staatsinstitut für die Ausbildung von Fachlehrern
+Staatsinstitut für Hochschulforschung und
+Hochschulplanung
+Studentenwerk München (und dessen
+Studentenwohnheime)
+Studentenwohnheime anderer Träger
+Technische Universität München (TUM)
+Umweltforschungsstation Schneefernerhaus
+Zentralinstitut für Kunstgeschichte
+Zoologische Staatssammlung
+
+
+
+
+                                                    Rechnernetze und verteilte Systeme
+                                                        (Prof. Dr. D. Kranzlmüller)      22
+MWN Struktur
+
+
+
+
+               Rechnernetze und verteilte Systeme
+                   (Prof. Dr. D. Kranzlmüller)      23
+MWN, WiN, GÉANT: Netze für die
+Wissenschaft
+
+
+
+
+                                              • Faserplattform des DFN
+              Rechnernetze und verteilte Systeme
+                  (Prof. Dr. D. Kranzlmüller)
+                                              • Anschlußkosten: 0,85 Mio€/a24
+Munich Network Management Team
+ Management von Netzen und verteilten Systemen
+
+
+
+
+           Prof. Dr. Dieter Kranzlmüller
+Das MNM-Team
+
+
+
+
+MNM-Team       26
+Mitglieder des MNM-Teams
+
+   Prof. Dr. Dieter Kranzlmüller, Prof. Dr. Heinz-Gerd Hegering (em.)
+        Sergej Breiter          Prof. Dr. Helmut Reiser       PD Dr. Vitalian Danciu
+      Daniel Diefenthaler         Minh Thanh Chung            PD Dr. Andre Luckow
+         Fabian Dreer                 Kathrin Garb             Dr. Michael Brenner
+       Dr. Karl Fürlinger           Maximilian Höb        Dr. Ruben García Hernández
+          Fabio Genz                  Daniel Kolb             Dr. Tobias Guggemos
+      Annette Kostelezky           Elisabeth Mayer                Robert Kuhlig
+         Florian Krötz              Stefan Metzger             Dr. Tobias Lindinger
+         Sigrid Roden                 Miran Mizani             Dr. Thomas Schaaf
+     Korbinian Staudacher           Simone Müller             Dr. Hayk Shoukourian
+          Michelle To            Dr. Thomas Odaker            Dr. Cuong Ngoc Tran
+                                      Jan Schmidt              Dr. Johannes Watzl
+                                   Michael Schmidt            Stefan-Lukas Gazdag
+                                     Daniel Weber                  Florian Kiwit
+  Prof. Dr. Gabi Dreo Rodosek
+                                                                 Josef Pichlmaier
+  Prof. Dr. Wolfgang Hommel
+    PD Dr. Corinna Schmitt
+    Dr. Nils gentschen Felde
+
+
+
+
+MNM-Team                                                                               27
+Ausgewählte Forschungsthemen
+Hoch- und Höchst-         Future Computing         IT-Sicherheit
+leistungsrechnen          • Exascale Computing     • Post-Quanten-
+• Parallelisierung,       • Quantencomputing         Sicherheit
+  Algorithmen und                                  • Sicherheitsmanagement
+  Datenstrukturen         Netze
+                                                   • Risikobasierte Ansätze
+• Software-Werkzeuge      • Monitoring
+• Analyse und Fehlersuche • Netzneutralität        IT-Servicemanagement
+• Energieeffizienz        • Software-Defined       • Proceß-orientiertes
+                            Networks                 Servicemanagement
+• Reconfigurable
+  Computing &                                      • Policy-based techniques
+                          Internet-of-Things
+  Akzeleratoren                                    • Tool Support
+                          • Kommunikations-
+Verteiltes Rechnen          Protokolle             • CMDB Federation
+• Grid Computing          • Standardisierung       VR & Visualisierung
+• Cloud Computing         Virtualisierung          • GPU Benchmarking
+• Edge und Fog Computing • Management virtueller   • VR Technologien
+• Datenschutz und -ethik    Infrastrukturen        • Sonification
+                          • Virtualisierungs-
+                            technologien
+Lehrveranstaltungen im Umfeld
+• Rechnernetze und verteilte Systeme                       Dieser Kurs
+  (Schichten Architektur, Internet Protocol Suite)
+• Vorlesung Grid und Cloud Computing
+  (Lose gekoppelte, verteilte Systeme)
+• Vorlesung IT-Management (Konzepte und Architekturen
+  zum Betrieb vernetzter Systeme)
+• Vorlesung IT-Sicherheit
+• Vorlesung Parallel Computing
+• Praktikum Rechnernetze
+• Praktikum IT-Sicherheit
+                      Rechnernetze und verteilte Systeme
+                                                                     29
+                          (Prof. Dr. D. Kranzlmüller)
+Vorlesungszeiten
+• Jeweils freitags von 09:15-11:45
+• Pause            von 10:30-10:45
+
+• Fragestunde     vsl. 17.07.2026
+• Klausur         kurz nach Semesterende
+                  (90 Minuten)
+
+• Eventuell:      Gastvortragende
+
+                  Rechnernetze und verteilte Systeme
+                                                       30
+                      (Prof. Dr. D. Kranzlmüller)
+Organisatorisches
+• Fragen/Hinweise zu den Folien:
+  rnvs-skript@nm.ifi.lmu.de
+
+• Übungsleitung: rnvs@nm.ifi.lmu.de
+   • Daniel Diefenthaler
+   • Fabian Dreer
+
+
+• Weitere Informationen zur Vorlesung gibt es im
+  Moodle-Kurs:
+ https://moodle.lmu.de/course/view.php?id=44443
+                     Rechnernetze und verteilte Systeme
+                                                          31
+                         (Prof. Dr. D. Kranzlmüller)
+Moodle und Aufzeichnungen
+• Einschreibeschlüssel: HotPotato
+• Folien
+• Ankündigungs- und Diskussionsforen
+  • Übungsleitung, Prof. Kranzlmüller und Tutoren
+• Übungsblätter und Abgabe
+• Videos vergangener Semester im LMUCast
+  • https://cast.itunes.uni-muenchen.de/vod/playlists/PBZ51y45zp.html
+
+
+
+
+                        Rechnernetze und verteilte Systeme
+                                                                        32
+                            (Prof. Dr. D. Kranzlmüller)
+Ablauf des Übungsbetriebs
+• Beginn der Tutorien am Montag, 20.04.2026
+• Ausgabe der Übungen jeweils Montags
+• Keine feste Zuordnung/Einteilung der
+  Übungsgruppen
+• Vorhandene Tutor-Videos der letzten Semester
+ https://cast.itunes.uni-muenchen.de/vod/playlists/dzIS6o2dJR.html
+
+
+
+
+                        Rechnernetze und verteilte Systeme
+                                                                     33
+                            (Prof. Dr. D. Kranzlmüller)
+Wöchentliche Übungsblätter
+• Freiwillige Abgabe der bearbeiteten
+  Übungsaufgaben via Moodle
+• Abgegebene Übungsblätter werden von Tutoren
+  korrigiert
+• Mit H gekennzeichnete Aufgaben werden in jedem
+  Fall besprochen
+• Alle anderen Aufgaben werden auf
+  explizite/konkrete Nachfrage und Präsentation des
+  eigenen Lösungsansatzes besprochen.
+
+                  Rechnernetze und verteilte Systeme
+                                                       34
+                      (Prof. Dr. D. Kranzlmüller)
+   Termine der Tutorien
+     Zeit                Ort                                        Tutor
+     Mo., 10-12          Geschwister-Scholl-Pl. 1 – D Z007 Alperen Adatepe
+     Mo., 12-14          Geschwister-Scholl-Pl. 1 – D Z007 Benjamin Heilein
+     Mo., 14-16          Geschwister-Scholl-Pl. 1 – D Z007 Tanja Mursch
+     Di., 14-16          Geschwister-Scholl-Pl. 1 – D Z007 Annika Stüdlein
+     Di., 16-18          Geschwister-Scholl-Pl. 1 – D Z007 Granit Fazlija
+     Di., 18-20          Geschwister-Scholl-Pl. 1 – D Z007 Vincent Eder
+     Mi., 10-12          Geschwister-Scholl-Pl. 1 – D Z007 David Stojcic
+     Mi., 14-16          Geschwister-Scholl-Pl. 1 – D Z007 Granit Fazlija
+     Mi., 16-18          Geschwister-Scholl-Pl. 1 – D Z007 Florian Eder
+Alle Termine sind c.t.
+
+
+
+                               Rechnernetze und verteilte Systeme
+                                                                              35
+                                   (Prof. Dr. D. Kranzlmüller)
+Erfolgreiche Teilnahme
+• Klausurplanung
+   • Semestralprüfung: voraussichtlich Ende Juli
+   • Nachholprüfung: voraussichtlich Anfang Oktober
+• Inhalt der Prüfungen
+   • Sämtliche Inhalte der Vorlesung
+   • Sämtliche Inhalte aller Übungsaufgaben
+   • Sämtliche in den Übungen besprochene
+     Themenkomplexe
+• Vorlesung und Übung bilden eine Einheit!
+
+                    Rechnernetze und verteilte Systeme
+                                                         36
+                        (Prof. Dr. D. Kranzlmüller)
+Fragestunde
+• Am Freitag, vsl. 17.07.2025, Ende der Vorlesung
+
+• Einreichung von Fragen jederzeit bis 14.07.2025 an
+             rnvs-fragen@nm.ifi.lmu.de
+
+• In der Fragestunde werden nur eingereichte Fragen
+  besprochen.
+• Fragen zum Inhalt der Prüfung werden nicht
+  behandelt.
+                  Rechnernetze und verteilte Systeme
+                                                       37
+                      (Prof. Dr. D. Kranzlmüller)
+                            Siehe auch: https://www.nm.ifi.lmu.de/rn.html
+
+
+
+Literatur zu Rechnernetzen
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                                 38
+               (Prof. Dr. D. Kranzlmüller)
+Literatur zu Rechnernetzen
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                39
+               (Prof. Dr. D. Kranzlmüller)
+Literatur zu Verteilten Systemen
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                 40
+                (Prof. Dr. D. Kranzlmüller)
+

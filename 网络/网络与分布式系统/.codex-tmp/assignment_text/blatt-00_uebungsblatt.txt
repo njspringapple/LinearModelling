@@ -1,0 +1,71 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 0
+Abgabe bis – per LMU Moodle.
+Bitte beachten Sie: Übungsblatt 0 dient der Vorbereitung und wird nicht korrigiert.
+Alle weiteren Übungblätter können Sie über Moodle abgeben und werden von den Tutoren korrigiert. Sie
+erhalten für die Bearbeitung der Aufgaben keine Bonuspunkte in der Prüfung.
+1. Anforderungen des Internets (H)
+Im Internet macht es den Anschein, als wären alle Geräte unmittelbar miteinander verbunden.
+(a) Angenommen Sie müssen ein Netz entwerfen, in dem jedes Endgerät mit jedem anderen verkabelt
+ist, d.h. komplett vermascht.
+Wie viele Verbindungen benötigen Sie für:
+• 8 Teilnehmer?
+• 300 Teilnehmer?
+• N Teilnehmer?
+(b) Stattdessen sollen jetzt immer maximal fünf Geräte direkt mit einem Knoten, aber nicht unterein-
+ander, verbunden sein. Maximal fünf dieser Knoten sind wiederum mit einem Knoten verbunden,
+usw. Wie viele Verbindungen benötigt man hier für:
+• 8 Teilnehmer?
+• 300 Teilnehmer?
+• N Teilnehmer? Gehen Sie von N = 5a mit a ∈ N aus.
+2. Das Stellenwertsystem (H)
+Zahlensysteme bestehen aus einem Alphabet (Ziffern) und einer Menge von Regeln wie Wörter (Zahlen)
+gebildet werden. Bei dem in Europa gängigen Stellenwertsystem werden Zahlen von links nach rechts
+mit den Koeffizienten der Zerlegung in eine Summe von Potenzen einer gewählten Basis, meist 10,
+aufgeschrieben. Die erste Ziffer ist demnach der Koeffizient der höchsten verwendeten Potenz und mit
+jeder weiteren Ziffer wird der Exponent um 1 verringert. Ein Komma (,) markiert den Vorzeichenwechsel
+des Exponenten. Wird kein Vorzeichenwechsel benötigt, so ist der Exponent des letzten Summanden, der
+Ziffer ganz rechts, stets 0. Die Folgende Tabelle zeigt gängige Stellenwertzahlensysteme in der Informatik.
+Bezeichnung Basis Ziffern (→ aufsteigende Wertigkeit)
+Dezimalsystem zehn 0 1 2 3 4 5 6 7 8 9
+Oktalsystem acht 0 1 2 3 4 5 6 7
+Dualsystem/Binärsystem zwei 0 1
+Tabelle 1: Zahlensysteme werden häufig entsprechend der Mächtigkeit ihres Alphabets benannt.
+Beim Arbeiten mit verschiedenen Zahlensystemen ist es wichtig stets sicherzustellen, dass klar ist mit
+welchem Zahlensystem eine Zahl dargestellt wird. Die allgemeine Notation ist die Zahl in runden Klam-
+mern und die Basis in Dezimalschreibweise als Index der abschließenden Klammer. Um zum Beispiel zu
+verdeutlichen, dass man das Dezimalsystem benutzt schreibt man (7) .
+10
+(a) Welche Ziffern werden normalerweise für das Hexadezimalsystem verwendet? Schreiben Sie alle mit
+aufsteigender Wertigkeit auf!
+(b) Schreiben Sie die Zahlen 2, 4, 8, 10 je im Hexadezimal-, Oktal- und Binärsystem auf!
+(c) Konvertieren Sie die folgenden Zahlen je in das Binärsystem und das Hexadezimalsystem!
+16, 127, 168, 172, 192, 255
+(d) Wieviele Stellen hat die Zahl 232 − 1 in Binärdarstellung? Wieviele davon sind 1 wieviele 0?
+Seite 1 von 2
+
+--- PAGE 2 ---
+3. Rechnen in unterschiedlichen Zahlensystemen
+Die größte Herausforderung beim Arbeiten mit Binärzahlen ist, dass es kaum ein Zahlensystem gibt, bei
+dem die Anzahl der gültigen Ziffern schneller wächst. Zum Beispiel ist (100) die kleinste dreistellige
+10
+(natürliche) Zahl im Dezimalsystem, während ihre Binärdarstellung bereits sieben Stellen benötigt.
+Zahlensystem Zahl multipliziert mit Faktor
+(1) (2) (8) (10) (16)
+10 10 10 10 10
+Dezimalsystem zwei 2 4 16 20 32
+acht 8 16 64 80 128
+Oktalsystem zwei 2 4 20 24 40
+acht 10 20 100 120 200
+Tabelle 2: Multiplikation (cid:104)Zahl(cid:105) ∗ (cid:104)Faktor(cid:105)
+(a) Tabelle 2 zeigt die Ergebnisse für die Berechnungen (1, 2, 8, 10, 16) · (2, 8) im Dezimal und Oktal-
+system. Führen Sie die selbe Rechnung für das Binär- und Hexadezimalsystem durch!
+(b) Ergebnisse der folgenden Terme im angegeben Zahlensystem auf . . .
+i. Als Binärzahl: 22, 23, 24, 25, 26, 27
+ii. Als Oktalzahl: 82, 83, 84, 85, 86, 87
+iii. Als Dezimalzahl: 102, 103, 104, 105, 106, 107
+iv. Als Hexadezimalzahl: 162, 163, 164, 165, 166, 167
+Seite 2 von 2 (cid:5)

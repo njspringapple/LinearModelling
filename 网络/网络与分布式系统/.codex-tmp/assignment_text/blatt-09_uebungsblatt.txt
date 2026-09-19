@@ -1,0 +1,158 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 9
+Abgabe bis 29.06.2026 per LMU Moodle.
+1. Distanz-Vektor Routing (H)
+Gegeben sei folgendes Netz, bestehend aus neun Routern und dem Subnetz G:
+2 3 4
+G
+1 5 6 8 9
+7
+Auf allen Routern wird nun gleichzeitig ein Distanz-Vektor Routingprotokoll aktiviert (z.B. RIP). Als
+Metrik wird die Anzahl der Zwischenschritte verwendet.
+Zeigen Sie wie sich die Routing-Information für Subnetz G Schritt für Schritt ausbreitet, in dem Sie
+die Tabelle erweitern. Tragen Sie in die Tabellenfelder die Metrik ein, mit der ein Router zu einem
+bestimmten Zeitpunkt Subnetz G ankündigt. t ist Anfangszustand, wenn Router 1 zum ersten Mal
+0
+Subnetz G ankünigt. Führen Sie die Tabelle fort, bis die Metriken stabil sind.
+Hinweis: Lassen Sie das entsprechende Feld leer, wenn der Router zu diesem Zeitpunkt keine Route zu
+G kennt.
+Zeit- Router
+punkt 1 2 3 4 5 6 7 8 9
+t 0
+0
+t
+1
+. . .
+2. Autonome Systeme (H)
+(a) Welches Routing-Protokoll wird zwischen Autonomen Systemen verwendet (EGP) und welches wird
+innerhalb eines Autonomen Systems verwendet (IGP)? Nennen Sie zum jeweiligen Verfahren den
+entsprechenden Kernalgorithmus!
+Innerhalb AS Zwischen AS
+Protokoll
+Algorithmus
+(b) Welcher Unterschied besteht begrifflich zwischen einem Subnetz und einem Autonomen System
+(AS)?
+(c) Der De-facto-Standard für Inter-AS-Routing-Protokolle ist das Border Gateway Protocol (BGP),
+das in RFC 4271 beschrieben wird. BGP wird manchmal als Pfadvektor -Protokoll bezeichnet. Worin
+besteht dabei der Unterschied zu einem Distanzvektorprotokoll?
+(d) Routing-Policies sind Regeln bezüglich der zu treffenden Wegewahlentscheidungen. Warum spielen
+Policies bei EGP eine wichtige Rolle, bei IGP aber nicht?
+(e) Transit und Peering sind zwei mögliche Arten der Absprache zwischen Netzbetreibern. Worin be-
+steht der Unterschied zwischen Transit und Peering? Nennen Sie zwei Unterschiede!
+Seite 1 von 4
+
+--- PAGE 2 ---
+3. Wegewahl mit IP im Internet (H)
+Die abgebildete Topologie zeigt das Netz eines ortsansässigen Internetanbieters, dem das komplette
+Subnetz 2001:1337::/32 zugewiesen wurde. Kunden sind stets an eines der vier (Ethernet-)Teilnetze
+angeschlossen und die Verbindungen zwischen den Routern sind ebenfalls je ein (Ethernet-)Teilnetz.
+Internet
+Subnetz 1:
+Subnetz 4:
+2001:1337:e15b:ac14::/64
+D 2001:1337:c01d:bee2::/64
+A B C
+Subnetz 2: Subnetz 3:
+2001:1337:dead:beef::/64 2001:1337:e7:67::/64
+Hinweise:
+• Die Teilaufgaben bauen aufeinander auf. Gehen Sie zu Beginn davon aus, dass die Router unkonfi-
+guriert sind und über noch über keinerlei Wissen/Zustand verfügen.
+• In dieser Aufgabe geht es um IPv6, das 128 bits statt 32 bits (wie IPv4) je Adresse nutzt. Infor-
+mationen zur Notation finden Sie auf Folie 172 f. in Kapitel 4. Gleiches gilt entsprechend auch für
+Netzmasken bzw. die Prefixe nach CIDR-Notation.
+• Eine Beispiel für eine Routing-Tabelle finden Sie in den Vorlesungsfolien Kapitel 4, Folie 111.
+• Zur Vereinfachung geben Sie die Netzmaske in CIDR-Notation beim Ziel mit an.
+• Verzichten Sie auf die Angabe einer Metrik, da hier keine Routingprotokolle eingesetzt werden und
+die Topologie keine sinnvollen alternativen Pfade ermöglicht.
+• Benennen Sie die Schnittstellen des Routers sinnvoll!
+(a) Identifizieren Sie alle in der Abbildung dargestellten Teilnetze, denen noch kein IP-Adressbereich
+zugewiesen wurde und weisen Sie diesen sinnvolle Adressbereiche aus 2001:1337::/32 zu!
+(b) Nennen Sie den entsprechenden IPv6-Adressbereich entsprechend der Abbildung und der vorherigen
+Teilaufgabe und nennen Sie ebenfalls ein Beispiel für eine IP-Adresse . . .
+i. . . . die Router C zugewiesen wird, damit die Kundenrechner aus Subnetz 4 Router C als Default-
+gateway benutzen können!
+ii. . . . an die Router C eine Nachricht adressiert, wenn dieser (als Endpunkt) ICMP Nachrichten
+an Router B schicken möchte!
+iii. . . . die Router C als Absender angibt wenn dieser (als Endpunkt) mit Router B kommunizieren
+möchte!
+(c) Weisen Sie Router B IP-Adressen zu, so dass er mit jedem seiner Nachbarn kommunizieren kann
+und als Defaultgateway für die Kunden in Subnetz 3 eingesetzt werden kann!
+(d) Erstellen Sie eine Routingtabelle für Router B! Darin soll enthalten sein:
+1. ein Eintrag für jedes direkt angeschlossene Netz (schreiben Sie in diesem Fall “direkt” als nächs-
+ten Router/Gateway),
+2. ein Eintrag für jedes Kundensubnetz, und
+3. ein Eintrag der allen sonstigen Verkehr in das Internet weiterleitet.
+Seite 2 von 4
+
+--- PAGE 3 ---
+4. IPv6-Adressen (H)
+In Tabelle 1 befinden sich IPv6-Adressen in vollständiger Notation bzw. in minimaler Notation (kürzeste
+Form der selben Adresse). Geben Sie für jede der Adressen an, ob sie gültig ist. Falls die Adresse gültig
+ist, geben Sie das jeweils andere Format an.
+Vollständig Minimal
+fe80:0000:0000:0000:0250:56ff:fe03:0001
+::1
+545f:75aa:20a0:4cd6:1733:9bde:c5:d57a
+cbd7:1295:0x34:1da1:000c:0000:c068:c6b5
+26e0:dfcc:1000:0001:704c:0000:8bd:5093
+cbd7::c5::1
+Tabelle 1: IPv6-Adressen in ungekürzter und minimaler Notation
+5. Fragmentierung (H)
+1500 600 500
+A B
+hugo hella
+Der Rechner hugo möchte Daten an den Rechner hella übertragen. Die Abbildung zeigt die beiden
+Rechner und dazwischen befindliche Router, sowie Leitungen, die mit ihrer MTU beschriftet sind. Die
+MTU gibt die maximale Größe von IP-Paketen an, die auf dieser Leitung übertragen werden kann.
+Ein verbindungsloses Protokoll der OSI-Schicht 4 ohne Bestätigungen (z.B. UDP) übergibt Segmente
+an Schicht 3. Die Daten sollen per IPv4 an hella vermittelt werden. Insgesamt werden 8000 Bytes
+an IPv4-Nutzdaten an hella übertragen. Auf Schicht 2 wird Ethernet mit 1Gbps Übertragungsrate
+eingesetzt.
+Beachten Sie, dass IPv4 nur an den Grenzen von 8 Byte Blöcken fragmentieren kann. Der Offset gibt an
+wie viele dieser 8 Byte Blöcke vor dem aktuellen Fragment liegen.
+Die Ausbreitungsgeschwindigkeit von Signalen in den Leitungen ist 2 · 108 m . Vernachlässigen Sie die
+s
+Verarbeitungsverzögerungen und den Overhead von Schicht 2.
+(a) Bestimmen Sie die größtmögliche Segmentlänge, die hugo mit einer IPv4-Nachricht versenden kann!
+(b) Bei der Vermittlung der Daten zu hella tritt Fragmentierung auf. Wieviele IPv4-Fragmente emp-
+fängt hella mindestens, bis 5000 Bytes Nutzdaten empfangen wurden? Hinweis: hugo verschickt
+pro Rahmen maximal viele Nutzdaten.
+(c) Erstellen Sie eine Tabelle die in chronologischer Reihenfolge, die Länge jedes IPv4-Pakets in Bytes,
+gesetzte Header-Flags und das Fragment Offset der von hella empfangenen IPv4-Nachrichten zeigt!
+(d) Nun wird an Stelle von IPv4 das neuere IPv6 eingesetzt und der Versuch, bei dem hugo 8000 Bytes
+Nutzdaten an hela überträgt wiederholt. Die Verarbeitungsverzögerung verändert sich durch den
+Austausch des Schicht 3 Protokolls nicht.
+i. Informieren Sie sich zu nächst in RFC 2463 (http://www.faqs.org/rfcs/rfc2463.html) über
+ICMPv6 Fehlernachrichten und die „Packet too big” Fehlernachricht. Wieviele „Packet too big”
+Nachrichten wird hugo empfangen und wie wird der Rechner darauf reagieren? Begründen Sie
+Ihre Antwort!
+ii. Erstellen Sie analog zu Teilaufgabe c eine Tabelle, für den Fall, dass für die Übermittlung
+IPv6 zum Einsatz kommt. Beachten Sie dabei, dass der IPv6 Header 40 Bytes lang ist und der
+Extensionheader für die Fragmentierung weitere 8 Bytes belegt.
+Seite 3 von 4
+
+--- PAGE 4 ---
+6. Count to Infinity
+Betrachten Sie ein Netz, bestehend aus vier Routern A, B, C, und D, von denen jeder der (einzige)
+Zugangspunkt zu einem Subnetz ist. Die Routing-Distanz zwischen zwei benachbarten Routern betrage
+1 über die Leitungen (A;B), (B;C), (C;D), während die Routing-Distanz eines Routers in „sein” Subnetz
+0 betrage.
+1 1 1
+A B C D
+0 0 0 0
+A B C D
+Betrachten Sie einen Ausgangszustand, bei dem alle Router die richtige Distanz zum Subnetz A kennen:
+Router A B C D
+Distanz 0 1 2 3
+(a) Eine Baumaschine durchtrennt versehentlich die Leitung zwischen den Routern A und B. Vervoll-
+ständigen Sie die obige Tabelle bis die Router B, C und D festgestellt haben, dass das Subnetz A
+nicht mehr erreichbar ist (d.h. Abstand ist größer als 15 Hops)! Hinweis: gehen Sie davon aus, dass
+der Austausch der Distanzvektoren zwischen den Routern gleichzeitig stattfindet.
+(b) Zur Verbesserung des Verfahrens wird folgende Regel eingeführt: ein Router annonciert die Erreich-
+barkeit eines Subnetzes niemals den Nachbarn, von denen er die Route zu diesem Subnetz gelernt
+hat (sogenanntes split horizon). Erstellen Sie eine Tabelle, analog zu oben, für den Fall, dass split
+horizon zum Einsatz kommt!
+Seite 4 von 4 (cid:5)

@@ -1,0 +1,105 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 8
+Abgabe bis 22.06.2026 per LMU Moodle.
+1. Addressierung in Rechnernetzen (H)
+(a) Klassenbasierte Adressierung und Classless Inter-Domain Routing (CIDR)
+• Worin unterscheidet sich Classless Inter-Domain Routing (CIDR) von klassenbasierter Adres-
+sierung?
+• Erklären Sie kurz die Vorteile von CIDR gegenüber klassenbasierter Adressierung.
+(b) Eine Organisation bekommt den Adressblock 131.42.0.0/16 zugewiesen und benötigt:
+• 1 Subnetz mit bis zu 32000 Hosts
+• 15 Subnetz mit bis zu 2000 Hosts
+• 8 Subnetz mit bis zu 250 Hosts
+Machen Sie Vorschläge für eine Aufteilung in geeignete Subnetze. Erstellen Sie eine Tabelle aller
+Subnetze mit folgendem Inhalt:
+1. Subnetzadresse in CIDR-Notation
+2. Subnetzmaske
+3. Für Hosts verwendbare Adressbereiche für jedes Subnetz
+4. Broadcastadressen für jedes Subnetz.
+2. Hierarchische Vergabe von IP-Adressen (H)
+Gegeben sei folgender Aufbau von Routern eines Internet Service Providers (ISP), mit einer einzelnen
+Verbindung zum Internet:
+Internet
+160.229.0.0/?
+H
+160.229.0.0/? 160.229.64.0/? 160.229.128.0/?
+E F G
+160.229.?.?/? 160.229.?.?/? 160.229.?.?/? 160.229.?.?/?
+A B C D
+Die Abbildung zeigt die vollständige Infrastruktur des ISP. Die Router A-H sind Zugangspunkte zu öf-
+fentlichen, d.h. vom Internet aus erreichbaren, Subnetzen, innerhalb des dem ISP zugewiesenen Adress-
+bereichs. Die unvollständig ausgefüllten Kästen (Beschriftung) geben Hinweise auf die Einteilung der
+Subnetze bzw. welches Subnetz der jeweilige Router mit dem Internet verbindet.
+(a) Dem ISP wurde für das zugeteilte Netz die Subnetzmaske 255.255.0.0 mitgeteilt. Wie lautet die
+Netzadresse in CIDR-Notation?
+(b) Wie lauten die Netzadressen der Subnetze an den Router E, F und G in CIDR-Notation, um den
+gesamten Adressbereich des ISP aufzuteilen?
+(c) Wie lauten die Netzadressen der über die Router A, B, C und D erreichbaren Subnetze (in CIDR-
+Notation), so dass der gesamte Adressbereich des von Router F bedienten Subnetzes gleichmäßig
+auf die vier Router verteilt ist?
+Seite 1 von 3
+
+--- PAGE 2 ---
+3. Link-State-Verfahren (H)
+Betrachten Sie ein Netz bestehend aus vier Routern A, B, C, D.
+C
+2
+1
+2
+A B
+3
+2
+D
+(a) Berechnen Sie den optimalen QSB (Quellen-Senken-Baum) für A mit Hilfe des SPF-Algorithmus
+(oft auch Dijkstra-Algorithmus genannt) und geben Sie eine Skizze für jeden Zwischenschritt an.
+(b) Geben Sie die endgültige Routing-Tabelle (Wegetafel) für A an.
+(c) Die Leitung A–C fällt aus. Wie sieht der optimale QSB für A nun aus?
+4. Private IP-Adressen nach RFC1918 (H)
+In RFC 19181 wurden eine Reihe privater IP-Adressen definiert:
+1. 10.0.0.0 – 10.255.255.255
+2. 172.16.0.0 – 172.31.255.255
+3. 192.168.0.0 – 192.168.255.255
+Pakete mit Adressen aus diesen Bereichen werden im Internet nicht weitergeleitet.
+(a) Wie lassen sich die drei Netzbereiche in Präfix-Notation darstellen?
+(b) Zeigen Sie, dass das Netz 172.16.0.0/x (wobei x im ersten Teil ermittelt wurde) 16 Netze mit je 216
+Host-Adressen enthalten kann.
+Hinweis: Zur besseren Handhabung bietet es sich an, die IP-Adressen und (Sub-)Netzmasken in die
+Binärdarstellung zu übertragen.
+(c) Was sind die Vorteile der privaten IP-Adressen – warum sind sie nötig? Gibt es Nachteile bei der
+Nutzung im Zusammenhang mit dem Internet?
+1https://www.rfc-editor.org/rfc/rfc1918
+Seite 2 von 3
+
+--- PAGE 3 ---
+5. Network Address Translation (NAT) (H)
+In der Vorlesung wurde NAT als Dienst der Vermittlungsschicht eingeführt.
+(a) Beschreiben Sie die Funktionsweise von NAT am Beispiel der Abbildung 1.
+Angenommen, Host C greift auf einen Foliensatz zu, der auf einem File-Server der LMU (erreichbar
+unter dem öffentlichen Namen www.nm.ifi.lmu.de) abgelegt ist.
+• Wie sehen Quell- und Ziel-Adresse der Anfrage aus, wenn das Paket von Host C an der Schnitt-
+stelle von if0 ankommt? Geben Sie auch die Adressen der Transportschicht an.
+• Wie sehen Quell- und Ziel-Adresse der Anfrage aus, wenn das Paket vom Router in das öffent-
+liche Netz weitergeleitet wird?
+• Woher weiß der Router, dass das entsprechende Antwort-Paket vom öffentlichen Netz an Host
+C weitergereicht wird und nicht an einen anderen Client des privaten Netzes?
+(b) NAT wird in der Literatur häufig auch als Sicherheitsmechanismus beschrieben, da die interne
+Netzinfrastruktur vollständig versteckt wird. Diskutieren Sie diese Aussage. Inwiefern bestätigt
+oder widerspricht dies dem wohlbekannten Prinzip Separation of Concerns?
+(c) Mit der Einführung von IPv6 wird der verfügbare Adressraum auf 128 Bit (16 Byte) vergrößert, was
+viele Konzepte von IPv4 obsolet macht. Theoretisch könnte jedes Gerät mit einer eindeutigen IP
+adressiert werden, was eine Kopplung aller Geräte im Internet untereinander problemlos ermöglicht.
+Gibt es für NAT unter IPv6 immer noch einen Einsatzzweck?
+141.84.218.29
+10.10.10.10/24
+Host A www.nm.ifi.lmu.de
+10.10.10.1/24 64.10.75.34
+216.58.209.35
+10.10.10.20/24 if0 if1
+10.10.10.30/24
+Host B
+Host C www.google.de
+Abbildung 1: NAT Szenario
+Seite 3 von 3 (cid:5)

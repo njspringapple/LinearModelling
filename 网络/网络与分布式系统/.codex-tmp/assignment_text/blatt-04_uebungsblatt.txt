@@ -1,0 +1,56 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 4
+Abgabe bis 26.05.2026 per LMU Moodle.
+1. Verbindungslose und verbindungsorientierte Kommunikation (H)
+Ein Kriterium, um eine Kommunikationsbeziehung genauer zu charakterisieren, ist die Einteilung in
+verbindungslose und verbindungsorientierte Kommunikation. Beispiele aus dem Alltag wären z.B. die
+Briefpost und ein Telefongespräch.
+Postzustellung Telefonnetz
+Sender Empfänger
+(a) Erläutern Sie kurz den konzeptionellen Unterschied zwischen verbindungsloser und verbindungsori-
+entierter Kommunikation!
+(b) Nennen Sie je zwei Beispieldienste!
+(c) Unter welchen Bedingungen ist eine verbindungslose Kommunikation von Vorteil?
+2. Verbindungsaufbau und -abbau (H)
+In der Vorlesung wurde der Verbindungsaufbau und -abbau zur sicheren Kommunikation über einen unzu-
+verlässigen Kanal vorgestellt. Im Folgenden sehen Sie ein Zustandsdiagramm für den 2-Wege-Handschlag.
+Aufbauwunsch Verbunden
+(a) Ein möglicher Fehler während des 2-Wege-Handschlag ist bereits bekannt: der Verlust der zweiten
+Nachricht, der Bestätigung des Verbindungsaufbaus, führt zu einem Problem. Zeigen Sie anhand
+des Zustandsdiagramms in welchem Zustand die Teilnehmer sich befinden.
+(b) Skizzieren Sie ein weiteres weiteres Szenario, in dem die Verbindung beim 2-Wege-Handschlag nicht
+erfolgreich aufgebaut wird.
+(c) In der Vorlesung wurde das vorgestellte Protokoll zu einem 3-Wege-Handschlag und um einen Ver-
+bindungsabbau erweitert. Zeichnen Sie dazu ein Zustandsdiagramm.
+(d) Auch der 3-Wege-Handschlag kann den erfolgreichen Verbindungsaufbau nicht garantieren. Um
+genau zu sein, gibt es keinen Handschlag der eine vollständige Garantie gibt. Begründen Sie warum
+es keinen solchen Handschlag geben kann.
+(e) Der 3-Wege-Handschlag ist trotzdem weit verbreitet. Warum ist dieser in der Realität ausreichend
+für einen Verbindungsaufbau?
+Seite 1 von 2
+
+--- PAGE 2 ---
+3. Sequenznummern 1 (ohne Sendefenster) (H)
+In vielen Protokollen werden zur Erkennung von Duplikaten, Reihenfolgeänderungen und Nachrichten-
+verlust Sequenznummern eingesetzt. Für diese Aufgabe gelten die folgenden Festlegungen:
+• Der Sender benutzt einen Zeitgeber/Timer, um die Zeit bis zum Erhalt der Quittung zu messen. Er
+wiederholt die Nachricht, wenn innerhalb eines Zeitintervalls (Timeout) von 800ms keine Quittung
+eingetroffen ist.
+• Der Empfänger sendet nur positive Einzelquittungen.
+• Der Empfänger kann Nachrichten nur verarbeiten, wenn sie in der richtigen Reihenfolge eintreffen.
+• Alle Nachrichten (mit Nutzdaten, bzw. nur Quittung) sind gleich groß.
+• Die Netzverzögerung beträgt 20 ms und ist konstant für alle Nachrichten.
+• Der Sender wartet nach dem Senden jeder Nachricht, bis diese vom Empfänger quittiert wurde.
+(a) Unter welchen Bedingungen ist es akzeptabel, nach jeder einzeln gesendeten Nachricht auf eine
+Bestätigung/Quittung zu warten? Begründen Sie Ihre Antwort.
+(b) Zeichnen Sie ein Sequenzdiagramm, in dem 2 Nachrichten fehlerfrei übertragen werden.
+(c) Zeichnen Sie ein Sequenzdiagramm, in dem der Sender 3 weitere Nachrichten sendet, aber die
+folgenden Fehlerfälle eintreten:
+• Die Quittung für die erste Nachricht geht auf dem Weg zum Sender verloren.
+• Die zweite Nachricht kommt beim Empfänger beschädigt an und wird deswegen verworfen.
+Geben Sie für jeden dieser Fehlerfälle an, wie der Fehler jeweils auf Sender- und Empfängerseite
+erkannt wird!
+Seite 2 von 2 (cid:5)

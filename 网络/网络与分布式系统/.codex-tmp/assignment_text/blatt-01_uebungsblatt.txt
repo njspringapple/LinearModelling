@@ -1,0 +1,89 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 1
+Abgabe bis 27.04.2026 per LMU Moodle.
+1. Grundlagen (H)
+Zwei Gelehrte der Antike spielen gerne Schach miteinander. Weil sie nicht in der selben Stadt wohnen,
+teilen sie einander die Spielzüge über Brieftauben mit. Gegenüber dem Spiel an einem gemeinsamen
+Spielbrett ergeben sich ähnliche Herausforderungen, wie in verteilten Systemen.
+(a) Nennen Sie fünf Probleme (z.B. plausible Vorfälle, oder Wissenslücken), die einen reibungslosen
+Spielverlauf stören können! Nennen Sie auch ihre Folge.
+(b) Geben Sie für jeden der Störfälle einen Vorschlag zu seiner Vermeidung an!
+2. Von Netzen und Bäumen
+Im letzten Arbeitsblatt haben wir schon einige Berechnungen über die Anzahl an Verbindungen in Netzen
+angestellt. Hier konzentrieren wir uns weiter auf Bäume als Struktur.
+Ein Netz bzw. Graph besteht aus einer Menge von Knoten und Kanten zwischen zwei Knoten. Der Grad
+eines Knotens ist die Anzahl der Kanten die in ihm enden. Ein Pfad zwischen zwei Knoten ist eine Menge
+von Kanten und beschreibt einen Weg zwischen zwei Knoten.
+Ein Baum ist ein Graph in dem es von jedem Knoten zu jedem Knoten einen Pfad gibt und man keine
+Kreise mit den vorhandenen Kanten bilden kann. Die Knoten eines Baumes mit Grad 1 heißen Blatt,
+alle anderen innere Knoten. Benutzt man Bäume um eine Struktur darzustellen, so wird meistens ein
+Knoten des Baums als Wurzel bezeichnet. Die Anzahl der Kanten im Pfad von einem Knoten zur Wurzel
+ist der Abstand des Knotens zur Wurzel. Die Höhe eines Baums ist der größte Abstand. Zwischen den
+Knoten spricht man von Verwandschaftsbeziehungen: Von den beiden Knoten einer Kante ist der mit
+dem (um 1) längeren Pfad zur Wurzel ein Nachfahre, Nachfolger oder auch Kind des anderen Knotens.
+Der Knoten mit dem kürzeren Abstand heißt Vorgänger, Vorfahre oder auch Vater.
+(a) Zeichnen Sie einen vollvermaschten Graphen mit 4 Knoten!
+(b) Ein Baum mit insgesamt 4 Knoten kann vier verschiedene Formen haben. Eine mit Höhe 3, zwei
+mit Höhe 2 und eine Mit Höhe 1. Zeichnen Sie für jede Art ein Beispiel!
+(c) Binärbäume zeichnen sich dadurch aus, dass jeder Knoten höchstens 2 Kinder hat.
+i. Aus wievielen Knoten besteht ein Binärbaum der Höhe 5 mindestens?
+ii. Aus wievielen Knoten besteht ein Binärbaum der Höhe 2 höchstens?
+3. Adressierung in Bäumen (H)
+Abbildung 1 zeigt zwei Binärbäume mit unterschiedlichen Namensschemata. Einmal sind die Knoten
+und einmal die Kanten benannt. Den Schemata gemein ist, dass sie lediglich die Verzweigungsmöglich-
+keiten berücksichtigen. Um einen Knoten eindeutig zu identifizieren, muss man den Pfad von der Wurzel
+bis zum gesuchten Knoten aufschreiben. Während die Wurzel bei benannten Knoten dementsprechend
+mit 1 eindeutig identifizierbar wird, ist der Pfad bei benannten Kanten (cid:15) (das leere Wort). In einem
+vollständigen Baum haben die Wurzel und jeder innere Knoten die maximale Anzahl Kinder.
+(a) Wieviele Blätter hat jeder der Bäume in Abbildung 1?
+(b) Wie lauten in beiden Beispielen die Pfade zu den Knoten mit Abstand 3?
+(c) Kann man aus dem Pfad “11” ablesen ob es sich um einen inneren Knoten oder ein Blatt handelt?
+Begründen Sie Ihre Antwort.
+(d) Schreiben Sie analog zum hier behandelten Beispiel mit benannten Kanten einen Pfad für einen
+beliebigen Knoten mit Abstand 8 in einem Binärbaum auf.
+Seite 1 von 2
+
+--- PAGE 2 ---
+1
+0 1
+0 1
+0 1 0 1
+0 1 0 1
+0
+0
+Abbildung 1: Links ein Baum mit benannten Knoten, rechts ein Baum mit benannten Kanten
+(e) Was haben die Pfade aller Nachfahren eines Knotens mit Abstand 8 im Hinblick auf die Pfadstruktur
+gemein? (Baum mit benannten Kanten)
+(f) In einem vollständigen Binärbaum der Höhe 16 mit benannten Kanten gibt es ein Blatt, das mit dem
+Pfad 1100000010101000 adressiert wird. Interpretieren Sie diesen Pfad als Zahl im Binärsystem und
+wandeln Sie diese um in:
+i. eine Dezimalzahl,
+ii. eine Hexadezimalzahl und
+iii. ein Tupel aus zwei Dezimalzahlen wobei jede Dezimalzahl eine Hälfte des Pfads darstellt.
+4. Zahlen sind auch nur Bäume
+Man kann eine Menge von Binärzahlen als Baum darstellen. Abbildung 2 zeigt einen vollständigen
+Binärbaum der Höhe 4. Jeder Pfad von der Wurzel zu einem Blatt kann eindeutig durch die Namen der
+traversierten Kanten beschrieben werden. Zum Beispiel beschreibt 0011 den Pfad von der Wurzel zum
+vierten Blatt von links.
+Der Präfix eines Pfades beschreibt dabei die ersten n Namen der Kanten. Beispielsweise hat 0100 den
+Präfix 0 der Länge 1 und 01 der Länge 2.
+0 1
+0 1 0 1
+0 1 0 1 0 1 0 1
+0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+Abbildung 2: Ein vollständiger Binärbaum der Höhe 4
+(a) Wie viele Pfade von der Wurzel zu einem Blatt mit dem Präfix 0 gibt es in dem in Abbildung 2
+dargestellten Baum?
+(b) Wie viele Pfade von der Wurzel zu einem Blatt gibt es mit dem Präfix 0, wenn man den in der
+Abbildung dargestellten Binärbaum bis auf Höhe n fortführt?
+(c) Um einen gemeinsamen Präfix für einen Teilbaum anzugeben verwenden wir die Notation (cid:104)Binärzahl
+mit Höhe des Baums vielen Stellen(cid:105)/(cid:104)Präfixlänge(cid:105).
+i. Wieviele Blätter hängen an dem Teilbaum 1111/1?
+ii. Wieviele Blätter hängen an dem Teilbaum 0000/2?
+iii. Wieviele Blätter hängen an dem Teilbaum 1010/3?
+iv. Wieviele Blätter hängen an dem Teilbaum 0101/4?
+v. Wieviele Blätter hängen an dem Teilbaum 0110/0?
+Seite 2 von 2 (cid:5)

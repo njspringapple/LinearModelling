@@ -1,0 +1,131 @@
+--- PAGE 1 ---
+Institut für Informatik der Ludwig-Maximilians-Universität München
+Prof. Dr. D. Kranzlmüller, Daniel Diefenthaler, Fabian Dreer
+Rechnernetze und verteilte Systeme – Sommersemester 2026
+Übungsblatt 10
+Abgabe bis 06.07.2026 per LMU Moodle.
+1. Zusammenspiel von IPv4 und ARP (H)
+Abbildung 1 skizziert 3 lokale Netze (Subnetz 1 – 3), die über 2 Router miteinander verbunden sind.
+(a) Weisen Sie den Schnittstellen aller Hosts passende IP-Adressen zu. Verwenden Sie für die jeweiligen
+Subnetze folgende Adressbereiche.
+• Subnetz 1: 192.168.1.100/24
+• Subnetz 2: 192.168.2.100/24
+• Subnetz 3: 192.168.3.100/24
+(b) Weisen Sie jedem Interface eine eindeutige MAC Adresse zu.
+(c) Angenommen Sie senden ein IP-Paket von Host E zu Host B. Nehmen Sie dabei an, dass alle ARP
+Einträge gültig und bereits bekannt sind. Listen Sie alle Zwischenschritte der Übertragung auf.
+Nennen Sie bei jedem Schritt die Quell-IP und Ziel-IP sowie Quell-MAC und Ziel-MAC.
+(d) Gegeben sei dasselbe Szenario wie in Teilaufgabe c). Nehmen Sie nun an, dass die ARP Tabelle
+beim Sender Host E leer ist.
+Abbildung 1: 3 Subnetze, verbunden über zwei Router
+Seite 1 von 3
+
+--- PAGE 2 ---
+2. Was ist es, was kann es? (H)
+Sie finden in einem Büroschrank eine unbeschriftete Komponente mit 5 RJ45-Ports, von der Sie nur
+wissen, dass diese entweder ein Hub oder ein Switch ist. Sie haben außerdem drei Rechner mit je einer
+Netzschnittstelle und ausreichend Twisted-Pair-Kabel. Auf den Rechnern können Sie das Programm ping
+und/oder einen Protokoll-Analysator (z.B. wireshark) einsetzen, mit dem Sie sich alle eingehenden und
+ausgehenden Rahmen vollständig anzeigen lassen können.
+Bei allen folgenden Untersuchungen soll das Ergebnis nur durch funktionale Tests und logisches Schluss-
+folgern bestimmt werden. Erstellen Sie eine Skizze Ihres Versuchsaufbaus und geben Sie die Sequenz der
+Aktionen (z.B. Programmaufrufe) an. Begründen Sie, warum Ihr Test das richtige Ergebnis liefert!
+(a) Wie finden Sie heraus, ob das unbekannte Gerät ein Switch oder ein Hub ist?
+(b) Nehmen Sie an, es sei ein Switch. Wie bestimmen Sie möglichst genau und effizient die Zeit, nach
+der der Switch Einträge aus der Forwarding-Tabelle löscht?
+3. Fehlererkennung und -korrektur (H)
+Ein typischer Fehler bei der Übertragung von Daten ist die Verfälschung, bei der Stellen des Bitstroms
+invertiert werden. In dieser Aufgabe soll die Nachricht RNVS übertragen werden.
+(a) Überführen Sie die Nachricht in eine Binärdarstellung, indem Sie die Buchstaben in 7-Bit ASCII
+codieren. Hinweis: Beachten Sie die Großschreibung der Buchstaben bei der ASCII Codierung.
+(b) Berechnen Sie die Hamming-Distanz aller Codewörter für die Symbole R,N,V sowie S.
+(c) Die Nachricht soll in Form einer Paritätsmatrix versendet werden.
+i. Schreiben Sie hierzu die 4 Codewörter untereinander und berechnen Sie für jede Zeile / Spalte
+entsprechende Paritätsbits.
+ii. Zeigen Sie beispielhaft, dass anhand der Paritätsmatrix 1-bit Fehler sowohl erkannt als auch
+korrigiert werden können.
+iii. Zeigen Sie beispielhaft, dass 2-bit Fehler erkannt, allerdings nicht korrigiert werden können.
+iv. In welchen Szenarien kann ein Fehler weder erkannt noch korrigiert werden?
+(d) Die Nachricht soll über das UDP Transportprotokol, das die 16-bit Internet Checksumme verwendet,
+versandt werden.
+i. Teilen Sie die Nachricht dazu in zwei 16-bit Segmente auf und berechnen Sie anschließend die
+Internet-Checksumme nach Vorschrift. Hinweis: Führende Nullen sind notwendig, damit 8 Bit
+pro Buchstaben zur Codierung verwendet werden.
+ii. Zeigen Sie, dass auf Empfänger-Seite die Nachricht korrekt angekommen ist.
+(e) Gegeben sei das Generatorpolynom G = x16 + x14 + x11 + x7 + x6 + x5 + 1.
+Berechnen Sie die CRC-Prüfsumme über die 7-Bit ASCII codierte Darstellung der aus vier Buch-
+staben bestehenden Nachricht RNVS (insgesamt 28 Bit Nutzdaten). Kennzeichnen Sie in Ihrer
+Rechnung die Prüfsumme deutlich.
+4. CRC (H)
+(a) Gegeben sei das Generatorpolynom G = x3 + 1.
+i. Durch wie viele Bits wird G bei CRC repräsentiert?
+ii. Es soll die Nachricht 11 00 11 CRC-geschützt übertragen werden. Berechnen Sie die zu über-
+tragende Bitfolge (inkl. CRC-Prüfsumme) unter Verwendung des Generatorpolynoms G.
+iii. Nehmen Sie an, dass Sie die CRC-geschützte Bitfolge 10 01 10 01 empfangen haben. Zeigen
+Sie, dass die empfangene Bitfolge unter Verwendung des Generatorpolynoms G korrekt ist (inkl.
+Rechnung). Markieren Sie in Ihrer Rechnung die Stelle, an der die Korrektheit sichtbar wird.
+Seite 2 von 3
+
+--- PAGE 3 ---
+5. CSMA/CD
+Zwei Rechner A und B seien über einen Bus miteinander verbunden. Es seien:
+L Leitungslänge zwischen den Hosts, in m
+R Übertragungsrate, in Bit/s
+v Ausbreitungsgeschwindigkeit von Signalen im Leiter, in m/s
+d Länge des Störsignals, in Bit(-zeiten) |d |Bit zu übertragen)
+jam jam
+d Länge eines Warteintervalls beim Exponential-Backoff Algorithmus, in Bit(-zeiten)
+slot
+d Dauer, die ein Kanal vor dem Senden frei sein muss, in Bit(-zeiten)
+frei
+t Zeitpunkt, zu dem beide Stationen gleichzeitig beginnen zu senden
+0
+(a) Die Abbildung zeigt einen zeitlichen Ablauf (nicht maßstabsgetreu) in dem A und B jeweils einen
+Rahmen übertragen und durch CSMA eine Kollision vermieden wird. Mit CSMA erkennt B nachdem
+er sendebereit wird, dass bereits eine Übertragung stattfindet und wartet bis die Übertragung des
+Rahmens von A abgeschlossen ist und der Kanal frei ist, bevor B mit der Übertragung seines
+Rahmens beginnt.
+A ist Sendebereit und Kanal ist frei
+Wartezeit (dFrei)
+Sendebeginn
+A
+Übertragung abgeschlossen
+Rahmendauer
+Zeit
+Kanal ist belegt Rahmendauer
+B
+Übertragung
+Sendebeginn abgeschlossen
+Wartezeit (dFrei)
+B ist Sendebereit Kanal ist frei
+Erstellen Sie analog zu dieser Abbildung ein Diagramm, dass die vollständige Übertragung jeweils
+eines Rahmens von A und B zeigt, wobei A und B gleichzeitig sendebereit werden, es zu einer
+Kollision kommt und der Konflikt mit CSMA/CD gelöst wird. Hinweis: Gehen Sie davon aus, dass
+es zu keiner weiteren Kollision kommt.
+(b) Geben Sie die Berechnungsvorschrift für den Zeitpunkt t an, zu dem A erkennt, dass eine Kollision
+1
+stattgefunden hat. Hinweis: Berechnen Sie t relativ zu t .
+1 0
+(c) Geben Sie die Berechnungsvorschrift für den Zeitpunkt t an, zu dem A wieder einen freien Kanal
+2
+erkennen kann.
+(d) Zum Zeitpunkt t wurde der k-te Übertragungsversuch unternommen. A wartet eine gewisse Zeit
+0
+nach dem Binary Exponential-Backoff Algorithmus, vor einem erneuten Übertragungsversuch.
+i. Geben Sie die Berechnungsvorschrift für den frühest möglichen Zeitpunkt t an, zu dem A
+3,min
+einen erneuten Sendeversuch unternimmt.
+ii. Geben Sie die Berechnungsvorschrift für den spätest möglichen Zeitpunkt t an, zu dem A
+3,max
+einen erneuten Sendeversuch unternimmt.
+iii. Die Wartezeit von Rechner B ist um d größer, als die von A. Welche Bedingung muss für
+slot
+Leitungslänge bzw. d gelten, damit es nicht zu einer erneuten Kollision zwischen A und B
+slot
+kommt?
+6. Ethernet - minimale Nachrichtenlänge
+Gegeben sei ein Ethernet (CSMA/CD) mit Übertragungsrate von 10 Mbit/s. Zwei Hosts sind maximal
+2,5 km voneinander entfernt. Die Ausbereitungsverzögerung beträgt 2 × 108 m/s.
+(a) Welche Bedeutung hat die minimale Nachrichtenlänge für die Erkennung von Kollision?
+(b) Wie groß ist die minimale Nachrichtenlänge in der angegebenen Konfiguration?
+Seite 3 von 3 (cid:5)

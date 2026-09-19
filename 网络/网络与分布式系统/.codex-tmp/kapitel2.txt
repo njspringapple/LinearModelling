@@ -1,0 +1,2830 @@
+ Rechnernetze &
+Verteilte Systeme
+Ludwig-Maximilians-Universität München
+        Sommersemester 2026
+        Prof. Dr. D. Kranzlmüller
+
+      https://www.ifi.lmu.de/rnvs
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              2
+             (Prof. Dr. D. Kranzlmüller)
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              3
+             (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            4
+           (Prof. Dr. D. Kranzlmüller)
+Kapitel 2: Grundlagen
+• Ein einfaches Beispiel: Alice → Bob
+• Definition Rechnernetz / Verteiltes System
+• Problem: Komplexität
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        5
+                       (Prof. Dr. D. Kranzlmüller)
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                         6
+                      (Prof. Dr. D. Kranzlmüller)
+Einfaches Beispiel
+• Alice sendet (über LTE) eine Nachricht an Bob
+
+
+
+                            Internet
+
+
+Alice                                                                                  Bob
+
+                                                                                    Antenna by Kick from the Noun Project
+                                                                      Computer by Patrick Morrison from the Noun Project
+                                                        Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                   Rechnernetze und verteilte Systeme
+                                                                                                          7
+                       (Prof. Dr. D. Kranzlmüller)
+Einfaches Beispiel
+• Alice sendet (über LTE) eine Nachricht an Bob
+  während Carol im autonomen Auto fährt
+
+
+                            Internet
+
+
+Alice                                                                                  Bob
+
+                                                                                    Antenna by Kick from the Noun Project
+                                                                                   Car by yanti anis from the Noun Project
+
+                                Carol                                 Computer by Patrick Morrison from the Noun Project
+                                                        Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                   Rechnernetze und verteilte Systeme
+                                                                                                          8
+                       (Prof. Dr. D. Kranzlmüller)
+Fragestellungen
+• Wie adressiert man einen Endpunkt im Netz?
+• Wie transportiert man die Nachrichten vom Sender
+  zum Empfänger?
+• Wie kann man zuverlässig über unzuverlässige
+  Transportwege kommunizieren?
+• Wie können mehrere Nutzer die Ressourcen im
+  Internet gleichzeitig verwenden?
+• Wie kann man die Komplexität bewältigen?
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      9
+                     (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            10
+           (Prof. Dr. D. Kranzlmüller)
+Was ist ein Rechnernetz?
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                   11
+                  (Prof. Dr. D. Kranzlmüller)
+Ein Rechnernetz (Computer Network) besteht
+aus verschiedenen Komponenten.
+
+
+
+
+               Rechnernetze und verteilte Systeme
+                                                    12
+                   (Prof. Dr. D. Kranzlmüller)
+Endsysteme senden und empfangen Daten…
+
+          Endsysteme
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       13
+                      (Prof. Dr. D. Kranzlmüller)
+…und kommen in unterschiedlichster
+Variabilität
+       Auto Infotainment Systeme                                    Amazon Alexa
+                                                                                   Rauchmelder
+
+
+
+
+   Herzschrittmacher
+                                                                               Macbook
+
+
+
+
+                  Linux Server
+                                                                  Windows PC
+                            iPad
+
+
+
+
+                             Rechnernetze und verteilte Systeme
+                                                                                                 14
+                                 (Prof. Dr. D. Kranzlmüller)
+Transitsysteme (Switches, Router) vermitteln
+Daten von der Quelle zum Ziel.
+
+
+               Transitsystem
+
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                     15
+                    (Prof. Dr. D. Kranzlmüller)
+Beispiele: Router mit
+unterschiedlichen Ausprägungen
+
+
+
+
+      AVM Fritz-Box
+   4 LAN Ports, 1Gbit/s                    Cisco Internet Core Router
+    WLAN 300 Mbit/s                      16 Ports, 12.8 Tbit/s Bandbreite
+
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                            16
+                          (Prof. Dr. D. Kranzlmüller)
+Links (Kabel) verbinden End- bzw.
+Transitsysteme.
+
+
+
+                   Links
+
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                     17
+                    (Prof. Dr. D. Kranzlmüller)
+Beispiel: Gigabit Ethernet
+
+
+  „Twisted Pair“ Kabel
+  1Gbps, 10 GBps, 100Gbps,…
+
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           18
+                          (Prof. Dr. D. Kranzlmüller)
+Münchner Wissenschaftsnetz
+                        http://www.lrz.de/services/netz/mwn-ueberblick/
+                                                                               WH
+
+
+
+(MWN)
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                                                          19
+              (Prof. Dr. D. Kranzlmüller)
+Definition: Rechnernetz
+Ein Rechnernetz (engl.: Computer Network) ist ein
+Zusammenschluss unabhängiger (autonomer)
+Computer durch eine Kommunikationstechnologie.
+Diese Computer sind verbunden, wenn sie in der
+Lage sind, Informationen auszutauschen.
+
+• Vgl. Andrew S Tanenbaum and David J. Wetherall,
+  in Computer Networks (5th Edition)
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       20
+                      (Prof. Dr. D. Kranzlmüller)
+Netz oder Netzwerk
+• In der deutschen Sprache:
+   • Netz (Stromnetz, nicht Stromnetzwerk; Telefonnetz)
+   • Netzwerk (in der Elektrotechnik, oder soziales Netzwerk).
+• Engl. „Computer Network“ = Dt. „Rechnernetz“
+   • „Computernetzwerk“ ist eigentlich die falsche Übersetzung. Das
+     englische Wortes „network“ entspricht dem deutschen Wort „Netz“
+• Problem: Übersetzung als Netzwerk bringt aber auch Wörter
+  hervor, die eine Unterscheidung ermöglichen.
+   • „Netzwerkkarte“ ➔ Netzwerkgerät, aber „Netzkarte“ ➔ Zeitkarte
+   • „Netzkabel“ (zur Stromversorgung), aber „Netzwerkkabel“ (LAN).
+
+• DIN ISO 2382-1 bis -25 „Begriffe der Informationstechnik“
+  definieren nur den Begriff „Netz“, nicht „Netzwerk“.
+
+                        Rechnernetze und verteilte Systeme
+                                                                      21
+                            (Prof. Dr. D. Kranzlmüller)
+                                                            WH
+
+Definition: Rechnernetz (WH)
+Ein Rechnernetz (engl.: Computer Network) ist ein
+Zusammenschluss unabhängiger Computer durch
+eine Kommunikationstechnologie. Insbesondere
+müssen diese Computer also dazu in der Lage sein
+untereinander Informationen auszutauschen.
+
+Zwei Computer gelten miteinander verbunden,
+wenn sie Informationen austauschen können.
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       22
+                      (Prof. Dr. D. Kranzlmüller)
+Rechnernetz / Verteiltes System
+• Definition: Rechnernetz
+
+• Definition: Verteiltes System
+   • Nach Arbeitsweise
+   • Nach Diensterbringung (Dienstorientiert)
+
+                 Verwechslungsgefahr!
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          23
+                         (Prof. Dr. D. Kranzlmüller)
+Definition: Verteiltes System
+(Nach Arbeitsweise)
+Ein verteiltes System (engl.: Distributed System)
+umfasst eine Menge von Hardware- und Software-
+Komponenten vernetzter Rechner, die ausschließlich
+durch den Austausch von Nachrichten
+kommunizieren.
+
+• Vgl. George Coulouris, Jean Dollimore, Tim
+  Kindberg, and Gordon Blair, in Distributed Systems:
+  Concepts and Design (5th Edition)
+
+                   Rechnernetze und verteilte Systeme
+                                                        24
+                       (Prof. Dr. D. Kranzlmüller)
+Definition: Verteiltes System
+(Dienstorientiert)
+Ein verteiltes System (engl.: Distributed System) ist
+eine Menge unabhängiger Rechner, die ihren Nutzern
+als ein einziges, zusammenhängendes (kohärentes)
+System erscheinen.
+
+• Vgl. Andrew S Tanenbaum and David J. Wetherall,
+  in Computer Networks (5th Edition)
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       25
+                      (Prof. Dr. D. Kranzlmüller)
+Die Gegenseitige Abgrenzung der Begriffe
+Rechnernetz und verteiltes System ist unscharf:
+
+
+                   Verteiltes System
+
+
+            Rechnernetz
+
+Das Rechnernetz ist Teil des verteilten Systems
+
+
+Bsp.: Ein Datenbankmanagement-System kann als
+verteiltes System implementiert sein. Dieses
+verteilte System läuft auf einem Rechnernetz.
+                            Rechnernetze und verteilte Systeme
+                                                                 26
+                                (Prof. Dr. D. Kranzlmüller)
+   Ein verteiltes System
+(in einem Rechnernetz)
+
+
+
+
+ Rechnernetze und verteilte Systeme
+                                      27
+     (Prof. Dr. D. Kranzlmüller)
+Verteiltes System vs. Rechnernetz
+• Ein verteiltes System (engl.: Distributed System) ist
+  eine Menge unabhängiger Rechner, die ihren
+  Nutzern als ein einziges, zusammenhängendes
+  (kohärentes) System erscheinen.
+• Ein Rechnernetz ist ein Zusammenschluss
+  unabhängiger Rechner ohne Kohärenz-Abstraktion.
+  Komplexität aufgrund heterogener Ausstattung
+  (bspw. unterschiedliche Betriebssysteme) ist für
+  den Anwender explizit sichtbar.
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        28
+                       (Prof. Dr. D. Kranzlmüller)
+Vergleich
+
+Rechnernetz                         Verteiltes System
+• Mehrere                           • Benutzer nehmen
+• mit einer bestimmten              • mehrere unabhängige
+  Technologie                         Computer
+• miteinander                       • als einheitliches
+  verbundene                          kohärentes System
+• autonome                            wahr
+• Computer
+
+                 Rechnernetze und verteilte Systeme
+                                                            29
+                     (Prof. Dr. D. Kranzlmüller)
+Eigenschaften eines
+verteilten Systems
+• Middleware:
+   • Software, die auf einem Betriebssystem aufsetzt,
+   • und dem Benutzer das verteilte System in einer bestimmten
+     einheitlichen Sichtweise präsentiert ➔ Transparenz &
+     Zusammenhalt
+   • Das System veranlasst die Kommunikation!
+• Kohärenz: Zusammenhang
+  lat. cohaerere (zusammenhängen)
+
+• Anmerkung: Die Kohärenz, die einheitliche Sichtweise,
+  und die zugehörige Software fehlen in einem
+  Rechnernetz
+                      Rechnernetze und verteilte Systeme
+                                                                 30
+                          (Prof. Dr. D. Kranzlmüller)
+Quiz
+• Wer ist für den Datentransfer
+   • in einem Rechnernetz
+   • in einem verteilten System
+• verantwortlich?
+• Ist
+   • das Münchner Wissenschaftsnetz (MWN)
+   • das World Wide Web (WWW)
+   • SETI@HOME (http://setiathome.ssl.berkeley.edu)
+   • das ARPANET
+   • das X-WIN
+   • Amazon
+• ein Rechnernetz oder ein verteiltes System?
+
+                      Rechnernetze und verteilte Systeme
+                                                           31
+                          (Prof. Dr. D. Kranzlmüller)
+Rechnernetz oder verteiltes
+System? MVGO
+• Fahrplanauskunft für München
+
+• Kohärente Sichtweise –
+  Benutzerschnittstelle der App
+• Software-System, das
+  verschiedene Rechnernetze
+  verwendet
+• Kommunikation/Datentransfer
+  wird vom System veranlasst,
+  nicht vom Benutzer
+                                             https://www.mvg.de/services/unsere-apps/mvgo.html
+
+
+                  Rechnernetze und verteilte Systeme
+                                                                                        32
+                      (Prof. Dr. D. Kranzlmüller)
+Rechnernetz oder verteiltes
+System? X-WiN
+• Kohärente
+  Sichtweise?
+• Software-
+  System?
+
+• Wer initiiert den
+  Datentransfer?
+  System oder
+  Nutzer?
+
+                      Rechnernetze und verteilte Systeme
+                                                           33
+                          (Prof. Dr. D. Kranzlmüller)
+Rechnernetz oder verteiltes
+System? World Wide Web
+• Wikipedia: „Das World Wide Web ist ein über das
+  Internet abrufbares System von elektronischen
+  Hypertext-Dokumenten, sog. Webseiten“
+                             https://de.wikipedia.org/wiki/World_Wide_Web
+
+
+   • Kohärente Sichtweise: alles ist ein Dokument (Webseite)
+   • Software-System: setzt auf ein Netz (Internet) auf
+   • Kommunikation/Datentransfer wird vom System
+     veranlasst, nicht vom Benutzer
+   • Aber: URL (Uniform Resource Locator) identifiziert
+      • Zugriffsmethode (Protokoll)
+      • Ort der Ressource (Host)
+
+                       Rechnernetze und verteilte Systeme
+                                                                       34
+                           (Prof. Dr. D. Kranzlmüller)
+Selbststudium - Rechnernetzbingo
+• Welche Begriffe aus den Bereichen „Rechnernetze“
+  und „Verteilte Systeme“ kennen Sie bereits?
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       35
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            36
+           (Prof. Dr. D. Kranzlmüller)
+Komplexität als Herausforderung
+in Rechnernetzen
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                   37
+                  (Prof. Dr. D. Kranzlmüller)
+Münchner Wissenschaftsnetz
+                        http://www.lrz.de/services/netz/mwn-ueberblick/
+                                                                               WH
+
+
+
+(MWN)
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                                                          38
+              (Prof. Dr. D. Kranzlmüller)
+Herausforderungen in
+Rechnernetzen (Beispiel MWN)
+• Viele Benutzer (Studenten, Mitarbeiter,
+  Lehrkräfte…), sowie
+• unterschiedlichste Endsysteme…
+   • Betriebssystem
+   • Rechenkapazität (Leistung)
+• …kommunizieren untereinander über
+  unterschiedliche Protokolle
+   • Web, E-Mail, Cloud,…
+• …und teilen sich begrenzte Ressourcen des MWN
+   • Verfügbare Übertragungskapazität in Links,
+     Transitsystemen,...
+                     Rechnernetze und verteilte Systeme
+                                                          39
+                         (Prof. Dr. D. Kranzlmüller)
+   The Design Philosophy of the
+   DARPA Internet            Protocols
+           http://ccr.sigcomm.org/archive/1995/jan95/ccr-9501-clark.pdf
+
+• David D. Clark, in Proc. SIGCOMM ‘88, Computer Communication
+  Review Vol. 18, No. 4, August 1988, pp. 106–114
+• Top level goal of the DARPA Internet Architecture:
+          to develop an effective technique for multiplexed
+            utilization of existing interconnected networks
+• Second Level Goals:
+ 1. Internet communication must continue despite loss of networks or gateways.
+ 2. The Internet must support multiple types of communications service.
+ 3. The Internet architecture must accommodate a variety of networks.
+ 4. The Internet architecture must permit distributed management of its resources.
+ 5. The Internet architecture must be cost effective.
+ 6. The Internet architecture must permit host attachment with a low level of effort.
+ 7. The resources used in the internet architecture must be accountable.
+                               Rechnernetze und verteilte Systeme
+                                                                                40
+                                   (Prof. Dr. D. Kranzlmüller)
+Herausforderungen in
+Rechnernetzen
+• Skalierung: Viele Nutzer, weit verteilt
+• Heterogenität: Unterschiedliche End- und
+  Transitsysteme
+• Flexibilität: Unterschiedliche Anwendungen und
+  Kommunikationsarten
+• Gemeinsame und gleichzeitige Nutzung
+
+
+   ➔ Hohe (stetig steigende) Komplexität
+
+                  Rechnernetze und verteilte Systeme
+                                                       41
+                      (Prof. Dr. D. Kranzlmüller)
+Lösungsansatz: Modularität
+„Modularity, based on abstraction,
+is the way things get done.“
+Barbara Liskov, MIT
+(ACM Turing Award 2009)
+
+                                                          Quelle: MIT
+• Modularisierung
+   • Abstrahiert und erleichtert das Verständnis von
+     komplexen Systemabläufen
+   • Änderungen am System ohne vollständige Neu-
+     Implementierung möglich
+                     Rechnernetze und verteilte Systeme
+                                                                        42
+                         (Prof. Dr. D. Kranzlmüller)
+Definition: Modularität
+Modularität:
+• Aufteilung eines Ganzen in Teile, die als Module,
+  Komponenten, Bauelemente, Baugruppen oder
+  Bausteine bezeichnet werden
+• Bei geeigneter Form und Funktion können sie
+  zusammengefügt werden oder über entsprechende
+  Schnittstellen interagieren
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       43
+                      (Prof. Dr. D. Kranzlmüller)
+Trennung der
+Verantwortlichkeiten
+• Engl. „Separation of Concerns“
+• Edsger W. Dijkstra,
+  „On the role of scientific thought“, 1974
+
+Eigenschaft des intelligenten Denkens:
+„Man vertieft einen Aspekt einer Thematik um seiner
+eigenen Konsistenz willen isoliert,
+immer wissend, dass man sich nur mit einem der
+Aspekte beschäftigt.“
+
+                   Rechnernetze und verteilte Systeme
+                                                        44
+                       (Prof. Dr. D. Kranzlmüller)
+Trennung der
+Verantwortlichkeiten
+• Chris Reade,
+  „Elements of Functional Programming“, 1989
+
+• Der Programmierer muss mehrere Dinge
+  gleichzeitig tun, nämlich
+  • beschreiben, was berechnet werden soll
+  • den Ablauf der Berechnung in kleinen Schritten
+    organisieren
+  • die Speicherverwaltung während der Berechnung zu
+    organisieren
+
+                   Rechnernetze und verteilte Systeme
+                                                        45
+                       (Prof. Dr. D. Kranzlmüller)
+Welche Funktionalität wird                                        WH
+
+
+
+benötigt?
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                  Bob
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                             46
+                      (Prof. Dr. D. Kranzlmüller)
+Benötigte Funktionalität                                   Alice
+                                                                   Internet
+
+
+                                                                                   Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                              47
+                          (Prof. Dr. D. Kranzlmüller)
+Gruppierung                                                        Internet
+
+
+
+(Separation of Concerns)                                   Alice                   Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                              48
+                          (Prof. Dr. D. Kranzlmüller)
+Gruppierung                                                        Internet
+
+
+
+(Separation of Concerns)                                   Alice                   Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                              49
+                          (Prof. Dr. D. Kranzlmüller)
+KISS-Prinzip –
+„Keep It Simple, Stupid“
+• Strebe immer eine möglichst einfache Lösung an!
+• Der einfache Aufbau der Internet-Protokolle ist Teil
+  des großen Erfolges und der Anpassbarkeit.
+
+• Vgl. Ockhams Rasiermesser
+• Albert Einstein: „Man muß die Dinge so einfach wie
+  möglich machen. Aber nicht einfacher.“
+• Steve Jobs: „So kompliziert wie nötig, so einfach wie
+  möglich.“
+                   Rechnernetze und verteilte Systeme
+                                                        50
+                       (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+• Komplexität als Herausforderung
+  bei der Entwicklung des Internet
+• Lösungsansatz: Modularität
+   • Feststellung der benötigten Funktionalität
+   • Gruppierung der Funktionen
+   • Abhängigkeiten (wer benötigt was)
+
+
+                  ➔ Schichtenmodelle
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          51
+                         (Prof. Dr. D. Kranzlmüller)
+Schichtung von Funktionalität
+”Wie gehen wir mit Komplexität um?”
+
+Organisation der Funktionalität in Schichten, die je
+einen Dienst anbieten.
+Jede Schicht bietet ihren Dienst an durch:
+1. Ausführung von Aktionen innerhalb der Schicht
+2. Inanspruchnahme der Dienste der unterliegenden
+   Schicht
+
+                  Rechnernetze und verteilte Systeme
+                                                       52
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            53
+           (Prof. Dr. D. Kranzlmüller)
+Dienst, Schnittstelle, Protokoll
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                     54
+                    (Prof. Dr. D. Kranzlmüller)
+Schichtung von Funktionalität
+“Wie gehen wir mit Komplexität um?“
+
+Organisation der Funktionalität in Schichten, die je
+einen Dienst anbieten.
+Jede Schicht bietet ihren Dienst an durch:
+1. Ausführung von Aktionen innerhalb der Schicht
+2. Inanspruchnahme der Dienste der unterliegenden
+   Schicht
+
+                  Rechnernetze und verteilte Systeme
+                                                       55
+                      (Prof. Dr. D. Kranzlmüller)
+Definition: Dienst
+Ein Dienst (engl.: Service) ist eine Menge primitiver
+Operationen die ein Diensterbringer (im Folgenden
+allgemein eine Schicht des Internetmodells) seinen
+Nutzern (allgemein die Schicht über der die den
+Dienst erbringt) zur Verwendung bereitstellt.
+
+Das Dienstkonzept ist von der konkreten
+Implementierung der Operationen, die bereitgestellt
+werden, unabhängig. Die Implementierung der
+Dienstprimitive wird in Protokollen spezifiziert.
+                   Rechnernetze und verteilte Systeme
+                                                        56
+                       (Prof. Dr. D. Kranzlmüller)
+Gruppierung                                                        Internet
+
+
+
+(Separation of Concerns)                                   Alice                   Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                              57
+                          (Prof. Dr. D. Kranzlmüller)
+Definition: Schnittstelle
+Die Schnittstelle (engl.: Interface) einer Schicht teilt
+den darüber liegenden Prozessen mit, wie auf die
+angebotenen Dienste zugegriffen werden kann.
+
+
+
+
+• Vgl. Andrew S Tanenbaum and David J. Wetherall,
+  in Computer Networks (5th Edition)
+                    Rechnernetze und verteilte Systeme
+                                                           58
+                        (Prof. Dr. D. Kranzlmüller)
+Definition: Protokoll
+Ein Protokoll (engl.: Protocol) ist eine Spezifikation
+(bzw. Vereinbarung) der Regeln, nach denen ein
+gegebener Informationsaustausch (eine gegebene
+Kommunikation) stattfindet. Insbesondere werden
+Syntax, Semantik und Synchronisationsverhalten
+einzelner Nachrichten festgelegt.
+
+• Anmerkung: Im Kontext von Rechnernetzen spricht
+  man vom Netzprotokoll, im allgemeinem Kontext
+  vom Telekommunikationsprotokoll
+                    Rechnernetze und verteilte Systeme
+                                                         59
+                        (Prof. Dr. D. Kranzlmüller)
+Definitionen Internetmodell
+• Dienst:
+  stellt eine Menge primitiver Operationen
+  (=Dienstprimitive) eines Diensterbringers den
+  Nutzern der Schicht darüber zur Verwendung bereit
+• Schnittstelle:
+  Spezifikation, die den Zugriff auf den jeweiligen
+  Dienst regelt
+• Protokoll:
+  syntaktische, prozedurale und semantische Regeln
+  zur Durchführung einer Kommunikation
+                  Rechnernetze und verteilte Systeme
+                                                       60
+                      (Prof. Dr. D. Kranzlmüller)
+Protokollfunktionen
+• Verbindungsmanagement
+• Datenhandhabung
+• Fehlerbehandlung
+
+• Beschreibung in der Protokollspezifikation
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        61
+                       (Prof. Dr. D. Kranzlmüller)
+Typische Protokollfunktionen
+(1/3)
+• Verbindungsmanagement
+   • Aufbau, Abbau
+   • Multiplexing, Splitting
+   • Protokoll Selektion (auf benachbarten Schichten)
+
+
+Achtung:
+Transporteinheiten haben schichtspezifisch
+verschiedene Bezeichnungen (z.B.: Nachricht,
+Segment, Paket, Block, Frame)
+
+                     Rechnernetze und verteilte Systeme
+                                                          62
+                         (Prof. Dr. D. Kranzlmüller)
+Typische Protokollfunktionen
+(2/3)
+• Datenhandhabung
+  • Zerlegung (Segmenting) und Zusammenfügung
+    (Reassembly) von Dateneinheiten
+  • Versehen von Nutzdaten mit Steuerinformationen
+  • Wegewahl (routing)
+  • Flusssteuerung (flow control)
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        63
+                       (Prof. Dr. D. Kranzlmüller)
+Typische Protokollfunktionen
+(3/3)
+• Fehlerbehandlung
+  • Verfälschung der Daten:
+      Prüfsummen (CRC, BCC), Paritätsbits, ...
+  • Verlust der Daten:
+      Sequenznummern, Quittungen, Timeout
+  • Duplikate:
+      Sequenznummern
+  • Falsche Reihenfolge:
+      Sequenznummern
+  • Verbindungsabbruch:
+      Reset, Wiederaufsatzpunkte
+
+                    Rechnernetze und verteilte Systeme
+                                                         64
+                        (Prof. Dr. D. Kranzlmüller)
+Protokollspezifikation (1/2)
+Aufgabe:
+  • Arbeitsteilung und Zusammenarbeit mit Protokollen
+    benachbarter Schichten
+Methoden der Protokollspezifikation:
+  • erweiterte endliche Automaten [ESTELLE]
+  • Ablaufdiagramme [SDL]
+  • Sequenzdiagramme
+  • Programmiersprachen [ASN.1]
+  • Temporale Logik [LOTOS]
+  • Petri-Netze (nach Carl Adam Petri)
+
+                   Rechnernetze und verteilte Systeme
+                                                        65
+                       (Prof. Dr. D. Kranzlmüller)
+Protokollspezifikation (2/2)
+• Protokollverifikation und Validierung
+   • Korrektheit
+   • Verklemmungsfreiheit (Deadlock)
+
+
+• Protokolltests
+   • mit Partner:
+     Interoperabilität (interoperability)
+   • gegen Standard:
+     Konformität/Übereinstimmung (conformance)
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         66
+                        (Prof. Dr. D. Kranzlmüller)
+Sequenzdiagramme
+• Engl.: Message Sequence Chart
+• Hilfsmittel zur Darstellung des zeitlichen Ablaufs
+  einer Kommunikation
+• Auch „Weg-Zeit-Diagramm“ genannt
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        67
+                       (Prof. Dr. D. Kranzlmüller)
+                Nachricht ist jetzt komplett in der Leitung
+
+       Quelle                                                     Senke
+                                Leitung
+
+
+
+
+                                                                  Senden beginnt
+
+
+                                                                  Senden endet
+
+Zeit
+                                                                  Empfang beginnt
+
+
+                                                                  Empfang endet
+
+
+
+                                  Weg
+
+                             Rechnernetze und verteilte Systeme
+                                                                                    68
+                                 (Prof. Dr. D. Kranzlmüller)
+Ausschnitt aus V.24 (Signale)
+                  Datenleitung                                          Meldeleitungen,
+                                                                        Steuerleitungen
+                                                +12 V
+       ‘‘0‘‘                                                          ‘‘Ein‘‘
+                                               +5V                              Sendeschwelle
+                                                +3V                             Empfangsschwelle
+
+
+
+
+                                                -3V                             Empfangsschwelle
+                                               -5V                              Sendeschwelle
+       ‘‘1‘‘                                                          ‘‘Aus‘‘
+                                                -12 V
+
+Max. Flankenanstieg:                Max. Signalwechseldauer:
+            -6
+   30V / (10 s)                               1ms
+
+
+                                 Rechnernetze und verteilte Systeme
+                                                                                                   69
+                                     (Prof. Dr. D. Kranzlmüller)
+Beispiel:Telefongespräch
+
+Anfang                                                                         Ende
+
+
+
+
+           Keine/unverständliche
+                                             „Hallo“
+                  Antwort
+ frei
+           Angerufener legt auf
+
+wählen        Falscher Name                                         Auflegen
+
+              Richtiger Name
+
+                                               Begrüßungsphase
+                                            Informationsaustausch
+                                            Verabschiedungsphase
+
+             Rechnernetze und verteilte Systeme
+                                                                                70
+                 (Prof. Dr. D. Kranzlmüller)
+Telefongespräch als Diagramm
+• Beispiel für die Verwendung von Flussdiagrammen
+  (Flow Charts)
+• Vereinfachungen:
+  • Nur Anrufer Seite dargestellt
+  • Nicht festgelegt:
+     • kein Freizeichen
+     • kein Rufzeichen                                    Aufgabe:
+     • Besetztzeichen                                     Vervollständigen Sie die
+     • Unterbrechung der Verbindung                       Protokollbeschreibung
+     • Zeitbegrenzung der Wartezustände                   • Angerufener
+     • zu lange Pause bei Partner
+     • Partner legt zuerst auf                            • Telefonapparat
+                                                          • Vermittlung
+                     Rechnernetze und verteilte Systeme
+                                                                              71
+                         (Prof. Dr. D. Kranzlmüller)
+RFC (Request for Comment)
+• „Bitte um Kommentare“
+• Publikationsformat der Internet Engineering Task
+  Force (IETF) und der Internet Society.
+• 1969 von Steve Crocker
+  erfunden (Erstautor).
+
+• Enthalten technische und
+  organisatorische Ideen                                https://en.wikipedia.org/wiki/Steve_Crocker
+
+  für die Entwicklung des Internets.
+
+                   Rechnernetze und verteilte Systeme
+                                                                                               72
+                       (Prof. Dr. D. Kranzlmüller)
+RFC Eigenschaften
+• Jeder RFC hat eine eindeutige aufsteigende
+  Nummer in Reihenfolge der Publikation.
+• Jeder RFC hat einen Gültigkeitsstatus
+  (Informational, Experimental, Proposed Standard,
+  Draft Standard, Standard, Historic).
+
+Eigenlektüre: RFC 1958
+      „Architectural Principles of the Internet“
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        73
+                       (Prof. Dr. D. Kranzlmüller)
+RFC 1958 (1/2)
+                                     https://tools.ietf.org/html/rfc1958
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                                      74
+               (Prof. Dr. D. Kranzlmüller)
+RFC 1958 (2/2)
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                75
+               (Prof. Dr. D. Kranzlmüller)
+RFC 3439 - Some Internet Architectural
+Guidelines and Philosophy
+                                        https://tools.ietf.org/html/rfc3439
+
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                                         76
+                  (Prof. Dr. D. Kranzlmüller)
+3 Konstruktionsprinzipien
+des Internet
+• Wie wird das System (=Rechnernetz) in Module
+  aufgeteilt?
+                                         Schichtung
+
+• Wo werden Module implementiert?
+                           Ende-zu-Ende-Prinzip
+
+• Wo wird der Zustand gespeichert?
+                          Gemeinsames „Schicksal“
+
+                  Rechnernetze und verteilte Systeme
+                                                       77
+                      (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+Schichtung von Funktionalität mittels
+• Dienst
+• Schnittstelle
+• Protokoll
+
+• Welche Protokollfunktionen gibt es?
+• Wie spezifiziert man Protokolle?
+• RFC (Request for Comment)
+
+                  Rechnernetze und verteilte Systeme
+                                                       78
+                      (Prof. Dr. D. Kranzlmüller)
+Hinweise
+• Themen und Konzepte können
+   • Schichtspezifisch,
+   • Protokollspezifisch,
+   • Internetspezifisch, oder
+   • Schichtunabhängig sein.
+
+• Reihenfolge wird durch die Struktur der Vorlesung
+  bestimmt.
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          79
+                         (Prof. Dr. D. Kranzlmüller)
+Leseempfehlung
+Mark Handley,
+„Why the Internet only just works“,
+BT Technology Journal • Vol 24 No 3 • July 2006
+http://www0.cs.ucl.ac.uk/staff/M.Handley/papers/only-just-works.pdf
+
+
+• “The Internet was never designed to be optimal for any
+  particular problem — its great strength is that it is a
+  general-purpose network that can support a wide
+  range of applications and a wide range of link
+  technologies.”
+• “The Internet is also a cost-effective network — it does
+  not make great promises about the quality of service
+  that it provides. It is good enough for a wide range of
+  applications, …”
+                         Rechnernetze und verteilte Systeme
+                                                                      80
+                             (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            81
+           (Prof. Dr. D. Kranzlmüller)
+Datenfluss im Internet
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                   82
+                  (Prof. Dr. D. Kranzlmüller)
+Schichten im Internet                                      Alice
+                                                                   Internet
+
+
+                                                                                                       Bob
+
+
+
+
+                                                                              Daten-Daten-Daten
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                                  83
+                          (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice
+
+
+                                                                              Nachricht,
+                                                                                        Bob
+
+
+
+
+• Transport der Nachricht                                                        Ziel
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet                                    Daten,
+• Datenübertragung                                                             Weginfo
+   • Sicherung
+   • Bitübertragung                                                             Bits,
+                                                                                Kanal
+                      Rechnernetze und verteilte Systeme
+                                                                                  84
+                          (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Empfänger                                             Alice
+
+
+                                                                              Nachricht,
+                                                                                        Bob
+
+
+
+
+• Transport der Nachricht                                                     Ursprung
+
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                          Daten,
+• Weg durch das Netz                                                          Verb.Info
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet                                    Daten,
+• Datenübertragung                                                             Weginfo
+   • Sicherung
+   • Bitübertragung                                                             Bits,
+                                                                                Kanal
+                      Rechnernetze und verteilte Systeme
+                                                                                  85
+                          (Prof. Dr. D. Kranzlmüller)
+                                                                     Internet
+
+
+
+                     Datenfluss bei                          Alice                     Bob
+
+
+
+
+     Sender
+Nachricht,
+                         &        Empfänger
+                                                                                Nachricht,
+  Ziel      • Transport der Nachricht                                           Ursprung
+               • Aufbau und Abbau der Verbindung
+               • Mit/ohne Zustellgarantie
+               • Über unsichere Kanäle
+ Daten,        • Mit Verkehrsmanagement (Stau, …)                                Daten,
+Verb.Info
+            • Weg durch das Netz                                                Verb.Info
+               • Vermittlung/Pfadschaltung
+Daten,         • Wegewahl im lokalen Netz / im Internet                          Daten,
+Weginfo     • Datenübertragung                                                   Weginfo
+               • Sicherung
+ Bits,
+               • Bitübertragung
+                                                                                  Bits,
+ Kanal                                                                            Kanal
+                        Rechnernetze und verteilte Systeme
+                                                                                 86
+                            (Prof. Dr. D. Kranzlmüller)
+Dienstschichtung (Beispiel)
+          Ort A                                                          Ort B
+
+             Weinbesteller
+                                     Protokoll 7               Weinlieferantin
+
+                                     Protokoll 6
+       Übersetzerin                                                    Übersetzer
+
+
+
+
+                                       Netz
+                                     Protokoll 5
+     Gesprächsübergabe                                            Gesprächsübergabe
+
+                                     Protokoll 4
+           Sekretärin A                                               Sekretär B
+
+                                    Protokoll 3
+
+
+
+
+                                                                                    = Verstärker
+                          Rechnernetze und verteilte Systeme
+                                                                                         87
+                              (Prof. Dr. D. Kranzlmüller)
+                                                                      Internet
+
+
+                                                              Alice                     Bob
+
+
+
+
+      Sender
+Nachricht,
+                                                            Empfänger
+                                                                                 Nachricht,
+  Ziel      • Transport der Nachricht                                            Ursprung
+
+                                 Protokoll
+
+
+
+ Daten,                                                                           Daten,
+Verb.Info
+            • Weg durch das Netz                                                 Verb.Info
+
+                                 Protokoll
+Daten,                                                                            Daten,
+Weginfo     • Datenübertragung                                                    Weginfo
+
+                                 Protokoll
+ Bits,                                                                             Bits,
+ Kanal                                                                             Kanal
+                       Rechnernetze und verteilte Systeme
+                                                                                  88
+                           (Prof. Dr. D. Kranzlmüller)
+Horizontale und Vertikale
+Kommunikation
+• Vertikale Kommunikation
+  (nach unten oder nach oben)
+  mit einer benachbarten Schicht
+• Horizontale Kommunikation
+  zwischen Instanzen der gleichen Schicht
+  mit der jeweiligen Peer-Entität
+
+       ➔ Festlegung von Sprachkonventionen
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       89
+                      (Prof. Dr. D. Kranzlmüller)
+Nutzdaten & Steuerinformation
+• Innerhalb des Schichtenmodells (nach unten, nach
+  oben, und horizontal) unterscheiden wir zwischen
+   • Nutzdaten
+   • Steuerinformation
+
+• Welcher Teil Nutzdaten und welcher
+  Steuerinformation ist, hängt davon ab
+   • auf welcher Schicht wir uns befinden
+   • ob wir Kommunikation nach oben, nach unten, oder zur
+     Peer-Entität betrachten.
+
+                    Rechnernetze und verteilte Systeme
+                                                         90
+                        (Prof. Dr. D. Kranzlmüller)
+Dateneinheiten (vertikal)
+• Vertikale Kommunikation (nach unten, oder nach
+  oben) mit einer Protokollinstanz einer
+  benachbarten Schicht:
+   • Steuerinformation „ICI“
+     (Interface Control Information,
+     deutsch: Schnittstellen-Steuerdaten)
+   • Nutzdaten „ID“
+     (Interface Data, deutsch: Schnittstellen-Daten)
+   • Einheit aus ICI + ID ➔ „IDU“
+     (Interface Data Unit, deutsch: Schnittstellen-
+     Dateneinheit)
+
+                     Rechnernetze und verteilte Systeme
+                                                          91
+                         (Prof. Dr. D. Kranzlmüller)
+                              (N)-IDU
+
+Schicht (N+1)
+
+
+
+                   (N)-ICI
+                  (N)-ICI
+                  (N)-ICI
+                                         (N)-ID
+                                        (N)-ID
+                                        (N)-ID                     Zu sendende Daten
+
+
+
+Schicht N
+                (N)-PCI                  (N)-SDU
+
+
+
+
+                 (N)-PCI     (N)-UD                                Dateneinheit der Schicht N
+                                                                   = (N)-PDU
+
+Schicht (N-1)
+
+                      IDU: Interface Data Unit                       SDU: Service Data Unit
+                      ICI: Interface
+                       Rechnernetze    undControl    Information
+                                           verteilte Systeme         UD: User Data 92
+                            (Prof. Dr. D. Kranzlmüller)
+                      PCI: Protocol Control Information              PDU: Protocol Data Unit
+Ablauf des Datenflusses
+• (N)-IDU steuert Dienst (über SAP = Service Access
+  Point) der Schicht N
+   • (N)-IDU = (N)-ICI + (N)-ID
+   • (N)-ID = (N+1)-PCI + (N+1)-UD = (N+1)-PDU
+• Nach Passieren der Schnittstelle:
+   • (N)-ICI des (N)-IDU wird nicht mehr gebraucht
+   • (N)-ID des (N)-IDU wird zu (N)-SDU
+• (N)-SDU entspricht (N)-UD
+• (N)-PDU ist (N)-PCI + (N)-UD
+
+                     Rechnernetze und verteilte Systeme
+                                                          93
+                         (Prof. Dr. D. Kranzlmüller)
+                                                                                     (N)-IDU
+                                                                               (N+1)-PCI
+                                                    Absender
+Korrespondent         Gebühr                                                                     „empfange
+„versende Ware“       normal = billig                                                (N+1)-PDU   Ware“
+Schicht (N+1)         express = teuer
+                                                     Sendung
+                                                                  Empfänger
+
+
+                           (N)-ICI                                          (N)-ID
+
+
+Poststelle
+„versende Paket“                              (N)-PCI                     (N)-SDU
+Schicht N           Barcode
+                    (zur Paketverfolgung)
+
+                                                            (N)-PDU
+
+
+
+
+   Spedition
+   „Transportiere
+   Fracht“
+ Schicht (N-1)
+                                     Rechnernetze und verteilte Systeme
+                                         (Prof. Dr. D. Kranzlmüller)      Analogie: Paketversand
+                                                                                           94
+Datenfluss (vertikal und horizontal)
+
+                           Sender                                Empfänger
+
+                            M       Originalnachricht               M
+
+            Header
+                                         virtuelle Übertragung
+Schicht 3             H3    M                                       M    H3
+
+
+                                         virtuelle Übertragung
+Schicht 2        H2   H3     M                                      M    H3   H2
+
+
+
+Schicht 1   H1   H2   H3     M                                      M    H3   H2   H1
+
+
+                                        reale Übertragung                          95
+                                                                      Internet
+
+
+                                                              Alice                     Bob
+
+
+
+
+      Sender
+Nachricht,
+                                                            Empfänger
+                                                                                 Nachricht,
+  Ziel      • Transport der Nachricht                                            Ursprung
+
+                                 Protokoll
+
+
+
+ Daten,                                                                           Daten,
+Verb.Info
+            • Weg durch das Netz                                                 Verb.Info
+
+                                 Protokoll
+Daten,                                                                            Daten,
+Weginfo     • Datenübertragung                                                    Weginfo
+
+                                 Protokoll
+ Bits,                                                                             Bits,
+ Kanal                                                                             Kanal
+                       Rechnernetze und verteilte Systeme
+                                                                                  96
+                           (Prof. Dr. D. Kranzlmüller)
+Dateneinheiten (horizontal)
+• Horizontale Kommunikation (mit der Peer-Entität):
+   • Steuerinformation „PCI“
+     (Protocol Control Information,
+     deutsch: Protokoll-Steuer-Information).
+   • Nutzdaten „UD“
+     (User Data,
+     deutsch: Nutzerdaten)
+   • Einheit aus PCI + UD ➔ „PDU“
+     (Protocol Data Unit,
+     deutsch: Protokoll-Dateneinheit)
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          97
+                         (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+Dateneinheiten
+Kommunikation    Steuerinformation              Nutzdaten      Kombiniert
+Peer-Instanzen    Port-Steuer-Info             Nutzerdaten      Protokoll
+ (horizontal)           (PCI)                     (UD)         Dateneinheit
+                                                                  (PDU)
+ Benachbarte         Interface               Interface Daten    Interface
+  Instanzen        Steuerdaten                     (ID)        Dateneinheit
+   (vertikal)           (ICI)                                     (IDU)
+
+
+
+
+                        Rechnernetze und verteilte Systeme
+                                                                              98
+                            (Prof. Dr. D. Kranzlmüller)
+Modellannahmen
+
+        Sichere Instanz
+
+        Sichere Übertragung
+                                  Unsichere
+        Sichere Instanz                                  Unsichere Instanz
+                                 Übertragung
+
+
+
+• sicherer Kanal: keine Fehler, kein Datenverlust, kein
+  Synchronisationsverlust
+• sichere Instanz: kein Fehlverhalten, kein
+  Synchronisationsverlust
+• unsichere/r Instanz/Kanal: sonst
+                          Rechnernetze und verteilte Systeme
+                                                                             99
+                              (Prof. Dr. D. Kranzlmüller)
+Schnittstellen
+• Instanzen haben drei Schnittstellen:
+   • nach oben
+   • nach unten
+   • zur Peer-Entität
+
+
+• Kommunikation zwischen Protokollinstanzen
+  (Peer-Entitäten) ist rein virtuell.
+• Tatsächlich wird nur nach oben oder unten
+  kommuniziert.
+
+                        Rechnernetze und verteilte Systeme
+                                                             100
+                            (Prof. Dr. D. Kranzlmüller)
+        Schnittbildung
+                               Schnitte dienen der ...
+                               • Identifikation
+                                  kommunizierender Einheiten
+                                  und ihrer Interaktionsstellen
+                               • Zuordnung von
+                                  Interaktionsstellen zueinander
+                               • Definition des inhaltlichen und
+                                  zeitlichen Zusammenhangs
+                                  zwischen Interaktionen
+
+
+          Interaktionsstelle
+
+                               Schnitt
+• Systemschnitt: zwischen physischen Systemen
+• Dienstschnitt: zwischen benachbarten Schichten
+• Protokollschnitt: zwischen Peer-Entitäten
+
+             Rechnernetze und verteilte Systeme
+                                                                   101
+                 (Prof. Dr. D. Kranzlmüller)
+Systemschnitt
+• setzt an den tatsächlichen (physikalischen) Grenzen
+  kommunizierender Systeme an
+• legen diskrete kommunizierender Systeme fest
+• können zur Verfeinerung (Annäherung an reale
+  Konfiguration) mehrfach angewendet werden.
+
+Beispiel: Ein Laptop ist ein System, ein Router ist ein
+System und das Ethernet Kabel das sie verbindet
+realisiert die Schnittstelle zwischen diesen Systemen.
+
+                    Rechnernetze und verteilte Systeme
+                                                         102
+                        (Prof. Dr. D. Kranzlmüller)
+Systemschnitt
+                                         Netz
+                                         Systemschnitt
+
+• Festlegung diskreter kommunizierender Systeme
+• Interaktionsstelle stimmt mit dem realen Übergang zum Medium überein.
+• Kann zur Verfeinerung (Annäherung an reale Konfiguration) mehrfach angewendet
+  werden (z.B. unten im Bild).
+
+
+    Uni Hannover                                                 LMU München
+
+
+                         Transitsystem
+      Endsystem                                                    Endsystem
+
+
+                         Zugangsnetz H   DFN X-WiN       MWN   Gebäude    LFE Netz
+Dienstschnitt
+• setzt zwischen den Diensten zweier benachbarter
+  Schichten an
+   • Der Kommunikationsvorgang innerhalb eines Systems
+     wird in Teilvorgänge aufgeteilt.
+• legt Dienstnutzer, Dienst, und Diensterbringer fest.
+
+
+
+• nur sinnvoll in Verbindung mit einer
+  Schichtenarchitektur
+
+                    Rechnernetze und verteilte Systeme
+                                                         104
+                        (Prof. Dr. D. Kranzlmüller)
+Dateneinheit an der
+Dienstschnittstelle
+• SDU (Service Data Unit):
+  Wenn eine IDU die relevante Schnittstelle passiert,
+  wird dessen ID auch als „SDU“ (Service Data Unit,
+  deutsch: Dienst-Daten-Einheit) bezeichnet.
+
+• SAP (Service Access Point): Interface/Schnittstelle
+   • ICI (Interface Control Information) wird also zur
+     Ansteuerung eines SAP verwendet.
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           105
+                          (Prof. Dr. D. Kranzlmüller)
+Dienstzugangspunkt (SAP)
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                106
+               (Prof. Dr. D. Kranzlmüller)
+Protokollschnitt
+• setzt zwischen den Peer-Entitäten zweier
+  kommunizierender Endsysteme an.
+• Peer-Entitäten sind Instanzen desselben Protokolls
+  (auf der selben Schicht) in zwei verschiedenen
+  kommunizierenden Systemen.
+
+Beispiel: Instanz des HTTP Protokolls auf unserem
+Computer (z.B. Browser) kommuniziert mit einer
+Instanz des HTTP Protokolls auf einem Webserver.
+
+                   Rechnernetze und verteilte Systeme
+                                                        107
+                       (Prof. Dr. D. Kranzlmüller)
+Schnittbildung in der
+Schichtenarchitektur
+• Systemschnitt – zwischen Systemen
+
+• Dienstschnitt – zwischen benachbarten Schichten
+
+• Protokollschnitt – zwischen Peer-Entitäten
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        108
+                       (Prof. Dr. D. Kranzlmüller)
+                                                                      Internet
+
+
+                                                              Alice                     Bob
+
+
+
+
+      Sender
+Nachricht,
+                                                            Empfänger
+                                                                                 Nachricht,
+  Ziel      • Transport der Nachricht                                            Ursprung
+
+                                 Protokoll
+
+
+
+ Daten,                                                                           Daten,
+Verb.Info
+            • Weg durch das Netz                                                 Verb.Info
+
+                                 Protokoll
+Daten,                                                                            Daten,
+Weginfo     • Datenübertragung                                                    Weginfo
+
+                                 Protokoll
+ Bits,                                                                             Bits,
+ Kanal                                                                             Kanal
+                       Rechnernetze und verteilte Systeme
+                                                                                 109
+                           (Prof. Dr. D. Kranzlmüller)
+Abbildungen zw. Datenblöcken
+• Datenblöcke müssen in bestimmten Fällen
+  bearbeitet werden, um zum Dienst zu passen
+• Mögliche Operationen auf Datenblöcken:
+  • Segmentierung (Segmenting)
+    / Neumontage (Reassembly)
+  • Blockieren (Blocking)
+    / Deblockieren (Deblocking)
+  • Verkettung (Concatenation)
+    / Trennung (Separation)
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        110
+                       (Prof. Dr. D. Kranzlmüller)
+Abbildungen zw. Datenblöcken
+(Segmenting/Reassembly)
+
+
+                  Segmenting
+  (N)-PCI                                                   (N)-PDU
+                  Reassembly
+ (N)-SDU                                                  (N)-PDU
+                                                 PCI: Protocol Control Information
+                                                 PDU: Protocol Data Unit
+                                                 SDU: Service Data Unit
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                                                     111
+                (Prof. Dr. D. Kranzlmüller)
+Abbildungen zw. Datenblöcken
+(Blocking/Deblocking)
+
+
+ (N)-PCI   (N)-SDU    Blocking
+                     Deblocking                              (N)-PDU
+ (N)-PCI   (N)-SDU
+
+
+
+
+                        Rechnernetze und verteilte Systeme
+                                                                       112
+                            (Prof. Dr. D. Kranzlmüller)
+Abbildungen zw. Datenblöcken
+(Concatenation&Separation)
+
+                         (N)-PDU                   (N)-PDU
+  Schicht N
+
+
+                                                              Concatenation
+                                                                              Separation
+  Schicht (N-1)
+                  (N-1)-PCI                  (N-1)-SDU
+
+                                             (N-1)-PDU
+
+
+
+
+                         Rechnernetze und verteilte Systeme
+                                                                                           113
+                             (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+• Datenfluss beim Sender & Empfänger
+• Nutzdaten und Steuerinformation
+• Sprachkonventionen für horizontale & vertikale
+  Kommunikation
+• Modellannahmen
+• Schnittbildung
+• Abbildungen zwischen Datenblöcken
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       114
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            115
+           (Prof. Dr. D. Kranzlmüller)
+Schichtenmodelle
+
+
+
+             Rechnernetze und verteilte Systeme
+                                                  116
+                 (Prof. Dr. D. Kranzlmüller)
+                                                                     Internet
+
+
+
+                     Datenfluss bei                          Alice                     Bob
+
+
+
+
+     Sender
+Nachricht,
+                         &        Empfänger
+                                                                                Nachricht,
+  Ziel      • Transport der Nachricht                                           Ursprung
+               • Aufbau und Abbau der Verbindung
+               • Mit/ohne Zustellgarantie
+               • Über unsichere Kanäle
+ Daten,        • Mit Verkehrsmanagement (Stau, …)                                Daten,
+Verb.Info
+            • Weg durch das Netz                                                Verb.Info
+               • Vermittlung/Pfadschaltung
+Daten,         • Wegewahl im lokalen Netz / im Internet                          Daten,
+Weginfo     • Datenübertragung                                                   Weginfo
+               • Sicherung
+ Bits,
+               • Bitübertragung
+                                                                                  Bits,
+ Kanal                                                                            Kanal
+                        Rechnernetze und verteilte Systeme
+                                                                                117
+                            (Prof. Dr. D. Kranzlmüller)
+                                                                       Internet
+
+
+                                                            Alice                       Bob
+
+
+
+  Schichtfestlegung
+                                                                    Anwendung
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie                                        Transport
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)
+• Weg durch das Netz
+   • Vermittlung/Pfadschaltung                                      Vermittlung
+   • Wegewahl im lokalen Netz / im Internet
+• Datenübertragung
+   • Sicherung                                                Netzanschluss
+   • Bitübertragung
+                       Rechnernetze und verteilte Systeme
+                                                                                  118
+                           (Prof. Dr. D. Kranzlmüller)
+Internet-Schichtenmodell
+                           HTTP                  FTP   SNMP   NTP
+  Anwendung
+                           SMTP                 DNS    DHCP     …
+
+   Transport                 TCP                UDP
+
+                              IP                 RIP   BGP
+  Vermittlung
+                           ICMP                OSPF     …
+
+ Netzanschluss              ARP                  PPP    …
+
+
+                 Rechnernetze und verteilte Systeme
+                                                              119
+                     (Prof. Dr. D. Kranzlmüller)
+Internet-Schichtenmodell
+• aka „TCP/IP-Referenzmodell“
+• orientiert sich an Kern-Protokollen (TCP und IP)
+• nur bedingt auf andere Protokollstapel anwendbar -
+  nicht Sinn eines Referenzmodells
+• ISO/OSI-Modell als allgemeines Referenzmodell für
+  Telekommunikationsnetze entwickelt
+• Bei Fertigstellung des ISO/OSI-Modell, waren TCP & IP
+  bereits als Internetworking Protokolle etabliert
+➔ Internet verwendet „Internet-Modell“, aber ISO/OSI-
+Modell ist „besseres“ Referenzmodell für abstraktes
+Verständnis allgemeiner Kommunikationsabläufe
+                    Rechnernetze und verteilte Systeme
+                                                          120
+                        (Prof. Dr. D. Kranzlmüller)
+ISO/OSI und Internet im Vergleich
+                               • Internet-Modell:
+                                 4 Schichten
+                               • ISO/OSI-Modell:
+                                 7 Schichten
+                               • Vorteile der Schicht-
+                                 kapselung gehen verloren
+                               • Aufgaben der ISO/OSI-
+                                 Schichten 5 und 6 werden
+                                 im Internet von der
+                                 Anwendung behandelt.
+
+            Rechnernetze und verteilte Systeme
+                                                       121
+                (Prof. Dr. D. Kranzlmüller)
+Das ISO/OSI-Referenzmodell
+(engl. Open Systems Interconnection Model)
+ISO - Internationale Organisation für Normung, Genf, Schweiz
+(Engl. International Organization for Standardization)
+
+
+
+
+                          Rechnernetze und verteilte Systeme
+                                                               122
+                              (Prof. Dr. D. Kranzlmüller)
+Definition: ISO/OSI-Modell (1/2)
+Das ISO/OSI-Modell (engl.: Open Systems
+Interconnection Model) ist ein Referenzmodell
+(ein allgemeines Modell für eine Klasse von
+Sachverhalten),
+
+welches den Nachrichtenaustausch in einem
+Telekommunikationsnetz mit Hilfe einer
+Schichtenarchitektur (das Modell enthält sieben
+wohldefinierte aufeinander aufbauende
+Abstraktionsschichten) analysiert und strukturiert.
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        123
+                       (Prof. Dr. D. Kranzlmüller)
+Definition: ISO/OSI-Modell (2/2)
+...
+
+Auf einzelnen Schichten anfallende Aufgaben können
+somit unabhängig von den Anforderungen anderer
+Schichten (mithilfe von Protokollen) charakterisiert
+und gelöst werden.
+
+Protokolle benachbarter Schichten können über
+wohldefinierte Schnittstellen interagieren.
+
+                  Rechnernetze und verteilte Systeme
+                                                       124
+                      (Prof. Dr. D. Kranzlmüller)
+Nomenklatur
+• Korrekter Name im deutschen Sprachraum:
+  „ISO/OSI-Referenzmodell“
+• Aus Platzgründen oft „ISO/OSI-Modell“ oder
+  „ISO/OSI-Schichtenmodell“
+• Im englischen Sprachraum auch nur „OSI-Model“
+• Offizielle Bezeichnung des Standards: ISO/IEC 7498
+• Begriff „OSI“ (engl.: Open Systems Interconnection)
+  enthält Ziel des Modells, Informationssysteme
+  verschiedener Hersteller zur Zusammenarbeit
+  (interconnection) zu befähigen.
+                   Rechnernetze und verteilte Systeme
+                                                        125
+                       (Prof. Dr. D. Kranzlmüller)
+OSI – Open System
+Interconnection
+• Offenheit: Warum ist das System offen?
+   OSI ist „offen“, weil es erlaubt, dass unterschiedliche Systeme
+   zusammengeschaltet werden können – solange sie sich an die
+   Protokolle und Schnittstellen halten.
+• Transparenz: Warum ist das System transparent?
+   Teile des Modells sind vorhanden, aber „unsichtbar“, und
+   werden daher vom Benutzer nicht wahrgenommen.
+   Ein Protokoll kommuniziert „virtuell“ mit der gleichen
+   Gegenstelle beim Kommunikationspartner.
+
+Achtung: Transparenz in der IT-Sicherheit und im
+Datenschutz werden teilweise gegenteilig verwendet!
+
+                       Rechnernetze und verteilte Systeme
+                                                                     126
+                           (Prof. Dr. D. Kranzlmüller)
+Internet-Modell vs.
+ISO/OSI Referenzmodell
+• Internet-Modell: gesamte Anwendungssystem ist
+  eine einzige Schicht.
+• Funktionen der ISO/OSI-Schichten 5 und 6 sind
+  nicht in einer eigenen Schicht gekapselt, dadurch
+   • nicht modifizierbar/ersetzbar
+   • eng an Anwendungen gekoppelt
+• Es gibt kein allgemeines Sitzungskonzept
+• Es besteht keine transparente Anpassung der
+  Darstellung
+
+                   Rechnernetze und verteilte Systeme
+                                                        127
+                       (Prof. Dr. D. Kranzlmüller)
+                           End system                                                  End system
+                           Application                                                 Application
+
+
+
+
+Application System
+                     7       Layer                                                       Layer
+
+                          Presentation                                                 Presentation
+                     6
+                             Layer                                                        Layer
+
+                             Session                                                     Session
+                     5
+                              Layer                                                       Layer
+
+                            Transport                                                   Transport
+                     4
+                              Layer                         Transit sytem                 Layer
+                                                  c, Internetworking & Relaying
+
+
+
+
+Transport System
+                     3   Network Layer            b,      (De)-Enhancement            Network Layer
+                                                  a, Subnet-dependent network I.
+                         Data Link Layer                                            Data Link    LLC
+                     2                                     Data Link Layer
+                                                                                    Layer     Medium-
+                         Medium Access I.                                                     access I.
+                            Physical                                                     Physical
+                     1                                      Physical Layer
+                             Layer                                                        Layer
+
+                                    Medium                                         Medium
+                                             Rechnernetze und verteilte Systeme
+                                                                                                    128
+                                                 (Prof. Dr. D. Kranzlmüller)
+Schichten im ISO/OSI-
+Referenzmodell (in Deutsch)
+• Schicht 7: Anwendungsschicht
+• Schicht 6: Darstellungsschicht
+• Schicht 5: Sitzungsschicht /
+  Kommunikationssteuerungsschicht
+• Schicht 4: Transportschicht
+• Schicht 3: Vermittlungsschicht
+• Schicht 2: Sicherungsschicht
+• Schicht 1: Bitübertragungsschicht
+
+                  Rechnernetze und verteilte Systeme
+                                                       129
+                      (Prof. Dr. D. Kranzlmüller)
+                           End system                                                         End system
+                           Application                                                        Application
+
+
+
+
+Application System
+                     7       Layer                                                              Layer
+                                                           Protokollschnitt
+                          Presentation                                                        Presentation
+                     6
+                             Layer                                                               Layer
+
+                             Session                                                               Session
+                     5
+                              Layer                                                                 Layer
+                                                                           Dienstschnitt
+                            Transport                                                             Transport
+                     4
+                              Layer                         Transit sytem                           Layer
+                                                  c, Internetworking & Relaying
+
+
+
+
+Transport System
+                     3   Network Layer            b,      (De)-Enhancement                   Network Layer
+                                                  a, Subnet-dependent network I.
+                         Data Link Layer                                                   Data Link    LLC
+                     2                                     Data Link Layer
+                                                                                           Layer     Medium-
+                         Medium Access I.                                                            access I.
+                            Physical                                                              Physical
+                     1                                      Physical Layer
+                             Layer                                                                 Layer
+
+                                    Medium                                               Medium
+                                             Rechnernetze und verteilte Systeme
+                                                 (Prof. Dr. D. Kranzlmüller)      Systemschnitt               130
+ISO/OSI Referenzmodell
+           Endsystem A                                                            Endsystem B
+                  7                                                                      7
+                  6                                                                      6
+                  5       Virtuelle, zuverlässige Verbindungen                           5
+                               (aus Sicht der Endsysteme)
+                  4                                                                      4
+                  3        3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2        2                       2            ...      2               2
+                  1        1                       1                     1               1
+                         Router                 Router                 Router
+
+
+                                  Netz 1                    Netz 2      ...     Netz n
+
+
+                                  Rechnernetze und verteilte Systeme
+                                                                                             131
+                                      (Prof. Dr. D. Kranzlmüller)
+                           End system                                                  End system
+                           Application                                                 Application
+
+
+
+
+Application System
+                     7       Layer                                                       Layer
+
+                          Presentation                                                 Presentation
+                     6
+                             Layer                                                        Layer
+
+                             Session                                                     Session
+                     5
+                              Layer                                                       Layer
+
+                            Transport                                                   Transport
+                     4
+                              Layer                         Transit sytem                 Layer
+                                                  c, Internetworking & Relaying
+
+
+
+
+Transport System
+                     3   Network Layer            b,      (De)-Enhancement            Network Layer
+                                                  a, Subnet-dependent network I.
+                         Data Link Layer                                            Data Link    LLC
+                     2                                     Data Link Layer
+                                                                                    Layer     Medium-
+                         Medium Access I.                                                     access I.
+                            Physical                                                     Physical
+                     1                                      Physical Layer
+                             Layer                                                        Layer
+
+                                    Medium                                         Medium
+                                             Rechnernetze und verteilte Systeme
+                                                                                                    132
+                                                 (Prof. Dr. D. Kranzlmüller)
+Schicht 1: Bitübertragungsschicht
+(Engl.: Physical layer)
+• Transparente Übertragung von Bits eines Frames via
+  Data Circuits (Bsp. Data Circuit: Das Wegstück
+  Netzkarte, Ethernet Kabel, Router)
+• Darstellen von Daten auf dem physikalischen Medium
+   • mechanisch: Stecker, Pin-Belegung, Signalkodierung
+   • physikalisch: Signalkodierung, Modulation
+   • funktionell: Bedeutung der Pin-Belegung
+• Festlegung der Übertragungsart
+   • Analog / Digital
+   • Synchron / Asynchron
+   • Seriell / Parallel
+• Art der Modulation
+• Beispiele: V.24 (Analog), X.21 (Digital), IEEE 802.3 PMA
+                      Rechnernetze und verteilte Systeme
+                                                           133
+                          (Prof. Dr. D. Kranzlmüller)
+Schicht 2: Sicherungsschicht
+(Engl.: Data link layer)
+• Aus Data Circuits der Schicht 1 werden
+  übertragungstechnikunabhängige, gesicherte Data
+  Links, bzw. Logical Links auf Schicht 2
+• Schicht 2a: Medium Access Control (MAC):
+   • Zugang auf das physikalische Medium
+   • Zusammenfassung von Bits zu Blöcken bzw. Frames
+   • Synchronisationsverhalten der Blöcke bzw. der Frames
+• Schicht 2b: Logical Link Control (LLC):
+   • Leitungsprotokolle
+   • Fehlererkennung und Fehlerkorrektur (Paritätbits, BCC,
+     Hammingabstand)
+
+                     Rechnernetze und verteilte Systeme
+                                                            134
+                         (Prof. Dr. D. Kranzlmüller)
+Schicht 3: Vermittlungsschicht
+(Engl.: Network layer)
+• Zusammenschaltung der Logical Links der Schicht 2 zu
+  einem End to End Path der Schicht 3 (via Transitsysteme)
+• Wegewahl (vor bzw. während Kommunikationsbeziehung)
+  und Vermittlung/Routing (während dem Datenaustausch)
+
+                                                            Ziel
+
+ Start
+
+
+
+• Verhandlung der Dienstgüte
+• Wichtigstes Beispielprotokoll: Internet Protokoll (IP)
+                       Rechnernetze und verteilte Systeme
+                                                                   135
+                           (Prof. Dr. D. Kranzlmüller)
+Schicht 4: Transportschicht
+(Engl.: Transport layer)
+• Netzunabhängiger Transport von Nachrichten (beliebiger Länge)
+  zwischen zwei Endsystemen
+• Liegt (als oberste Schicht des Transportsystems), an der Grenze
+  zum Anwendungssystem:
+
+
+
+
+• Die wichtigsten Transportschichtprotokolle im Internet:
+    • TCP (Engl.: Transmission Control Protocol): verbindungsorientiert
+    • UDP (Engl.: User Datagram Protocol): verbindungslos
+
+                           Rechnernetze und verteilte Systeme
+                                                                          136
+                               (Prof. Dr. D. Kranzlmüller)
+Schicht 5: Kommunikationssteuerungsschicht
+(auch Sitzungsschicht) (Engl.: Session layer)
+• Sitzung:
+  Temporär bestehende logische Kommunikations-
+  Beziehung zwischen zwei Anwendungen
+• Aufgaben der Schicht:
+   • Dialogführung innerhalb der Sitzung (Berechtigungstokens)
+   • Synchronisation: Aufbau, Abbau, Definition von
+     Wiederaufsatzpunkten bei Synchronisationsverlust
+• Arten von Sitzungen:
+   • Voll Duplex: beide Teilnehmer senden und empfangen (auch
+     gleichzeitig)
+   • Halb Duplex: beide Teilnehmer senden und empfangen (aber
+     nicht gleichzeitig)
+   • Simplex: ein Teilnehmer sendet und einer empfängt
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                 137
+                          (Prof. Dr. D. Kranzlmüller)
+Schicht 6: Darstellungsschicht
+(Engl.: Presentation layer)
+• Aushandeln der konkreten Transfersyntax
+• Abbilden der Transfersyntax auf die konkrete lokale
+  Syntax (z.B. Basic Encoding Rules, BER)
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        138
+                       (Prof. Dr. D. Kranzlmüller)
+Schicht 7: Anwendungsschicht
+(Engl.: Application layer)
+• Allgemein verwendbare Dienste werden als Protokolle
+  spezifiziert und standardisiert.
+• Beispiele, die uns noch begegnen werden (DNS im
+  Kapitel 2 und der Rest im Kapitel 6):
+   • DNS (engl. Domain Name System)
+   • SMTP (engl. Simple Mail Transfer Protocol)
+   • HTTP (engl. Hypertext Transfer Protocol)
+   • FTP (engl. File Transfer Protocol)
+• Schicht 7 ist „nach oben“ nicht abgeschlossen
+  (Bsp.: REST-APIs erweitern die Funktionalität der
+  Anwendungsschicht und nutzen selbst Dienste der
+  Anwendungsschicht)
+                      Rechnernetze und verteilte Systeme
+                                                           139
+                          (Prof. Dr. D. Kranzlmüller)
+Middleware als Spezialfall
+• Ansatz: Bei Anwendungen, wo sich ein Kapseln der
+  ISO/OSI Schicht 5 und 6 Aufgaben eindeutig lohnt,
+  führen wir eine Kommunikations-Middleware
+  (Kapitel 7) ein.
+• Bsp.: CORBA (engl. Common Object Request Broker
+  Architecture)
+• Vorschrift von Datenformaten durch Middleware;
+  Anpassungen (engl. Bindings) an verschiedenartige
+  Systeme
+• Anwendungskomponente nutzt Schnittstelle zur
+  Kommunikation mit anderen Komponenten.
+• Transportschicht wird aus Anwendungssicht
+  verschattet.
+                   Rechnernetze und verteilte Systeme
+                                                        140
+                       (Prof. Dr. D. Kranzlmüller)
+                           End system                                                  End system
+                           Application                                                 Application
+
+
+
+
+Application System
+                     7       Layer                                                       Layer
+
+                          Presentation                                                 Presentation
+                     6
+                             Layer                                                        Layer
+
+                             Session                                                     Session
+                     5
+                              Layer                                                       Layer
+
+                            Transport                                                   Transport
+                     4
+                              Layer                         Transit sytem                 Layer
+                                                  c, Internetworking & Relaying
+
+
+
+
+Transport System
+                     3   Network Layer            b,      (De)-Enhancement            Network Layer
+                                                  a, Subnet-dependent network I.
+                         Data Link Layer                                            Data Link    LLC
+                     2                                     Data Link Layer
+                                                                                    Layer     Medium-
+                         Medium Access I.                                                     access I.
+                            Physical                                                     Physical
+                     1                                      Physical Layer
+                             Layer                                                        Layer
+
+                                    Medium                                         Medium
+                                             Rechnernetze und verteilte Systeme
+                                                                                                    141
+                                                 (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung (1/2)
+• Schichtenarchitektur
+   • Schichten dienen zur Modellierung des
+     Kommunikationssystems
+   • Schichten kommunizieren durch definierte Schnittstellen
+     mit ihren benachbarten Schichten
+   • Implementierung des Protokolls einer Schicht ist davon
+     unabhängig
+• Referenzmodell
+   • Allgemeines Modell für eine Klasse von Sachverhalten
+   • ISO/OSI-Referenzmodell: strukturiert und analysiert den
+     Nachrichtenaustausch in einem Kommunikationsnetz
+     mit Hilfe einer Schichtenarchitektur
+
+                     Rechnernetze und verteilte Systeme
+                                                          142
+                         (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung (2/2)
+
+Internet-Schichtenmodell               ISO/OSI-Referenzmodell
+• 4 Schichten                          • 7 Schichten
+• Erst kamen Protokolle,               • Unterscheidet explizit
+  dann das Modell                        zwischen Diensten,
+                                         Schnittstellen und
+                                         Protokollen
+
+
+
+
+                    Rechnernetze und verteilte Systeme
+                                                                  143
+                        (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            144
+           (Prof. Dr. D. Kranzlmüller)
+Geschichte des Internet
+
+
+
+              Rechnernetze und verteilte Systeme
+                                                   145
+                  (Prof. Dr. D. Kranzlmüller)
+3 Phasen des Internet
+• Mitte 1960 – Frühphase des Internet
+   • Schaffung der Grundlagen
+   • Demonstration der Technologie
+   • Anwendungsfähigkeit
+• Ende 1970 – Wilde Phase des Internet
+   • Übergang militärische zu akademische
+     Forschungsförderung
+   • Wachstum und internationale Ausbreitung
+   • Tauschökonomie, Selbstorganisation, Hackergeist
+• Seit 1990 – Kommerzielle Phase des Internet
+                    Rechnernetze und verteilte Systeme
+                                                         146
+                        (Prof. Dr. D. Kranzlmüller)
+Chronologie
+• 1957: Gründung der ARPA (Advanced Research
+  Projects Agency) des US-Verteidigungsministeriums
+  (als Antwort auf Sputnik, 1. Satellit der UdSSR)
+• 1960: US Militär verfügt über vernetzte
+  Rechenzentren – Rand Corporation stellt
+  Anfälligkeit fest – Zentraler Knoten
+• 1963: J.C.R. Licklider (BBN – Bolt, Beranek,
+  Newman), Concept of an
+  „Intergalactic Computer Network“
+
+                  Rechnernetze und verteilte Systeme
+                                                       147
+                      (Prof. Dr. D. Kranzlmüller)
+Internet Message Processor - BBN
+(Mai 1965)
+                              • Vorläufer heutiger
+                                Router
+                              • Paketvermittlung
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                     148
+               (Prof. Dr. D. Kranzlmüller)
+The ARPA Network (Dez. 1969)
+                              • University of California,
+                                Los Angeles (UCLA)
+                              • Stanford Research
+                                Institute (SRI)
+                              • University of California
+                                in Santa Barbara (UCSB)
+                              • University of Utah
+
+                              1. Nachricht UCLA ➔ SRI:
+                              „Io“
+           Rechnernetze und verteilte Systeme
+                                                       149
+               (Prof. Dr. D. Kranzlmüller)
+Chronologie
+• 1969: Network Working Group erstellt erste
+  Protokollbeschreibungen
+• 1971: ARPANET hat 11 Knoten. FTP und Telnet
+  werden entwickelt
+• 1973: Transmission Control Protocol (TCP)
+  basierend auf franz. CYCLADES Projekt publiziert
+• 1974: Begriff „Internet“ wird erstmals in TCP
+  Spezifikation verwendet
+• 1977: ARPANET hat 111 Knoten
+
+                   Rechnernetze und verteilte Systeme
+                                                        150
+                       (Prof. Dr. D. Kranzlmüller)
+ARPANET (März 1977)
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               151
+              (Prof. Dr. D. Kranzlmüller)
+Anzahl der Hosts im Internet
+
+
+
+
+Von Kopiersperre (Diskussion) - Eigenes Werk, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=36391402
+                                         Rechnernetze und verteilte Systeme
+                                                                                                                 152
+                                             (Prof. Dr. D. Kranzlmüller)
+Chronologie
+• 1977: TCP wird in TCP und IP (Internet Protocol)
+  aufgesplittet
+• 1983: TCP/IP ersetzt NCP (Network Control
+  Protocol)
+• 1984: Domain Name System (DNS) entwickelt
+• 3. Aug. 1984: 1. deutsche E-Mail an Uni Karlsruhe
+• 1985: Erste Domain: nordu.net
+• 1986: DE-NIC als Verwaltungsorganisation
+  eingerichtet
+                   Rechnernetze und verteilte Systeme
+                                                        153
+                       (Prof. Dr. D. Kranzlmüller)
+Chronologie
+• 1987: 27.000 Rechner vernetzt
+• März 1989: Tim Berners-Lee, „Information
+  Management: A Proposal“, Entwurf für die
+  Entwicklung des World Wide Web (WWW)
+• 1990: Internet für kommerzielle Nutzung
+  freigegeben
+• 1990: ARPANET wird außer Betrieb genommen
+• 1991: WWW am CERN eingesetzt
+• 1992: Mosaic-Browser am NCSA entwickelt
+                Rechnernetze und verteilte Systeme
+                                                     154
+                    (Prof. Dr. D. Kranzlmüller)
+Computer History Museum
+
+
+
+
+   Computer History Museum
+     1401 N Shoreline Blvd.
+    Mountain View, CA 94043
+http://www.computerhistory.org
+
+
+
+
+                        Rechnernetze und verteilte Systeme
+                                                             155
+                            (Prof. Dr. D. Kranzlmüller)
+Google Headquarter
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               156
+              (Prof. Dr. D. Kranzlmüller)
+                  1995: Larry Page (22) und Sergey Brin (21)
+                  lernen sich in Stanford kennen
+
+                  1996: Suchmaschine BackRub
+
+                  Gründung von Google am 4. September 1998
+                  Menlo Park, Kalifornien, USA
+
+                  „Googol“: Zahl 1 mit 100 Nullen
+Rechnernetze und verteilte Systeme
+                                                       157
+    (Prof. Dr. D. Kranzlmüller)
+Rechnernetze und verteilte Systeme
+                                     158
+    (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            159
+           (Prof. Dr. D. Kranzlmüller)
+Ein einfaches Beispiel
+
+
+
+               Rechnernetze und verteilte Systeme
+                                                    160
+                   (Prof. Dr. D. Kranzlmüller)
+Inhalt
+• Ein einfaches Beispiel
+• Schichtenarchitektur in der Praxis
+   • Anwendungsschicht
+   • Transportschicht
+• Das Beispiel interaktiv
+  (mit Jupyter-Notebook)
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        161
+                       (Prof. Dr. D. Kranzlmüller)
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                      162
+                      (Prof. Dr. D. Kranzlmüller)
+Schnittstelle
+• Aus Sicht einer Anwendung möchte Alice einen
+  einfachen Dienst über eine Schnittstelle mit
+  folgender Signatur nutzen:
+
+      bool send_message(to, message)
+
+• D.h. eine Funktion, die einem Empfänger (to) eine
+  Nachricht (message) schickt.
+• Rückgabe: war der Versand erfolgreich? (bool)
+                  Rechnernetze und verteilte Systeme
+                                                       163
+                      (Prof. Dr. D. Kranzlmüller)
+Anwendungsprotokoll
+• send_message ist Teil der Anwendung und nimmt
+  Dienste der Anwendungsschicht in Anspruch
+• Alice und Bob wollen das Hypertext Transfer
+  Protocol (HTTP) nutzen.
+        Alice                                        Bob
+
+
+                           Request
+
+
+        Zeit              Response
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                           164
+                    (Prof. Dr. D. Kranzlmüller)
+Aufruf in send_message
+def send_message(to, message)
+  host = lookup_host(to)
+  response =
+    send_http_request(host, message)
+  return response.success
+
+Wie die Funktion lookup_host funktioniert, wird
+im Kapitel über das Domain Name System (DNS)
+erläutert.
+                 Rechnernetze und verteilte Systeme
+                                                      165
+                     (Prof. Dr. D. Kranzlmüller)
+Anwendung des
+Internet-Schichtenmodells
+                                    send_http_request
+  Anwendung                         (host, message)
+                                    ICI = host
+   Transport                        ID = message
+
+  Vermittlung                       ICI + ID ➔ IDU
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                        166
+                     (Prof. Dr. D. Kranzlmüller)
+Anmerkungen
+• Alice und Bob müssen vor Versand vereinbaren,
+  welches Protokoll sie nutzen wollen
+• HTTP nutzt das Client-Server-Modell
+   • Bob muss also einen Server betreiben, Alice eine
+     Verbindung zu diesem Server aufbauen
+• Oft werden fertige Software-Bibliotheken genutzt.
+  Für HTTP ist z.B. das Projekt cURL beliebt.
+• Alle Beispiele sind zur Lesbarkeit vereinfacht, z.B.
+  fehlt jegliche Fehlerbehandlung.
+
+                     Rechnernetze und verteilte Systeme
+                                                          167
+                         (Prof. Dr. D. Kranzlmüller)
+Nutzung der Transportschicht
+• Protokolle der Anwendungsschicht (hier: HTTP)
+  nutzen Protokolle der Transportschicht, um ihre
+  PDUs zu übertragen.
+   • Die HTTP-Implementierung nutzt Dienste von TCP
+     (im RFC von HTTP festgelegt)
+   • Für Aufrufer von send_message und sogar von
+     send_http_request ist dies transparent
+   • TCP sorgt für zuverlässige Übertragung der Nutzlast
+   • Schlägt die Übertragung fehl, meldet TCP dies der
+     darüber liegenden Schicht.
+   • Der HTTP-Request wird als ID an TCP übergeben.
+                     Rechnernetze und verteilte Systeme
+                                                           168
+                         (Prof. Dr. D. Kranzlmüller)
+Anwendung des
+Internet-Schichtenmodells
+  Anwendung
+                                    ICI = { host, port }
+   Transport                        ID = { request }
+
+  Vermittlung                       ICI + ID ➔ IDU
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                           169
+                     (Prof. Dr. D. Kranzlmüller)
+TCP-Client
+Alice verschickt HTTP-Request per TCP und
+empfängt die Antwort über die gleiche Verbindung
+
+def send_http_request(host, payload):
+    request = build_request(payload)
+    with socket(AF_INET, SOCK_STREAM) as s:
+        s.connect((host, port))
+        s.sendall(request)
+        response_bytes = s.recv()
+    return build_response(response_bytes)
+
+                  Rechnernetze und verteilte Systeme
+                                                       170
+                      (Prof. Dr. D. Kranzlmüller)
+TCP-Socket-Programmierungsbeispiel
+                                     Serverprozess von Bob
+     Clientprozess von Alice
+                                 // Socket ‚sock‘ erzeugen
+                                 port = 80
+ port = 80; //bekannte Portnr.   sock =
+                                 socket(AF_INET,SOCK_STREAM)
+                                 // an Port ‚port‘ binden
+                                 sock.bind((ANY, port))
+ // Erzeuge einen Socket
+ sock =
+      socket(AF_INET,
+ SOCK_STREAM)                    // Warte auf Verbindung
+ sock.connect((Bob, port))       // von Client (Alice)
+                                 // Anm: blockierender Aufruf
+                                 sock.listen()
+ //Sende Anfrage an Server
+ sock.send()
+                                 // Lese Anfrage von Client
+                                 sock.recv()
+
+
+ //Lese Antwort von Server       // Sende Antwort
+                                 sock.send()
+ sock.recv()
+
+
+
+ sock.close()                    // Schliesse Verbindung
+                                 sock.close()
+Und so weiter
+                                    • Protokolle der
+  Anwendung                           Transportschicht
+                                      nutzen äquivalent die
+                                      Vermittlungsschicht
+   Transport
+                                    • und so weiter
+
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                              172
+                     (Prof. Dr. D. Kranzlmüller)
+Zusammenfassung
+                                                         Internet
+• Ein einfaches Beispiel:
+                                  Alice                              Bob
+
+• Absenden einer einfachen Nachricht
+  über die Schnittstelle send_message
+• Verwendung von HTTP in der Anwendungsschicht
+  durch Aufruf von send_http_request
+• Nutzung von TCP auf der Transportschicht
+•…
+• Selbstversuch mittels Jupyter-Notebook
+                    Rechnernetze und verteilte Systeme
+                                                                    173
+                        (Prof. Dr. D. Kranzlmüller)
+RNVS
+
+
+
+
+       Rechnernetze und verteilte Systeme
+                                            174
+           (Prof. Dr. D. Kranzlmüller)
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              175
+             (Prof. Dr. D. Kranzlmüller)
+Fragen (1/2)
+1. Welche Probleme müssen in Rechnernetzen
+   gelöst werden, die es in dieser Art in
+   Einzelsystemen nicht gibt?
+2. Wie unterscheiden sich Internet-Schichtenmodell
+   und ISO/OSI-Referenzmodell?
+3. Wofür dienen Schnitte?
+4. Welche Arten von Schnitten gibt es?
+
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      176
+                     (Prof. Dr. D. Kranzlmüller)
+Fragen (2/2)
+1. Wie entsteht eine N-PDU aus einer N-SDU?
+2. Erklären sie die Schlüsselbegriffe des Kapitels:
+   • Referenzmodell
+   • Schichtenarchitektur
+   • Dienst
+   • Schnittstelle
+   • Protokoll
+3. Wie hängen die Begriffe Dienst, Protokoll und
+   Schnittstelle zusammen?
+
+                    Rechnernetze und verteilte Systeme
+                                                         177
+                        (Prof. Dr. D. Kranzlmüller)
+

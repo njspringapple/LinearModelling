@@ -1,0 +1,2971 @@
+ Rechnernetze &
+Verteilte Systeme
+Ludwig-Maximilians-Universität München
+        Sommersemester 2026
+        Prof. Dr. D. Kranzlmüller
+
+      https://www.ifi.lmu.de/rnvs
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              2
+             (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                3
+               (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                         4
+                      (Prof. Dr. D. Kranzlmüller)
+Anwendung des                                                  WH
+
+
+
+Internet-Schichtenmodells
+                                       send_http_request
+  Anwendung                            (host, message)
+
+   Transport
+
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                           5
+                     (Prof. Dr. D. Kranzlmüller)
+Anwendung des                                                        WH
+
+
+
+Internet-Schichtenmodells
+  Anwendung
+                                    ICI = { host, port } ⎫
+                                                           IDU
+                                    ID = { request } ⎭   ⎬
+   Transport
+
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                                 6
+                     (Prof. Dr. D. Kranzlmüller)
+Anwendung des                                                         WH
+
+
+
+Internet-Schichtenmodells
+  Anwendung
+
+   Transport                                            ⎫
+                                    ICI = { address }
+                                                            IDU
+                                    ID = { payload }    ⎬
+                                                        ⎭
+  Vermittlung
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                                  7
+                     (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                         Payload,
+• Weg durch das Netz                                                          Adresse
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet                                    Paket
+• Datenübertragung                                                              Link
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                 8
+                          (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                               WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              9
+                                       (Prof. Dr. D. Kranzlmüller)
+Ende-zu-Ende Betrachtung im
+ISO/OSI Referenzmodell
+            Endsystem A                                                              Endsystem B
+                      7                                                                   7
+                      6                                                                   6
+                      5      Virtuelle, zuverlässige Verbindungen                         5
+                                  (aus Sicht der Endsysteme)
+                      4                                                                   4
+                      3 A
+                  Entität     3                       3                     3             3 B
+                                                                                      Entität
+
+
+
+Transportsystem
+                      2       2                       2            ...      2             2
+                      1       1                       1                     1             1
+                            Router                 Router                 Router
+
+
+                                     Netz 1                    Netz 2      ...     Netz n
+
+
+                                     Rechnernetze und verteilte Systeme
+                                                                                                10
+                                         (Prof. Dr. D. Kranzlmüller)
+Vermittlungsschicht im
+ISO/OSI Referenzmodell
+            Endsystem A                                                              Endsystem B
+                      7                                                                  7
+                      6                                                                  6
+                      5                                                                  5
+                      4                                                                  4
+                      3       3                       3                     3            3
+
+
+
+
+Transportsystem
+                      2 A
+                  Entität     2                       2            ...      2            2 B
+                                                                                      Entität
+                      1       1                       1                     1            1
+                            Router                 Router                 Router
+
+
+                                     Netz 1                    Netz 2      ...     Netz n
+
+
+                                     Rechnernetze und verteilte Systeme
+                                                                                                11
+                                         (Prof. Dr. D. Kranzlmüller)
+Transportschicht (4) und
+Vermittlungsschicht (3)
+ Endsystem A                                                  Endsystem B
+
+     4                                                            4
+
+     3          3                     3                   3       3
+
+• Schicht 4:
+   • Virtuelle, zuverlässige Verbindung
+     (aus Sicht der Endsysteme)
+• Schicht 3:
+   • Weg der Nachricht über die Zwischenknoten
+     (des Transitsystems)
+                     Rechnernetze und verteilte Systeme
+                                                                       12
+                         (Prof. Dr. D. Kranzlmüller)
+Fragestellungen
+ Endsystem A                                                Endsystem B
+
+     4                                                          4
+
+     3         3                    3                   3       3
+
+• Welche Transitknoten müssen überquert werden,
+  um die Nachricht zum Empfänger zu bringen?
+• Wie vermittelt man die Nachricht
+  vom Sender zum Empfänger?
+
+
+                   Rechnernetze und verteilte Systeme
+                                                                     13
+                       (Prof. Dr. D. Kranzlmüller)
+Transitknoten?
+ Endsystem A                                                Endsystem B
+
+     4                                                          4
+
+     3         3                    3                   3       3
+
+Jeder Knoten, der eine Nachricht empfängt,
+entscheidet:
+• Bin ich Empfänger oder Transitknoten?
+• Falls Transit: Was ist der nächste Knoten?
+
+
+                   Rechnernetze und verteilte Systeme
+                                                                     14
+                       (Prof. Dr. D. Kranzlmüller)
+Transitknoten
+Endsystem A                                                Endsystem B
+
+    4                                                          4
+
+    3                              3                   3       3
+
+              3                                        3
+
+              3                    3                   3
+
+                                   3
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                                    15
+                      (Prof. Dr. D. Kranzlmüller)
+Aufgaben der Vermittlungsschicht
+ Endsystem A                                                Endsystem B
+     3                              3                   3       3
+
+               3                                        3
+
+               3                    3                   3
+
+                                    3
+
+
+
+• Vermittlung (Pfadschaltung)
+• Wegewahl (Routing)
+                   Rechnernetze und verteilte Systeme
+                                                                     16
+                       (Prof. Dr. D. Kranzlmüller)
+Anforderung an
+Vermittlungsschicht
+• Dienste der darüber liegenden Transportschicht
+  erwarten
+   • Übertragung von Nachrichten vom Sender zum
+     Empfänger über die Transitsysteme
+   • ohne Zuverlässigkeitsgarantien
+     (nach dem „Best Effort“-Prinzip)
+• Dienste der darunterliegenden
+  Datenübertragungsschicht bieten
+   • Übertragung der Nachrichten über einzelne
+     Wegabschnitte (von einem Knoten über ein Medium
+     zum nächsten Knoten)
+                   Rechnernetze und verteilte Systeme
+                                                        17
+                       (Prof. Dr. D. Kranzlmüller)
+                                                          WH
+Schichtenarchitektur des ISO/OSI-Modells
+
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                     18
+                    (Prof. Dr. D. Kranzlmüller)
+Das Netz als Graph                                                        WH
+
+
+
+(Kanten und Knoten)
+ Endsystem A                                                Endsystem B
+     3                              3                   3       3
+
+               3                                        3
+
+               3                    3                   3
+
+                                    3
+
+
+
+• Knoten = Transitknoten
+• Spezielle Knoten: Sender (Quelle), Empfänger (Ziel)
+                   Rechnernetze und verteilte Systeme
+                                                                     19
+                       (Prof. Dr. D. Kranzlmüller)
+Verbindungsvarianten
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                20
+               (Prof. Dr. D. Kranzlmüller)
+Abstraktion durch
+vermittelte Netze
+• Knoten in einem Netz können wiederum
+  vermittelte Netze („Subnetze“) sein
+• Interne Topologie eines vermittelten Netzes ist
+  Endsystemen (Hosts) unbekannt
+• Pfad durch das Netz wird von Transitsystemen
+  (=Vermittlungseinrichtungen) vermittelt
+• Nachricht wird am Eingang des vermittelten Netzes
+  „vertrauensvoll“ übergeben
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       21
+                      (Prof. Dr. D. Kranzlmüller)
+Vermitteltes Netz (Bild)
+
+
+
+
+                                                 Hosts
+
+            Rechnernetze und verteilte Systeme   Zwischensysteme (Nodes)
+                                                                   22
+                (Prof. Dr. D. Kranzlmüller)
+Verbundnetz/Internetworking
+• Zusammenschluss vermittelter Netze ergibt
+  (größeres) vermitteltes Netz
+• Vermittlungseinrichtungen zwischen einzelnen
+  Netzen im Verbund ➔ „Gateway Router“.
+
+• Wenn mehrere vermittelte Netze in einen Verbund
+  zusammengeschlossen werden
+                   ➔Verbundnetz
+• Verbund durch: Internetworking
+                  Rechnernetze und verteilte Systeme
+                                                       23
+                      (Prof. Dr. D. Kranzlmüller)
+                                            Aufgaben:
+                                            • globale Wegewahl/Vermittlung
+Verbundnetz (Bild)                          • Protokollumsetzung
+                                            Beispiel: Internet
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                                    24
+               (Prof. Dr. D. Kranzlmüller)
+Münchner Wissenschaftsnetz (MWN)
+
+                                                                                       WH
+
+
+
+
+            Rechnernetze und verteilte Systeme   http://www.lrz.de/services/netz/mwn-ueberblick/
+                (Prof. Dr. D. Kranzlmüller)                                                25
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                26
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                27
+               (Prof. Dr. D. Kranzlmüller)
+Vermittlungsverfahren
+Fragestellung: Wie können Daten über ein Netz von
+Verbindungen (Switches, Router) gesendet werden?
+
+Zwei grundsätzliche Ansätze:
+1. Leitungsvermittlung
+2. Paketvermittlung
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       28
+                      (Prof. Dr. D. Kranzlmüller)
+1. Leitungsvermittlung
+Reservierung von Ressourcen entlang eines festen Pfades
+im Netz für die Dauer der Übertragungssitzung
+• Auf- und Abbau der Verbindung
+• Garantierte Ressourcen
+• (Nicht notwendigerweise
+  exklusive Reservierung
+  →Multiplexing)
+
+Beispiel:
+Analoges Telefonnetz (POTS)
+                   Rechnernetze und verteilte Systeme
+                                                        29
+                       (Prof. Dr. D. Kranzlmüller)
+Leitungsvermittlung/Durchschaltung
+(Engl. Circuit Switching)
+• Vor Übertragung:
+  Aufbau des Pfades von Sender zu Empfänger
+• Dedizierter Kanal für gesamte Datenphase
+                                                       Daten
+    Sender
+
+
+
+
+ Empfänger
+                                                               Zeit
+             Anforderung
+                                    Bestätigung
+                  Rechnernetze und verteilte Systeme
+                                                                      30
+                      (Prof. Dr. D. Kranzlmüller)
+Vor- und Nachteile der
+Leitungsvermittlung
+Vorteile:
+• Ist Pfad bestätigt, besteht dedizierter Ende-zu-Ende Kanal.
+   • Keinerlei Warteschlangen in den Knoten
+   • Einfach um geforderte Dienstgüte zu garantieren.
+Nachteile:
+• Ende-zu-Ende Pfad muss vor der Datenübertragung
+  vollständig eingerichtet sein
+• Bei Abbruch einer Teilverbindung gehen alle Verbindungen,
+  die diese genutzt haben, verloren.
+• Wenn ein Kanal vollständig vergeben ist, kann er von sonst
+  niemandem mehr verwendet werden (Besetztzeichen)
+
+                        Rechnernetze und verteilte Systeme
+                                                                31
+                            (Prof. Dr. D. Kranzlmüller)
+Vermittlungsverfahren
+Fragestellung: Wie können Daten über ein Netz von
+Verbindungen (Switches, Router) gesendet werden?
+
+Zwei grundsätzliche Ansätze:
+1. Leitungsvermittlung ✓
+2. Paketvermittlung
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       32
+                      (Prof. Dr. D. Kranzlmüller)
+2. Paketvermittlung
+• Ressourcen werden nicht reserviert
+• Nachricht wird in Pakete aufgeteilt, die einzeln
+  übertragen werden ➔ Pipelining
+• Zwischenspeicherung der Pakete notwendig:
+➔ Puffer in Transitsystemen + „Store-and-Forward“
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       33
+                      (Prof. Dr. D. Kranzlmüller)
+Paketvermittlung (Animation)
+             A     B       C           D
+  Sender
+                       A       B           C       D
+
+                                   A           B       C    D
+
+
+Empfänger                                                       t
+    Beim Sender:                A, B, C, D
+
+    Unterwegs:                  A, B, C, D
+
+    Beim Empfänger:             A, B, C, D
+
+
+
+                       Rechnernetze und verteilte Systeme
+                                                                    34
+                           (Prof. Dr. D. Kranzlmüller)
+Paketvermittlung mit Puffer
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                35
+               (Prof. Dr. D. Kranzlmüller)
+Vor- und Nachteile der
+Paketvermittlung
+Vorteile:
+• Pfade müssen nicht vorab eingerichtet werden
+• Begrenzung der Paketgröße ➔ kein einzelnes Paket
+  belegt eine Leitung zu lange
+Nachteile:
+• Aufteilung der Nachricht erfordert Duplizieren der
+  Header-Informationen
+• Reihenfolgeprobleme
+• Geforderte Dienstgüte schwierig zu garantieren
+                  Rechnernetze und verteilte Systeme
+                                                       36
+                      (Prof. Dr. D. Kranzlmüller)
+Vermittlungsverfahren
+Fragestellung: Wie können Daten über ein Netz von
+Verbindungen (Switches, Router) gesendet werden?
+
+Zwei grundsätzliche Ansätze:
+1. Leitungsvermittlung ✓
+2. Paketvermittlung ✓
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       37
+                      (Prof. Dr. D. Kranzlmüller)
+Leitungs- vs Paketvermittlung
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                38
+               (Prof. Dr. D. Kranzlmüller)
+Paket- vs. Leitungsvermittlung
+Merkmal                       Leitungsvermittlung                  Paketvermittlung
+Verbindungsaufbau             ✓                                    nicht notwendig
+Dedizierter physischer Pfad   ✓                                    
+Fixe Route der Daten          ✓                                    
+Reihenfolge der Daten         ✓                                    
+sichergestellt
+Fehlertoleranz                                                    ✓
+Bandbreite-Reservierung       Fix                                  Dynamisch
+Möglicher Datenstau           Bei Verbindungsaufbau                Jederzeit bei der
+                                                                   Übertragung eines Pakets
+Potenziell verschwendete      ✓                                    
+Bandbreite
+„Store and Forward“                                               ✓
+Mechanismus
+                              Rechnernetze und verteilte Systeme
+                                                                                        39
+                                  (Prof. Dr. D. Kranzlmüller)
+Nachrichtenvermittlung
+„Store-and-Forward“
+• Ganze Nachricht zum jeweils nächsten Knoten
+  gesendet, dort zwischengespeichert, danach
+  weitergeleitet
+• Streckenstücke meist nicht homogen
+
+            Nachricht
+   Sender
+                           Nachricht
+
+                                                         Nachricht
+
+
+Empfänger
+
+                        Rechnernetze und verteilte Systeme
+                                                                     40
+                            (Prof. Dr. D. Kranzlmüller)
+Vor- und Nachteile der
+Nachrichtenvermittlung
+Vorteile:
+• Sinnvoll, wenn Konnektivität zwischen Vermittlungs-
+  einrichtungen nicht dauerhaft gegeben
+  (verzögerungstolerante Netze)
+Nachteile:
+• Übertragung auf jeweils nächstem Wegstück beginnt erst,
+  wenn die Nachricht vollständig eingetroffen ist
+• Lange Nachrichten können einzelne Wegstücke (für andere
+  Nutzer) lange blockieren.
+• Notwendigkeit großer Zwischenspeicher in den Knoten.
+
+
+                     Rechnernetze und verteilte Systeme
+                                                            41
+                         (Prof. Dr. D. Kranzlmüller)
+Vermittlungsverfahren
+Fragestellung: Wie können Daten über ein Netz von
+Verbindungen (Switches, Router) gesendet werden?
+
+Zwei grundsätzliche Ansätze:
+1. Leitungsvermittlung ✓
+2. Paketvermittlung ✓
+3. Nachrichtenvermittlung ✓
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      42
+                     (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                43
+               (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten
+in vermittelten Netzen
+1. Verarbeitungsverzögerung
+2. Warteschlangenverzögerung
+3. Übertragungsverzögerung = Nachrichtendauer
+4. Signalverzögerung = Signalausbreitung
+
+• Netzverzögerung = Summe aller Verzögerungen
+• Paketumlaufverzögerung
+  (engl. Round Trip Delay RTD)
+
+                 Rechnernetze und verteilte Systeme
+                                                      44
+                     (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten
+
+                 Warteschlange
+
+
+
+
+        Knoten       Medium
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                 45
+                (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten
+
+
+
+
+1.   Verarbeitungsverzögerung
+2.   Warteschlangenverzögerung
+3.   Nachrichtendauer (Übertragungsverzögerung)
+4.   Signalausbreitung (Signalverzögerung)
+
+           𝑑𝑛𝑜𝑑𝑎𝑙 = 𝑑𝑝𝑟𝑜𝑐 + 𝑑𝑞𝑢𝑒𝑢𝑒 + 𝑑𝑡𝑟𝑎𝑛𝑠 + 𝑑𝑝𝑟𝑜𝑝
+                      Rechnernetze und verteilte Systeme
+                                                           46
+                          (Prof. Dr. D. Kranzlmüller)
+1. Verarbeitungsverzögerung
+Zeit, die ein System zum Verarbeiten eines
+angekommenen Pakets benötigt: 𝑑𝑝𝑟𝑜𝑐
+• Lesen und Auswerten der Steuerinformationen
+• Überprüfung von Bitübertragungsfehlern
+• Größe: < Mikrosekunden
+
+
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      47
+                     (Prof. Dr. D. Kranzlmüller)
+2. Warteschlangenverzögerung
+Zeit, die ein Paket in der Warteschlange verbringt,
+bevor die Übertragung beginnen kann: 𝑑𝑞𝑢𝑒𝑢𝑒
+• Abhängig von der Anzahl der in der Schlange
+  befindlichen Pakete
+   • Leere Schlange ⇒ 𝑑𝑞𝑢𝑒𝑢𝑒 = 0
+• Wie viele Pakete sich in der Schlange befinden,
+  hängt von Art und Menge des ankommenden +
+  abgehenden Verkehrs ab
+• Größe: Mikro- bis Millisekunden
+
+                   Rechnernetze und verteilte Systeme
+                                                        48
+                       (Prof. Dr. D. Kranzlmüller)
+2. Warteschlangenverzögerung
+• Durchschnittliche Ankunftsrate: 𝑎 Paketen/s
+• Bei Paketen mit Größe 𝐿: 𝑎 ∙ 𝐿 Bits/s kommen an.
+• Übertragungsrate: R
+                𝑎𝐿
+• Ist Intensität :
+                𝑅
+   > 1, Schlange wächst bis Pakete verworfen werden
+   ≤ 1, Zeitpunkt der ankommenden Pakete bestimmt, ob
+   Pakete verworfen werden
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          49
+                         (Prof. Dr. D. Kranzlmüller)
+Paketverlust durch Überlastung
+Wenn Schlange voll wenn weitere Pakete eintreffen
+➔ Paketverlust („Packet Loss“, „Drop“)
+
+Zur Erinnerung:
+• Transportschicht (TCP):
+  Aus Sicht der Endsysteme wurde Paket verschickt,
+  das nicht beim Empfänger angekommen ist ➔
+  Paket wird erneut verschickt
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       50
+                      (Prof. Dr. D. Kranzlmüller)
+2. Warteschlangenverzögerung
+Extremfälle
+                               1
+1.   Ankunft eines Pakets alle Sekunden → bei
+                               𝑎
+     Ankunft ist Schlange leer und 𝑑𝑞𝑢𝑒𝑢𝑒 = 0.
+2. Ankunft aller 𝑎 Pakete simultan →
+     1. Paket hat 𝑑𝑞𝑢𝑒𝑢𝑒 = 0
+                             𝐿
+       2. Paket hat 𝑑𝑞𝑢𝑒𝑢𝑒 =
+                             𝑅
+                                     𝐿
+       n. Paket hat 𝑑𝑞𝑢𝑒𝑢𝑒 = (𝑛 − 1)
+                                     𝑅
+In der Praxis: Paketankünfte zufällig.
+
+                   Rechnernetze und verteilte Systeme
+                                                        51
+                       (Prof. Dr. D. Kranzlmüller)
+3. Übertragungsverzögerung
+Zeit, die benötigt wird, alle Bits eines Pakets zu
+                       𝐿
+versenden: 𝑑𝑡𝑟𝑎𝑛𝑠 =
+                         𝑅
+• Paket kann vollständig versendet worden sein,
+  bevor Empfänger das erste Bit empfängt
+   • Siehe Ausbreitungsverzögerung
+• Abhängig von Paketlänge 𝐿 und Übertragungsrate
+  𝑅 (zum nächsten Transitsystem)
+• Größe: Mikro- und Millisekunden
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         52
+                        (Prof. Dr. D. Kranzlmüller)
+4. Signalausbreitungsverzögerung
+Zeit, die ein Bit im Übertragungsmedium vom Sender
+                                   𝑑
+zum Empfänger benötigt: 𝑑𝑝𝑟𝑜𝑝 =
+                                                        𝑠
+• 𝑑: Entfernung zwischen Sender und Empfänger
+• 𝑠: Ausbreitungsgeschwindigkeit
+   • Abhängig vom Medium (Kupfer, EM, LWL)
+• Größe: Mikro- bis
+  Millisekunden
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                            53
+                       (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten
+
+
+
+
+1.   Verarbeitungsverzögerung ✓
+2.   Warteschlangenverzögerung ✓
+3.   Nachrichtendauer (Übertragungsverzögerung) ✓
+4.   Signalausbreitung (Signalverzögerung) ✓
+
+           𝑑𝑛𝑜𝑑𝑎𝑙 = 𝑑𝑝𝑟𝑜𝑐 + 𝑑𝑞𝑢𝑒𝑢𝑒 + 𝑑𝑡𝑟𝑎𝑛𝑠 + 𝑑𝑝𝑟𝑜𝑝
+                      Rechnernetze und verteilte Systeme
+                                                           54
+                          (Prof. Dr. D. Kranzlmüller)
+Summe:
+Ende-zu-Ende-Verzögerung
+Bisher: Verzögerungen auf einem Knoten.
+Annahmen:
+• gleiche Übertragungsrate 𝑅 auf allen 𝑁 Links
+  zwischen Sender und Empfänger
+• 𝑑𝑞𝑢𝑒𝑢𝑒 = 0
+
+➔ 𝑑𝑒𝑛𝑑−𝑒𝑛𝑑 = 𝑁(𝑑𝑝𝑟𝑜𝑐 + 𝑑𝑡𝑟𝑎𝑛𝑠 + 𝑑𝑝𝑟𝑜𝑝 )
+
+Achtung ➔ grobe Vereinfachung
+                  Rechnernetze und verteilte Systeme
+                                                       55
+                      (Prof. Dr. D. Kranzlmüller)
+Demo: Traceroute
+• Programm Traceroute kann Pfad ermitteln, den
+  Pakete von einem Sender zu einem Empfänger
+  nehmen
+• Dabei wird 𝑑𝑒𝑛𝑑−𝑒𝑛𝑑 zu jedem Transitsystem auf
+  dem Weg gemessen
+• Implementierungen für Linux, BSD, Windows, OS X,
+  …
+• Traceroute nutzt die Time-To-Live (TTL) der Pakete
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       56
+                      (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten
+
+
+
+
+1.   Verarbeitungsverzögerung ✓
+2.   Warteschlangenverzögerung ✓
+3.   Nachrichtendauer (Übertragungsverzögerung) ✓
+4.   Signalausbreitung (Signalverzögerung) ✓
+
+           𝑑𝑛𝑜𝑑𝑎𝑙 = 𝑑𝑝𝑟𝑜𝑐 + 𝑑𝑞𝑢𝑒𝑢𝑒 + 𝑑𝑡𝑟𝑎𝑛𝑠 + 𝑑𝑝𝑟𝑜𝑝
+                      Rechnernetze und verteilte Systeme
+                                                           57
+                          (Prof. Dr. D. Kranzlmüller)
+Durchsatz-Berechnung
+• Momentaner Durchsatz: Rate, mit der Daten zu
+  einem Zeitpunkt übertragen werden
+                               𝑀
+• Durchschnittlicher Durchsatz: Bit/s
+                               𝑇
+   • M = Übertragene Datenmenge in Bits ist
+   • T = verstrichene Zeit in Sekunden.
+• Je nach Anwendung ist geringe Verzögerung oder
+  schneller Durchsatz wünschenswert
+   • Internettelefonie?
+   • Dateidownload?
+   • Mailversand?
+
+                     Rechnernetze und verteilte Systeme
+                                                          59
+                         (Prof. Dr. D. Kranzlmüller)
+Flaschenhals/Bottleneck
+
+
+
+
+Datenübertragung von Server zu Client:
+• Ende-zu-Ende-Durchsatz im Fall a: 𝑚𝑖𝑛 𝑅𝑠 , 𝑅𝑐
+• Ende-zu-Ende-Durchsatz im Fall b: 𝑚𝑖𝑛 𝑅1 , 𝑅2 , … , 𝑅𝑁
+                      Rechnernetze und verteilte Systeme
+                                                           60
+                          (Prof. Dr. D. Kranzlmüller)
+Bottleneck (2)
+Fall b:
+falls 𝑅 ≫ 𝑅𝑐 und 𝑅 ≫ 𝑅𝑠
+→Durchsatz: 𝑚𝑖𝑛 𝑅𝑠 , 𝑅𝑐
+
+
+aber, falls 𝑅 ≈ 𝑅𝑐
+              𝑅
+→Durchsatz:
+              10
+
+
+
+
+                          Rechnernetze und verteilte Systeme
+                                                               61
+                              (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten in
+vermittelten Netzen (1/2)
+• Verarbeitungsverzögerung: Verarbeitungszeit im
+  Knoten ohne Last (abhängig von Protokoll und
+  Knotentechnik).
+• Warteschlangenverzögerung: Durch Last
+  verursachte Wartezeit im Knoten.
+• Nachrichtendauer = Nachrichtenlänge [Bits] /
+  Übertragungsrate (des Mediums) [Bits/s]
+• Signalverzögerung = Mediumlänge [m] /
+  Übertragungsgeschwindigkeit [m/s]
+                 Rechnernetze und verteilte Systeme
+                                                      62
+                     (Prof. Dr. D. Kranzlmüller)
+Verzögerungsarten in
+vermittelten Netzen (2/2)
+• Netzverzögerung: Summe aller Verzögerungen auf
+  einem End-to-End Pfad.
+
+• Round Trip Delay (RTD): Summe aller
+  Verzögerungen von der Quelle zum Ziel und zurück
+  (Antwortnachrichten nehmen nicht unbedingt den
+  selben Pfad).
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       63
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                64
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                65
+               (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                        66
+                      (Prof. Dr. D. Kranzlmüller)
+Namen und Adressen
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               67
+              (Prof. Dr. D. Kranzlmüller)
+Grundproblem
+• Für die Kommunikation ist es notwendig, die
+  Kommunikationspartner zu adressieren
+Zusätzlich:
+• Aus Adressen müssen Pfade bzw. Wege ableitbar
+  sein
+• Zwischenstationen (der Vermittlungsschicht)
+  entscheiden aufgrund der Ziel-Adresse:
+  • Ob eine Nachricht am Ziel ist
+  • Ob eine Nachricht weitergereicht werden muss
+
+                   Rechnernetze und verteilte Systeme
+                                                        68
+                       (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                                WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              69
+                                       (Prof. Dr. D. Kranzlmüller)
+Begriffsklärung
+• Adressen dienen der Identifizierung von
+  Netzkomponenten oder Diensten
+• Adressen sollten von Maschinen (Computern)
+  effizient verarbeitet werden können
+• (Mnemonische) Namen: sind für Menschen leicht
+  zu merken
+• Namens- oder Adressraum: Menge von eindeutigen
+  Namen bzw. Adressen, die (in einem festgelegtem
+  Format) zur Kommunikation in einem Kontext zur
+  Verfügung stehen
+                 Rechnernetze und verteilte Systeme
+                                                      70
+                     (Prof. Dr. D. Kranzlmüller)
+Eigenschaften
+• (Mnemonische) Namen
+  • dienen der Bequemlichkeit menschlicher Nutzer
+  • mehrere Inkarnationen logisch identischer Objekte
+  • Objekten können ortsunabhängig Namen behalten
+  • Bedeutung oft kontextabhängig
+  • strukturiert oder flach
+• Adressen
+  • dienen der effizienten maschinellen Verarbeitung
+  • werden für Routing/Wegewahl verwendet
+  • strukturiert oder flach
+
+                   Rechnernetze und verteilte Systeme
+                                                        71
+                       (Prof. Dr. D. Kranzlmüller)
+Adressbildung
+• Struktur
+   • uniform global (durchlaufende Nummerierung)
+     (Bsp.: Ethernet-Adressen)
+   • hierarchisch (Bsp.: Telefonnummern)
+• Umfang des Adressraums
+   • groß genug: ermöglicht permanente Zuordnung,
+     erfordert große Header
+   • Zu klein: Mehrfachverwendung erfordert dynamische
+     Vergabestrategie (siehe: DHCP)
+• Codierung
+   • variable Namensfelder: erweiterbar
+   • feste Namensfelder: effizient/einfach zu implementieren
+
+                      Rechnernetze und verteilte Systeme
+                                                               72
+                          (Prof. Dr. D. Kranzlmüller)
+Lokalisierung von Objekten
+• Namensauflösung: Adressfindung der Objekte, für
+  die ein Name steht
+• Zwei Ansätze:
+  • Namen werden durch separaten Dienst z.B. mit Hilfe
+    von Zuordnungstabellen abgebildet
+  • Adresse ist aus der Namensstruktur ableitbar:
+    <Prozessname>:=<Netz>.<Subnetz>.<Host>.<ID>
+• Im Internet:
+  Namensauflösung via DNS ➔ Kapitel 6
+
+
+                   Rechnernetze und verteilte Systeme
+                                                         73
+                       (Prof. Dr. D. Kranzlmüller)
+  Beispiel: Namensauflösung Web
+  (stark vereinfacht)
+                                                                                                    Benutzer
+                                                                                                www.ifi.lmu.de
+
+
+
+                                                             Anfrage: www.ifi.lmu.de
+                                      Name
+                                                                                                    Browser
+                                      Server
+                                                                        Antwort:
+                                                                        192.12.69.5
+                                                                                                        192.12.69.5
+
+
+                                                                                             Schicht 4 (TCP)
+Umschlagseite des Berliner Telefonbuchs vom 14. Juli 1881
+https://commons.wikimedia.org/wiki/File:Berliner_Telefonbuch_1881_Umschlag.jpg
+                                                                                                        192.12.69.5
+
+
+                                                                                               Schicht 3 (IP)
+
+                                                               Rechnernetze und verteilte Systeme
+                                                                                                                      74
+                                                                   (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                        75
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                76
+               (Prof. Dr. D. Kranzlmüller)
+Adressen und Interfaces
+Ein Host ist üblicherweise über einen Link mit einem
+Netz verbunden. Der Übergang von Host zu Netz
+heißt Interface oder Netzschnittstelle.
+Router haben zwei oder mehr Interfaces.
+Damit auf einem Interface IP-Pakete empfangen und
+gesendet werden können, benötigt es eine eigene IP-
+Adresse.
+Diese bestehen bei IP (v4) aus 32 Bits (4 Bytes)
+→ es existieren 232 = 4.294.967.296 IPv4-
+Adressen.
+
+                  Rechnernetze und verteilte Systeme
+                                                       77
+                      (Prof. Dr. D. Kranzlmüller)
+IPv4-Adressen: Notation
+IPv4-Adressen werden üblicherweise in der sog.
+Dezimalpunktnotation (dotted-decimal notation)
+geschrieben:
+• Jedes Byte wird dezimal getrennt von einem Punkt
+  notiert
+• Beispiel:
+   11000001 00100000 11011000 00001001 entspricht
+   193.32.216.9
+• Binärzahl-Darstellung oft hilfreich
+  (Stichwort: Netzmasken)
+                   Rechnernetze und verteilte Systeme
+                                                        78
+                       (Prof. Dr. D. Kranzlmüller)
+Sonderadressen
+• alles 0: dieser Host
+• alles 1: Broadcast innerhalb des lokalen Netzes
+• 127.*.*.*: Loop-Back-Adressen (Schleifentest)
+
+Später: 2 spezielle Adressen
+• Netzadresse:
+  niedrigste Adresse (Host-ID = alles 0)
+• Broadcast-Adresse:
+  höchste Adresse (Host-ID = alles 1)
+                   Rechnernetze und verteilte Systeme
+                                                        79
+                       (Prof. Dr. D. Kranzlmüller)
+Vergabe
+• IPv4-Adressen werden hierarchisch verwendet.
+   • IPv4-Adressen bestehen aus Netzteil (Netz ID), der das
+     Netz adressiert, und Hostteil (Host ID), der den Host
+     adressiert
+
+
+• Internationale Vergabe durch die IANA
+  (Internet Assigned Numbers Authority)
+   • Delegiert an nationale Organisationen.
+   • Abteilung der ICANN (Internet Corporation
+     for Assigned Names and Numbers)
+   • Buchhalter für die Registrierungen
+
+                     Rechnernetze und verteilte Systeme
+                                                              80
+                         (Prof. Dr. D. Kranzlmüller)
+Historisch: Klassenbasierte
+Adressierung (Classful Network)
+Grundidee:
+• Einteilung in Klassen anhand des Verwendungszwecks:
+   • Netzgrößen für Unicast (A,B,C)
+   • Multicast Network (D)
+   • Future and Experimental Use (E)
+• Grenze zwischen Netz-Teil und Host-Teil verläuft
+  entlang der Byte-Grenzen ➔
+  Softwareimplementierung
+• Netz-Teil wird in Präfix und Netz-ID unterteilt
+   • Erlaubt schnelle Erkennung der Klasse anhand weniger Bits
+   • Schnelle Routing-Entscheidungen anhand Klasse und Netz-ID
+
+                      Rechnernetze und verteilte Systeme
+                                                             81
+                          (Prof. Dr. D. Kranzlmüller)
+Historisch: Klassenbasierte
+Adressierung
+https://de.wikipedia.org/wiki/Netzklasse
+Klasse Präfix Länge Netz        Länge Host ID           Anzahl Netze Hosts pro Netz
+              ID
+A      0              7 bit 24 bit (3 byte)                       126    16 777 214
+B      10            14 bit 16 bit (2 byte)                     16 382      65 534
+C      110           21 bit        8 bit (1 byte)           2 097 152          254
+D      1110            Verwendung für Multicast-Anwendungen
+E      1111                   Reserviert (für zukünftige Zwecke)
+
+
+
+
+                           Rechnernetze und verteilte Systeme
+                                                                                      82
+                               (Prof. Dr. D. Kranzlmüller)
+Historisch: Klassenbasierte
+Adressierung (Grafik)
+
+
+
+
+Quelle: Tanenbaum, Computer Networks 5th Edition
+
+
+
+
+                                     Rechnernetze und verteilte Systeme
+                                                                          83
+                                         (Prof. Dr. D. Kranzlmüller)
+Grundproblem der
+Klassenbasierten Adressierung
+• Adressen werden in Blöcken vergeben (z.B.: alle
+  Adressen mit einer gegebenen Netz-ID)
+• Wird z.B. ein Klasse B Netz an eine Organisation
+  vergeben welche deutlich weniger als 65000 Hosts
+  besitzt, so bleiben viele Adressen ungenutzt.
+• (Oft reicht bereits die Erwartung, dass 254 Hosts
+  einmal nicht reichen könnten, für die Anforderung
+  eines Klasse B Adressblocks.)
+• Es gibt nur 16382 Klasse B Netze.
+• Lösung: Netz IDs mit variabler Länge ➔ CIDR
+
+                  Rechnernetze und verteilte Systeme
+                                                       84
+                      (Prof. Dr. D. Kranzlmüller)
+CIDR (Engl.: Classless
+Inter-Domain Routing)
+• Mit RFC 1517 bis 1520 ab 1993 in Verwendung.
+• Grundidee: Die Grenze zwischen Netz-Teil und
+  Host-Teil verläuft fließend.
+   => Routing-Protokolle müssen die Länge der Netz-ID
+      (Netzpräfix) zusätzlich zur Adresse übertragen.
+• Verwendung von Subnetz-Masken
+• Notation: <IP Adresse>/<Präfixlänge>
+
+• Beispiel: 192.168.121.0/26
+  (die ersten 26 Bit sind Netz-ID, der Rest Host-ID)
+                    Rechnernetze und verteilte Systeme
+                                                         85
+                        (Prof. Dr. D. Kranzlmüller)
+Subnetting
+• Sowohl bei klassenbasierter Adressierung, als auch
+  bei CIDR
+• Grundidee: Host-Teil eines Adressblocks wird
+  weiter unterteilt in Subnetz-ID-Teil und Host-ID-
+  Teil.
+ Netz ID Host ID
+ Netz ID Subnetz ID   Host ID
+
+
+• Eine Organisation kann mit einem einzigem
+  Adressblock mehrere eigene Netze bedienen
+
+                         Rechnernetze und verteilte Systeme
+                                                              86
+                             (Prof. Dr. D. Kranzlmüller)
+Subnetting: Beispiel
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                 87
+                (Prof. Dr. D. Kranzlmüller)
+Subnetting: Quiz
+Eine Organisation bekommt den Adressblock
+131.42.0.0/16 zugewiesen und benötigt
+
+• 1 Subnetz mit bis zu 32000 Hosts
+• 15 Subnetze mit bis zu 2000 Hosts
+• 8 Subnetze mit bis zu 250 Hosts
+
+Machen Sie Vorschläge für eine Aufteilung in
+geeignete Subnetz-Adressen
+                  Rechnernetze und verteilte Systeme
+                                                       88
+                      (Prof. Dr. D. Kranzlmüller)
+Private IP-Adressen (1/2)
+• I.d.R. vergeben ISPs (engl.: Internet Service
+  Providers) an Privatkunden oder kleine Firmen nur
+  eine einzige öffentliche IP Adresse
+  (unabhängig davon wie viele Hosts diese in ihrem
+  LAN anschließen).
+• Innerhalb ihres LANs (engl.: Local Area Network)
+  verwenden die Hosts sogenannte private IP-
+  Adressen (nur innerhalb des LANs eindeutig)
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       89
+                      (Prof. Dr. D. Kranzlmüller)
+Private IP-Adressen (2/2)
+• Folgende Adressblöcke sind als privat reserviert:
+   • 10.0.0.0/8     (Klasse A Adressblock)
+   • 172.16.0.0/12 (16 Klasse B Adressblöcke)
+   • 192.168.0.0/16 (256 Klasse C Adressblöcke)
+
+
+• Private Adressen werden nicht im Internet
+  vermittelt
+• Pakete mit privaten Adressen als Ziel oder
+  Absender werden von Routern verworfen
+
+                    Rechnernetze und verteilte Systeme
+                                                         90
+                        (Prof. Dr. D. Kranzlmüller)
+NAT (Network Address
+Translation)
+• Bevor Router ein Paket aus dem privaten LAN ins
+  Internet weiterleitet, wird Absenderadresse in
+  öffentliche IP-Adresse geändert
+  ➔ „Address Translation“
+• Router merkt sich die Änderung der Adresse
+• Zusätzlich zur Adresse wird auch der verwendete
+  Port gemerkt (siehe Sockets ➔ Kapitel 3)
+• Auf „Rückweg“ erfolgt umgekehrte Übersetzung.
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       91
+                      (Prof. Dr. D. Kranzlmüller)
+NAT/Masquerading (als Grafik)
+
+
+
+
+Lan
+
+           Rechnernetze und verteilte Systeme
+                                                92
+               (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                        93
+                      (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                94
+               (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                                WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              95
+                                       (Prof. Dr. D. Kranzlmüller)
+Verkehrsschild als Basis für
+Wegewahlentscheidung
+
+
+
+
+Beschriftung ist nur am Standort des Schildes sinnvoll.
+   • verschiedene Wege (geradeaus A6, rechts A73 )
+   • indirekt erreichbare Ziele (Regensburg über A3)
+   • direkt erreichbare Ziele (Flughafen, Messe)
+                      Rechnernetze und verteilte Systeme
+                                                           96
+                          (Prof. Dr. D. Kranzlmüller)
+Begriffe
+• Routing-Verfahren bestimmen Wegewahl
+• Auswahl des Verfahrens aufgrund von:
+   • Routingstrategie (Vorgaben, Regeln, engl. Policy)
+   • Ziel-/Kostenfunktionen
+
+• Mögliche Optimierungsziele:
+   • geringe Übertragungskosten
+   • geringe Übertragungszeiten
+   • gute Leitungsauslastung
+   • großer Durchsatz
+                     Rechnernetze und verteilte Systeme
+                                                          97
+                         (Prof. Dr. D. Kranzlmüller)
+Allgemeine Eigenschaften
+von Routing-Verfahren
+• Möglichst einfach
+   • algorithmische Komplexität
+   • Netz-Overhead
+• Adaptiv
+   • Anpassung an Last im Netz
+   • Veränderungen der Topologie
+• Robust
+   • Verhalten bei Fehlern
+• Fair
+
+                     Rechnernetze und verteilte Systeme
+                                                          98
+                         (Prof. Dr. D. Kranzlmüller)
+Probleme
+• Zielkonflikte
+• Topologie-Beschreibung
+  • wie beschrieben (Leitungen, Knoten, Kosten)
+  • vollständig / partiell
+• Bestimmung des Weges:
+  • Wo? (zentral / dezentral)
+  • Welche Informationen werden vom Algorithmus
+    benötigt?
+  • Wie werden diese Informationen bereitgestellt?
+  • Welche Ereignisse stoßen die Berechnung an?
+  • Wann wird ein neuer Weg aktiviert?
+                   Rechnernetze und verteilte Systeme
+                                                        99
+                       (Prof. Dr. D. Kranzlmüller)
+Grundlage: Graphentheorie
+• Graph G(K, L)
+   • K: Knoten
+   • L: Kanten
+• Kosten-Attribut (D) auf Kanten
+   • Dij: „Distanz von i zu j.“
+   • Beispiel: Duw = 5
+• Pfad: Sequenz von besuchten Knoten über Kanten.
+• Kontext Vermittlungsschicht
+   • Router sind Knoten
+   • Links (Kabel, Funk,…) sind Kanten
+
+                       Rechnernetze und verteilte Systeme
+                                                            100
+                           (Prof. Dr. D. Kranzlmüller)
+Kostenkriterien
+• Geringste Kosten: Finde einen Pfad von Quelle zu
+  Ziel mit geringsten Kosten
+• Kürzester Pfad: Finde einen Pfad mit geringster
+  Anzahl an Links von Quelle zu Ziel.
+
+Sonderfall:
+Wenn alle Links in einem Netz (Graph) dieselben
+Kosten haben:
+kürzester Pfad = Pfad mit den geringsten Kosten
+
+                  Rechnernetze und verteilte Systeme
+                                                       101
+                      (Prof. Dr. D. Kranzlmüller)
+Wegkosten und
+Optimalitätseigenschaft
+• Kostenfunktion:
+  Jedes Wegstück (Kante) in einem Netz (Graph) ist
+  mit gewissen Kosten assoziiert
+• Optimaler Weg:
+  Ein Weg von der Quelle zum Ziel (= Senke) ist
+  optimal, wenn Summe(Kosten) = minimal
+• Optimalitätseigenschaft:
+  Jeder Teilweg auf optimalem Weg ist selbst optimal
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       102
+                      (Prof. Dr. D. Kranzlmüller)
+Quelle-Senken-Baum (QSB)
+• Stellt Wege von einer Quelle (Wurzel des Baums)
+  zu mehreren Senken (Blätter des Baums) dar
+• Für gegebene Netzen (mit gegebenem Ziel-Quelle)
+  gibt es meist mehrere mögliche QSB
+• Ziel Routingverfahren:
+  Finde QSB mit optimalem Weg
+
+
+
+
+                 Rechnernetze und verteilte Systeme
+                                                      103
+                     (Prof. Dr. D. Kranzlmüller)
+Notation QSB
+• K = Menge aller Knoten
+• L = Menge aller Kanten
+
+• A(j) = Menge der Nachbarn eines Knoten j,
+
+• 𝑊𝑞𝑧,𝑓 : f-ter Weg von Quelle q zum Ziel z,
+• 𝐷𝑞𝑧 (𝑊𝑞𝑧,𝑓 ): Kosten für f-ten Weg von q zum Ziel z.
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        104
+                       (Prof. Dr. D. Kranzlmüller)
+Quelle-Senken-Baum (QSB)
+
+                                               ∀(j,i):Dji=10
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                                           105
+              (Prof. Dr. D. Kranzlmüller)
+Quelle-Senken-Baum Wegetafel
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               106
+              (Prof. Dr. D. Kranzlmüller)
+Kürzester Weg
+• Engl. Shortest Path First (od. Shortest Delay First)
+
+Nach Dijkstra:
+• QSB wird schrittweise von der Wurzel aufgebaut
+• Alle nicht im QSB enthaltenen Wege führen über
+  Nachbarn von QSB Knoten (Kandidatenmenge)
+• Aus Kandidatenmenge H wird Knoten mit
+  minimalen Kosten ab Wurzel gewählt
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         107
+                        (Prof. Dr. D. Kranzlmüller)
+Shortest Path First
+(SPF-Algorithmus nach Dijkstra)
+• A(j), 𝐷𝑗𝑘 , q wie gehabt
+• 𝐻 = 𝑗 ∈ 𝐾, 𝑗 ∈ 𝐴 𝑘 | 𝑘 ∈ 𝑄𝑆𝐵 ∧ 𝑗 ∉ 𝑄𝑆𝐵
+   ∗
+• 𝐷𝑞𝑗  ∶ momentane Kosten von q nach j
+• 𝑉𝑗 : momentaner Vaterknoten von j zur Erreichung
+         ∗
+  von 𝐷𝑞𝑗
+• Nächster Knoten aus 𝐻 liefert Knoten x mit
+   ∗ ≤ 𝐷 für alle 𝑟 ∈ 𝐻
+  𝐷𝑞𝑥      𝑞𝑟
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       108
+                      (Prof. Dr. D. Kranzlmüller)
+SPF-Algorithmus Pseudocode
+
+
+
+
+          Rechnernetze und verteilte Systeme
+                                               109
+              (Prof. Dr. D. Kranzlmüller)
+Beispiel: SPF-Algorithmus
+                                   0,6
+                  4                                    3
+
+
+
+        6             0,1                                  0,3            1
+
+                                   1,5
+  0,3       5,0   2                                    5
+
+
+
+        7
+                                                      Quelle: 2
+                                                      Aktuell: 2
+                                                               1
+                                                               5
+                                                               3
+                                                               4
+                                                      Senke: 1
+                                                      Kosten: 0,1
+                                                               4,8 +3,8
+                                                               1,0
+                                                               0,7 +0,3
+                                                                   +0,6
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                                              110
+                          (Prof. Dr. D. Kranzlmüller)
+Routing-Tabelle
+• Oder: Routing Information Base
+• Auf welchem Weg (Route) ist ein Gerät im Netz
+  mit anderen Netzen (oder deren Teilnehmern)
+  verbunden
+• Abstraktes Beispiel:
+        Ziel-Adresse               Router                            Metrik
+
+    Adresse 1           Router 1                            Wert X
+
+    Adresse 2           Router 2                            Wert Y
+
+    Default             Default Router                      Wert Z
+
+                       Rechnernetze und verteilte Systeme
+                                                                              111
+                           (Prof. Dr. D. Kranzlmüller)
+Einsatz der Routing-Tabelle
+• Jeder Knoten im Netz führt eine eigene
+• Vom Betriebssystem beim Starten initialisiert
+• Im Betrieb laufend aktualisiert
+• Direkt verbundene Netze werden automatisch in
+  die Tabelle aufgenommen
+• Statische Routen (zu wichtigen Zielen) kann der
+  Administrator festlegen
+• Dynamische Routen werden durch Informationen
+  aus dem Netz aktualisiert
+                  Rechnernetze und verteilte Systeme
+                                                       112
+                      (Prof. Dr. D. Kranzlmüller)
+Beispiel: netstat -nr
+
+
+
+
+             Rechnernetze und verteilte Systeme
+                                                  113
+                 (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                                 WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              114
+                                       (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                115
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                116
+               (Prof. Dr. D. Kranzlmüller)
+                                                                                                             WH
+
+Einfaches Beispiel
+• Alice sendet eine Nachricht an Bob
+
+
+
+
+                  Internet
+
+Alice                                                                                 Bob
+
+
+                                                                     Computer by Patrick Morrison from the Noun Project
+                                                       Smartphone Transmission by Roberto Chiaveri from the Noun Project
+                  Rechnernetze und verteilte Systeme
+                                                                                                      117
+                      (Prof. Dr. D. Kranzlmüller)
+Vermitteltes Netz (Bild)
+
+
+
+
+                                                 Hosts
+
+            Rechnernetze und verteilte Systeme   Zwischensysteme (Nodes)
+                                                                  118
+                (Prof. Dr. D. Kranzlmüller)
+                                            Aufgaben:
+                                            • globale Wegewahl/Vermittlung
+Verbundnetz (Bild)                          • Protokollumsetzung
+                                            Beispiel: Internet
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                                    119
+               (Prof. Dr. D. Kranzlmüller)
+Routing zwischen Netzen
+          ...                                                ...
+
+
+
+
+        Subnetz 1                        IWU                       Subnetz 2
+
+
+
+          IWU
+
+
+
+
+ ...    Subnetz 3                                                  Subnetz 4
+                                         IWU
+
+
+                                                 IWU   Internetworking Unit
+
+                                                       DEE (Dateneinrichtungen)
+                 Rechnernetze und verteilte Systeme
+           ...       (Prof. Dr. D. Kranzlmüller)
+                                                                               120 Point)
+                                                       SNAP (Subnetwork Attachment
+Struktur einer IWU
+(Engl. Inter(net)working Unit)
+Bsp.: Router/Gateway zwischen Subnetzen A und B
+
+
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         121
+                        (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                                 WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              122
+                                       (Prof. Dr. D. Kranzlmüller)
+                                                           WH
+Schichtenarchitektur des ISO/OSI-Modells
+
+
+
+
+                Rechnernetze und verteilte Systeme
+                                                     123
+                    (Prof. Dr. D. Kranzlmüller)
+Aufgaben einer IWU
+(dt. "Kopplungseinheit")
+• (Sub-)Netzgrenzen-übergreifende Adressierung/
+  Adressabbildung
+• Anpassung von Nachrichten bzgl. der PDU-Struktur
+  (z.B.: Länge bzw. Größe)
+• Abbildung von Diensten (verbindungsorientiert bzw.
+  verbindungslos) und Dienstgüteparametern
+• Abbilden von Protokollparametern (z.B. Fenster, Timer)
+• Anpassen von Fehlerbehandlungs- und
+  Meldemechanismen
+• Globale Wegewahl
+                    Rechnernetze und verteilte Systeme
+                                                         124
+                        (Prof. Dr. D. Kranzlmüller)
+Klassifikation von Routing
+Verfahren (global vs. dezentral)
+• Globales Routing:
+   • Wegewahl mit geringsten Kosten auf Basis des
+     vollständigen Netzes (globales Wissen einer zentralen
+     Komponente)
+                                             (Bsp: Link State)
+• Dezentralisiertes Routing:
+   • Wegewahl schrittweise (iterativ) und verteilt mit
+     geringsten Kosten
+                                       (Bsp: Distance Vector)
+   • Kein Knoten hat vollständiges (globales Wissen)
+   • Jede Knoten kennt nur seine direkten Nachbarn
+                     Rechnernetze und verteilte Systeme
+                                                            125
+                         (Prof. Dr. D. Kranzlmüller)
+Klassifikation von Routing
+(statisch vs. dynamisch)
+• Statisches Routing:
+   • Wegewahl ändert sich selten (nie) und erfordert
+     manuelles Eingreifen → durch Administrator
+
+
+• Adaptives Routing:
+   • Wegewahl ändert sich dynamisch unter
+     Berücksichtigung bestimmter Faktoren
+      • Auslastung (bspw. Netz-Stau)
+      • Links, Netz-Topologie (Struktur des Graphen)
+
+
+
+                       Rechnernetze und verteilte Systeme
+                                                            126
+                           (Prof. Dr. D. Kranzlmüller)
+Routing Verfahren (Überblick)
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                127
+               (Prof. Dr. D. Kranzlmüller)
+Static Routing
+Grundidee: Routingtabelle wird einmal auf Basis festgelegter
+Metriken erstellt ➔ sehr einfach
+                               Nachbarknoten auf dem Weg von j nach z
+         Ziel z         1.   Wahl                 2. Wahl                 3. Wahl
+                  Nr.        Gewicht       Nr.       Gewicht        Nr.     Gewicht
+
+                    1               0,63     6              0,21      4             0,16
+
+
+• x aus ]0,00; 1,00]
+   •   1. Wahl = 63 %
+   •   2. Wahl = 21 %
+   •   3. Wahl = 16 %
+• Sonderfälle:
+   • nur eine feste Wahl
+   • Alternativen nur bei defekter 1. Wahl (engl. Backup Trunk)
+                               Rechnernetze und verteilte Systeme
+                                                                                           128
+                                   (Prof. Dr. D. Kranzlmüller)
+Routing Verfahren (Überblick)
+
+
+
+
+Weitere Verfahren:
+   • isoliertes Verfahren, nicht adaptiv: Flooding
+   • isoliertes Verfahren, lastabhängig: Hot Potato
+                       Rechnernetze und verteilte Systeme
+                                                            129
+                           (Prof. Dr. D. Kranzlmüller)
+Routing durch Fluten
+(Engl. Flooding)
+• Idee: Jede eintreffende Nachricht wird an alle
+  Nachbarknoten geschickt
+• Problem: es entstehen beliebig viele Kopien
+• Maßnahmen:
+   • nicht zurück an sendenden Knoten
+   • Lebensdauerbegrenzung durch Timer oder Hop Count
+   • Nachrichtenmerkmal speichern
+• Wertung:
+   • Verfahren erzeugt Zusatzlast, aber sehr einfach
+   • Verfahren extrem robust (z.B. für Militärische Netze)
+   • Einsatz für schnelles Updates von Datenbanken
+   • Enthält immer optimalen Weg
+
+                       Rechnernetze und verteilte Systeme
+                                                             130
+                           (Prof. Dr. D. Kranzlmüller)
+Hot Potato
+• isoliertes Verfahren
+• Ankommende Pakete werden als „hot potato“
+  (heiße Kartoffel) betrachtet
+  ➔ schnellstmöglich auf die ausgehende Leitung
+  mit der kürzesten Warteschlange
+• Eventuell erhebliche Umwege, falls gewählte
+  Leitung nicht optimal zum Ziel führt
+• Empfindlich gegen Überlast
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       131
+                      (Prof. Dr. D. Kranzlmüller)
+Routing Verfahren (Überblick)
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                132
+               (Prof. Dr. D. Kranzlmüller)
+Adaptives Verfahren mit
+Nachbarkenntnis (1/4)
+• Alle Knoten führen für jedes Ziel eine Wegetabelle
+                      z      aopt(j,z)        Doptjz
+
+
+
+• Jeder Knoten j erhält (periodisch/ereignisgesteuert)
+  von jedem Nachbarknoten Doptkz für k 𝜖 A(j) alle Ziele z,
+  die Kosten des optimalen Wegs aopt(j,z) von j nach z.
+• Djz(Wkz) = Djk + Doptkz wird für alle k 𝜖 A(j) berechnet
+  (Djz lokal, und Doptkz durch Austausch).
+• Wegewahltabelle mit neuem optimalem Nachbarn
+  aktualisiert
+                     Rechnernetze und verteilte Systeme
+                                                          133
+                         (Prof. Dr. D. Kranzlmüller)
+Adaptives Verfahren mit
+Nachbarkenntnis (2/4)
+• Beispiel: Distanz-Vektor-Algorithmus
+  (aka Bellman-Ford-Algorithmus)
+• vom Routing Information Protokoll (RIP) benutzt.
+• Merkmale:
+   • jeder Knoten hat Routingtabelle (Adresse, Distanz),
+   • Update geschieht periodisch
+   • jede Kante mit Gewicht belegt
+   • Distanz ist Summe (Gewichte) auf dem Weg zum Ziel
+• Initialisierung mit Eintrag
+   • dessen Ziel lokalem Knoten entspricht,
+   • dessen Next-Hop nicht angegeben ist und
+   • dessen Distanz = 0 ist
+
+                      Rechnernetze und verteilte Systeme
+                                                           134
+                          (Prof. Dr. D. Kranzlmüller)
+Distanz-Vektor-Algorithmus
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                135
+               (Prof. Dr. D. Kranzlmüller)
+Adaptives Verfahren mit
+Nachbarkenntnis (3/4)
+• Verfahren sehr einfach, geringer Rechenaufwand
+• Topologie muss nur partiell bekannt sein
+• Zusätzliche Netzbelastung
+• Wegewahlinformation breitet sich nur langsam aus ➔ kann zu
+  Inkonsistenz führen
+                    1,0             1,0           1,1              1,2
+                8             1             2              3             4
+
+
+
+
+                                  1,0              1,0
+                          7                 6                  5
+ Aufgabe 1:
+ Berechne die ersten Schritte zu den Zeitpunkten t1,...,t8,
+ wenn zwischen t1 und t2 das Wegstück W1,8 ausfällt.
+                              Rechnernetze und verteilte Systeme
+                                                                             136
+                                  (Prof. Dr. D. Kranzlmüller)
+Adaptives Verfahren mit
+Nachbarkenntnis (4/4)
+Aufgabe 2:
+Betrachte die Wegetabellen in Knoten 3 unter der
+Annahme, dass das Wegstück L2,4 während des
+Intervalls [tx,tx+1[ ausfällt und während des Intervalls
+[ty,ty+1[ wieder repariert wird.
+
+                  4                   3
+
+                                                     1
+
+
+                  2                   5
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           137
+                          (Prof. Dr. D. Kranzlmüller)
+Gemeinsam adaptive
+Wegberechnung (1/2)
+Ziel
+• möglichst alle Knoten sollen aktuelle
+  Wegewahlinformationen haben
+• langsame Ausbreitung von Anpassungsereignissen
+  vermeiden
+Verfahren (auf Basis des SPF-Algorithmus)
+• jeder Knoten kennt Topologie und Bewertung
+• jeder Knoten erhält von jedem anderen Knoten für alle
+  dessen lokalen Verzögerungsvektor
+• Verteilung der Vektoren z.B. durch Fluten
+
+                   Rechnernetze und verteilte Systeme
+                                                        138
+                       (Prof. Dr. D. Kranzlmüller)
+Gemeinsam adaptive
+Wegberechnung (2/2)
+Beispiel: Link-State-Routing
+• Im Internet: Routingverfahren OSPF
+• Jeder Router versucht seine Nachbarn zu kennen
+• Jeder Router bildet Link State Packet (LSP) mit Namen
+  der Nachbarn & Gewichten der zugehörigen Links
+• LSPs an alle Router geschickt:
+   • Jeder Router speichert die zuletzt erhaltenen LSPs aller
+     anderen Router
+   • Jeder Router kennt vollständige Netztopologie
+• QSB wird nach SPF-Verfahren berechnet
+
+                       Rechnernetze und verteilte Systeme
+                                                                139
+                           (Prof. Dr. D. Kranzlmüller)
+                                                      WH
+
+Routing-Verfahren
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                140
+               (Prof. Dr. D. Kranzlmüller)
+Routing im Internet:
+Autonome Systeme (AS)                                      (1/2)
+• Menge von Routern unter der Kontrolle einer
+  administrativen Domäne (Routing Domäne).
+• Genehmigungspflichtig (durch die IANA/ICANN)
+   • ➔ eindeutige numerische Kennzeichnung (MWN: AS 12816)
+• Intra-AS: IGP (engl. Interior Gateway Protocol)
+• Inter-AS: EGP (engl. Exterior Gateway Protocol)
+• Abkommen zwischen AS (ggf. mit Zahlungen
+  verbunden)
+   • Peering: Routen in/aus Netz eines fremden AS
+   • Transit: Routen durch/über das Netz eines fremden AS
+   • Technische Realisierung durch Network Exchange
+
+                      Rechnernetze und verteilte Systeme
+                                                               141
+                          (Prof. Dr. D. Kranzlmüller)
+Routing im Internet:
+Autonome Systeme (AS)                                     (2/2)
+• Autonome Systeme (AS): administrativ selbstständige Netze
+• Subnetze innerhalb eines AS
+
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                              142
+                         (Prof. Dr. D. Kranzlmüller)
+Gateway Protokolle (Überblick)
+Intra-AS: IGP (engl. Interior Gateway Protocol)
+• RIP (engl. Routing Information Protocol):
+  Distanz-Vektor-Algorithmus
+• OSPF (engl. Open Shortest Path First):
+  Link-State-Routing
+
+Inter-AS: EGP (engl. Exterior Gateway Protocol)
+• BGP (engl. Border Gateway Protocol):
+  vgl. Distanz-Vektor-Verfahren
+                   Rechnernetze und verteilte Systeme
+                                                        143
+                       (Prof. Dr. D. Kranzlmüller)
+Border Gateway Protocol (BGP)
+• EGP-Kriterien für Wegewahl: finanziell, organisatorisch
+• Angabe des Pfades = Sequenz der zu durchlaufenden
+  AS (anstatt Distanzangabe)
+• keine Metrik: Pfade realisieren policy-basiertes Routing
+  (bestimmte Pfade können ausgeschlossen werden)
+• Aufgaben:
+   • Neighbour Acquisition,
+   • Neighbour Reachability
+   • Network Reachability
+• Session-/TCP-basiert (Port 179): ständige Verbindung
+  zwischen „BGP-speakers“.
+• RFCs 1772-1774 (RFC 4271: mit CIDR-Unterstützung)
+
+                      Rechnernetze und verteilte Systeme
+                                                           144
+                          (Prof. Dr. D. Kranzlmüller)
+Routing im Internet:
+Intra-AS-Routing
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                 145
+                (Prof. Dr. D. Kranzlmüller)
+Transportschicht im                                                                                 WH
+
+
+
+ISO/OSI Referenzmodell
+            Endsystem A                                                            Endsystem B
+                  7                                                                       7
+                  6                                                                       6
+                  5        Virtuelle, zuverlässige Verbindungen                           5
+                                (aus Sicht der Endsysteme)
+                  4                                                                       4
+                  3         3                       3                     3               3
+
+
+
+
+Transportsystem
+                  2         2                       2            ...      2               2
+                  1         1                       1                     1               1
+                          Router                 Router                 Router
+
+
+                                   Netz 1                    Netz 2      ...     Netz n
+
+
+                                   Rechnernetze und verteilte Systeme
+                                                                                              146
+                                       (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                147
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                148
+               (Prof. Dr. D. Kranzlmüller)
+Überblick IP – Internet Protocol
+• Verbindungsloser Dienst mit zwei Dienstprimitiven
+  (SEND, DELIVER)
+• Netzglobale Adressierung mit Hilfe von IP-Adressen
+• Protocol: ID des IP-Nutzers (SAP-Adresse)
+  Bsp.: 1 ICMP, 6 TCP, 9 UDP, 46 RSVP
+• Unterstützt Fragmentierung & Reassembly
+  (zum Umgang mit MTUs)
+• Time-to-Live (TTL), gemessen in „Hops“ (Wegstücken)
+• IP-PDU = IP-Paket (= IP-Datagram) besteht aus
+  Header- und Datenteil
+                   Rechnernetze und verteilte Systeme
+                                                        149
+                       (Prof. Dr. D. Kranzlmüller)
+IP-Header (PCI)
+
+
+
+
+            Rechnernetze und verteilte Systeme
+                                                 150
+                (Prof. Dr. D. Kranzlmüller)
+IP-Header (PCI) – Felder (1/4)
+• Version (4 Bit) = 4 (bei IPv4)
+• IHL (Internet Header Length) (4 Bit):
+   • Header Länge in 32-Bit-Wörtern (mindestens 5, wenn
+     keine Optionen verwendet werden).
+• Type of Service (8 Bit):
+   • Dienstklasse/Priorität und ECP (Explicit Congestion
+     Notification)
+• Datagramm Länge (16 Bit):
+   • Gesamtlänge des Datagramms in Bytes (inkl. Header):
+     max. 64 Kbyte (65545 Oktetten)
+
+                     Rechnernetze und verteilte Systeme
+                                                           151
+                         (Prof. Dr. D. Kranzlmüller)
+IP-Header (PCI) – Felder (2/4)
+• Identifikation (16 Bit):
+   • Dient der Defragmentierung: alle Fragmente eines
+     zusammengehörenden Pakets enthalten dieselbe
+     Identifikation.
+• Flags (je 1 Bit):
+   • 1 Unbenutztes Bit („evil Bit“)
+   • DF: Don‘t Fragment (Dient der MTU Ermittlung)
+   • MF: More Fragments (Es fehlen noch weitere
+     Paketfragmente)
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           152
+                          (Prof. Dr. D. Kranzlmüller)
+IP-Header (PCI) – Felder (3/4)
+• Fragmentierungs-Offset (13 Bit):
+   • Position, die ein Fragment im originalen Paket inne hält,
+     gemessen in 8-Byte Blöcken
+• Time to Live (8 Bit):
+   • Anzahl Hops, bevor das IP-Paket verworfen wird
+• Protokoll (8 Bit):
+   • ID des IP-Nutzers (für welchen SAP ist das Paket
+     bestimmt?)
+
+
+
+                       Rechnernetze und verteilte Systeme
+                                                            153
+                           (Prof. Dr. D. Kranzlmüller)
+IP-Header (PCI) – Felder (4/4)
+• Prüfsumme (16 Bit):
+   • Einerkomplement der Summe der 16-Bit-Halbwörter des
+     Headers
+   • Neuberechnung nach jeder Teilstrecke wegen TTL
+     Update
+• Quell-/Zieladresse (je 32 Bit):
+   • IP-Adressen der Netzschnittstellen von Quelle und Ziel.
+• Optionen (n * 32 Bit):
+   • Wählbare Eigenschaften, z.B. Timestamp.
+
+
+                     Rechnernetze und verteilte Systeme
+                                                           154
+                         (Prof. Dr. D. Kranzlmüller)
+Fragmentierung & MTU
+• Protokolle der Sicherungsschicht können nicht
+  immer die gleiche Größe von Paketen übertragen
+   • Ethernet: 1500 Bytes je PDU (Auf Schicht 2: Frame)
+   • WiFi: 2312 Bytes.
+• Maximum Transmission Unit (MTU):
+   • Menge an Daten, die ein Frame (auf Schicht 2)
+     übertragen kann
+   • MTU setzt obere Grenze für Größe von IP-Paketen
+• Problem: jeder Link eines Pfades mit eigener MTU
+  → Pakete werden fragmentiert
+                     Rechnernetze und verteilte Systeme
+                                                          155
+                         (Prof. Dr. D. Kranzlmüller)
+Ablauf Fragmentierung
+• Übertragung eines Paket mit Größe 𝑆𝑃 = 𝑆𝐻 + 𝑆𝐷
+  Bytes über Link mit MTU 𝑀 < 𝑆𝑃 Bytes
+                                  𝑆𝐷
+   • Aufteilen des Pakets in          Fragmente
+                                 𝑀−𝑆𝐻
+   • 𝑆𝐷 ist immer ein Vielfaches von 8 Byte (64 bit)
+• Sender (oder Router am Transitknoten) teilt Paket
+  in Fragmente auf:
+   • Identifizierungsnummer vom Paket übernommen
+   • Fragmentierungs-Offset wird je Fragment gesetzt
+   • More-Flag = 1, falls weitere Fragmente folgen, sonst 0
+
+                     Rechnernetze und verteilte Systeme
+                                                              156
+                         (Prof. Dr. D. Kranzlmüller)
+Fragmentierung: Beispiel
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                157
+               (Prof. Dr. D. Kranzlmüller)
+IP-Fragmentierung
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                158
+               (Prof. Dr. D. Kranzlmüller)
+Unterstützende Protokolle (1/2)
+• ICMP (engl. Internet Control Message Protocol),
+   • RFC 792, 1122
+   • Benachrichtigungsprotokoll, dient dem Austausch von
+     Informationen und Fehlermeldungen über IP.
+   • Beispiele: Destination Unreachable, Time Exceeded,
+     Redirect, …
+   • Basis für Werkzeug traceroute
+• DHCP (engl. Dynamic Host Configuration Protocol)
+   • Dynamische temporäre Zuweisung von IP-Adressen
+
+
+                    Rechnernetze und verteilte Systeme
+                                                           159
+                        (Prof. Dr. D. Kranzlmüller)
+Unterstützende Protokolle (2/2)
+• DNS (engl. Domain Name System)
+   • Abbildung von Namen auf IP-Adressen
+   • Interaktion zwischen Resolver (Client) und Server
+     (Directory)
+• ARP (engl. Address Resolution Protocol), RFC 826
+   • Abbildung von IP-Adressen auf MAC-Adressen (Schicht
+     2)
+• IPsec (engl. Internet Protocol Security):
+   • Authentifizierung und Verschlüsselung von IP-Paketen
+
+
+                     Rechnernetze und verteilte Systeme
+                                                            160
+                         (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                161
+               (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                162
+               (Prof. Dr. D. Kranzlmüller)
+Überblick IPv6
+• Motivation
+   • Adressknappheit bei IPv4, wachsender Bedarf an Adressen.
+   • 1. Februar 2011: zentraler Vorrat an IPv4-Adressen erschöpft.
+• Neue/ausgebaute Funktionalität (im Vergleich zu IPv4)
+   • erweiterter Adressraum (128 statt 32 Bit)
+   • dynamische Adresszuweisung (Mobilitätsunterstützung)
+   • Erweiterungen für QoS auch bzgl. Streams wie Sprache, Video
+     ➔ teilweise verbindungsorientierte Protokollaspekte
+   • Ressource Allocation (Reservierungsprotokolle)
+   • eingebaute Sicherheitsmechanismen (IPsec)
+   • Router Anweisungen (hop-by-hop-options)
+
+                      Rechnernetze und verteilte Systeme
+                                                                163
+                          (Prof. Dr. D. Kranzlmüller)
+Status IPv6
+• IPv6 im globalen Internet wächst
+• In gängigen Betriebssystemen integriert
+• Japan (und Asien) Vorreiter
+   • da von der IPv4 Adressknappheit besonders betroffen
+
+
+
+
+• Google-Zugriffe
+  über IPv6
+                                https://www.google.de/ipv6/statistics.html#tab=ipv6-adoption (Stand: 16.06.23)
+                    Rechnernetze und verteilte Systeme
+                                                                                                         164
+                        (Prof. Dr. D. Kranzlmüller)
+IPv6-Header (PCI)
+• Feste Größe: 40 Byte.
+• 32 Bytes für Quell- und Zieladresse.
+
+
+
+
+                   Rechnernetze und verteilte Systeme
+                                                        165
+                       (Prof. Dr. D. Kranzlmüller)
+IPv6-Header (PCI) (1/2)
+• Version (4 Bit) = 6 (bei IPv6)
+• Verkehrsklasse (8 Bit):
+   • Entspricht „Type of Service“ Feld IPv4
+• Fluss-Label (20 Bit):
+   • Paket als Teil eines Paketstroms behandeln
+   • Verbindungsorientierter Protokollaspekt
+• Nutzdatenlänge (16 Bit):
+   • Anzahl Nutzdatenbytes im Paket
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          166
+                         (Prof. Dr. D. Kranzlmüller)
+IPv6-Header (PCI) (2/2)
+• Nächster Header (8 Bit):
+   • Typ nächsten Erweiterungs-Headers
+   • Falls keine weiteren Header: Protokollfeld im IPv4
+• Hop-Limit (8 Bit):
+   • Entspricht TTL im IPv4 Headers (Name geändert um
+     tatsächliche Nutzung besser widerzuspiegeln)
+• Quell-/Zieladresse (je 128 Bit):
+   • IPv6-Adressen der Netzschnittstellen
+     von Quelle und Ziel
+
+
+                       Rechnernetze und verteilte Systeme
+                                                            167
+                           (Prof. Dr. D. Kranzlmüller)
+Erweiterungs-Header
+• 6 Header-Typen in IPv6 Spezifikation (RFC 2460)
+   • Hop-by-Hop Options, Routing, Fragment, Destination
+     Options, Authentication, Encapsulating Security Payload
+• Anzahl/Reihenfolge wegen Effizienz vorgegeben
+
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          168
+                         (Prof. Dr. D. Kranzlmüller)
+IPv6-Adressen
+• Unicast: Übertragung 1 Quelle ➔ 1 Ziel
+• Multicast: für Mehrpunktverbindungen
+• Anycast: Adressierung eines beliebigen Hosts einer
+  Gruppe (Lastverteilung/Ausfallsicherheit)
+• Notation
+   • 8 durch Doppelpunkte getrennte, 16 Bit
+     Hexadezimalzahlen
+                               1080:0:0:0:8:800:200C:417A
+   • Zusammenfassung mehrere 0-wertiger 16-Bit-Gruppen
+     durch „::“
+                                    1080::8:800:200C:417A
+                   Rechnernetze und verteilte Systeme
+                                                        169
+                       (Prof. Dr. D. Kranzlmüller)
+IPv6-Adressen
+• Präfixschreibweise wie CIDR:
+                                             12AB::CD30:0:0:0:0/60
+• Sonderadressen:
+   • Nicht angegeben (Abwesenheit einer Adresse):
+                                            0:0:0:0:0:0:0:0
+   • Loopback Adresse:
+                                            0:0:0:0:0:0:0:1
+   • oder
+                                                        ::1
+
+
+                    Rechnernetze und verteilte Systeme
+                                                                170
+                        (Prof. Dr. D. Kranzlmüller)
+Globale Unicast-Adressen
+
+
+• Adress-Felder:
+   • Format Prefix (FP), Top-Level Aggregation ID (TLA ID), RES,
+     Next-Level Aggregation ID (NLA ID): Ergeben globalen
+     Routingprefix (eine Art strukturierte Netz ID).
+   • Site-Level ID (SLA ID): Entspricht Subnetz ID.
+   • Interface ID: Adressiert die Netzschnittstelle auf dem Host
+• Dreistufige Adresshierarchie
+                      Rechnernetze und verteilte Systeme
+                                                                   171
+                          (Prof. Dr. D. Kranzlmüller)
+Lokale Unicast-Adressen
+Link-local
+   • Bezug nur auf einen bestimmten Link
+   • Einsatz z.B. für Autokonfiguration
+
+
+
+
+Site-local
+   • Geltungsbereich umfasst einen Standort/eine Site
+   • ähnlich privater Adressblöcke bei IPv4
+   • seit 2004 abgeschafft („deprecated“), RFC 3879
+
+
+
+
+                      Rechnernetze und verteilte Systeme
+                                                           172
+                          (Prof. Dr. D. Kranzlmüller)
+IPv6-Adressen auf Basis von
+Schicht-2-Adressen (SLAAC)
+• Nutzung gerätegebundener Adressen
+• Anwendung nur auf Interface Identifier (64 Bits)
+• Extended Unique Identifier (EUI-64) (IEEE Definition)
+• z.B. anwendbar mit Ethernet, Token Ring, FDDI . . .
+• Beispiel: IEEE 802, 48 Bit auf 64 Bits Abbilden
+   • 00-23 Kennung des Herstellers mit Flag-Bits
+   • 6 universal/local (1 = globaler Geltungsbereich)
+   • 7 individual/group
+   • 24-39 1111111 111111110
+   • 40-63 spezifisch für Geräteinstanz
+
+                       Rechnernetze und verteilte Systeme
+                                                            173
+                           (Prof. Dr. D. Kranzlmüller)
+                                                                WH
+
+Erweiterungs-Header
+• 6 Header-Typen in IPv6 Spezifikation (RFC 2460)
+   • Hop-by-Hop Options, Routing, Fragment, Destination
+     Options, Authentication, Encapsulating Security Payload
+• Anzahl/Reihenfolge wegen Effizienz vorgegeben
+
+
+
+
+                     Rechnernetze und verteilte Systeme
+                                                          174
+                         (Prof. Dr. D. Kranzlmüller)
+Hop-by-Hop Options Header
+• Zweck: Angabe von Optionen, die jeder Knoten auf
+  dem Weg berücksichtigen soll (z.B. Padding)
+• Felder:
+   • Next Header (8 Bit): Angabe des nachfolgenden Headers
+   • HEL (Header Extension Length) (8 Bit): Länge des
+     Erweiterungs-Headers in Bytes.
+   • Optionen: als (Typ, Länge, Wert) Tupel codiert:
+      • Typ (8 Bit): Art der Option
+      • Länge (8 Bit): Länge des Wertes der Option in Byte
+      • Wert (bis zu 255 Byte): beliebige Informationen
+• Bisherige Optionen:
+   • Datagramme mit einer Länge größer als 64 KB.
+
+
+                        Rechnernetze und verteilte Systeme
+                                                             175
+                            (Prof. Dr. D. Kranzlmüller)
+Routing Header
+• Zweck: Angabe von Zwischenstationen, die das
+  Paket auf seinem Weg durch das Netz der Reihe
+  nach durchlaufen muss
+• Felder
+   • Next Header, Header Extension Length: wie bekannt
+   • Routing Type: identifiziert Routing-Header Variante
+     (default: 0)
+   • Segments Left: Anzahl verbliebener Zwischenstationen,
+     wenn 0 erreicht ist, wird der Routing Header ignoriert.
+   • Typspezifische Daten: abhängig von Routing Type.
+
+                     Rechnernetze und verteilte Systeme
+                                                           176
+                         (Prof. Dr. D. Kranzlmüller)
+Fragmentierung
+• Fragmentierung von IPv6 Paketen ausschließlich in
+  Endsystemen (nicht im Transitsystem)
+• Nicht-Fragmentierbarer Teil:
+   • IPv6-Header
+   • alle Header mit Ende-zu-Ende Relevanz
+• Aufbau von Fragment-Paketen:
+   • Nicht-Fragmentierbarer Teil
+   • Fragment Header (nächste Folie)
+   • Inhalt des ersten Fragments
+
+
+                    Rechnernetze und verteilte Systeme
+                                                         177
+                        (Prof. Dr. D. Kranzlmüller)
+Fragment Header
+• Zweck: Senden eines IP-Pakets, das größer ist als
+  die MTU (Maximum Transmissible Unit)
+• Felder:
+   • Next Header, Header Extension Length: wie bekannt
+   • Fragment Offset: Offset der Daten, die diesem Header
+     folgen
+   • MF Flag (More Fragments): wie bei IPv4 (0 bedeutet
+     letztes Fragment, 1 = weitere Fragmente folgen.)
+   • Identification: eindeutige Kennung des IP-Pakets, das
+     fragmentiert wird.
+
+                    Rechnernetze und verteilte Systeme
+                                                             178
+                        (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                179
+               (Prof. Dr. D. Kranzlmüller)
+IPv4 zu IPv6 Migration
+• Betriebliche Aufgabenstellung
+   • Möglichst kosteneffiziente Ersetzung der IPv4-Technologie
+   • Koexistenz von IPv4 und IPv6 während der Übergangsphase
+• Prinzipielle Ansätze
+   • Dual-Stack: Knoten sowohl mit IPv4 als auch IPv6
+   • Tunneling (IPv6-Verkehr über IPv4-Netz und umgekehrt)
+       • Kapselung von Paketen im tunnelnden Protokoll
+       • Management des Tunnels: Erstellung, Umgang mit Fragmenten
+• Übersetzung
+   • Protokollübersetzung in Transitknoten/Router
+   • in Programmbibliotheken (APIs zur Netzprogrammierung)
+
+                       Rechnernetze und verteilte Systeme
+                                                                     180
+                           (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                181
+               (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                         Payload,
+• Weg durch das Netz                                                          Adresse
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet                                    Paket
+• Datenübertragung                                                              Link
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme                         WH
+                                                                                182
+                          (Prof. Dr. D. Kranzlmüller)
+Vermittlungsschicht im Internet
+3 Hauptbestandteile:
+• Internet-Protokoll
+• Routing-Protokolle
+• ICMP
+
+
+
+
+                  Rechnernetze und verteilte Systeme
+                                                       183
+                      (Prof. Dr. D. Kranzlmüller)
+ICMP – Internet Control Message
+Protocol
+Zweck: Kommunikation von Informationen über die
+Vermittlungsschicht
+Teil der Vermittlungsschicht, obwohl PDUs wie TCP-
+Segmente oder UDP-Datagramme als Nutzlast in IP-
+Paketen verschickt werden
+Typ des ICMP-Pakets: durch 8 Bit Type- und Code-
+Feld festgelegt.
+Protokoll bildet u.a. Grundlage für die Werkzeuge
+wie ping und traceroute
+
+                  Rechnernetze und verteilte Systeme
+                                                       184
+                      (Prof. Dr. D. Kranzlmüller)
+ICMP-Typen
+
+
+
+
+             Rechnernetze und verteilte Systeme
+                                                  185
+                 (Prof. Dr. D. Kranzlmüller)
+Sonstige unterstützende
+Protokolle
+• DHCP (engl. Dynamic Host Configuration Protocol)
+   • Dynamische temporäre Zuweisung von IP-Adressen
+• DNS (engl. Domain Name System)
+   • Abbildung von Namen auf IP-Adressen
+   • Interaktion zwischen Resolver (Client) und Server
+     (Directory)
+• ARP (engl. Address Resolution Protocol), RFC 826
+   • Abbildung IP-Adressen auf MAC-Adressen (Schicht 2)
+• IPsec (engl. Internet Protocol Security):
+   • Authentifizierung und Verschlüsselung von IP-Paketen
+                     Rechnernetze und verteilte Systeme
+                                                            186
+                         (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                187
+               (Prof. Dr. D. Kranzlmüller)
+VPN – Virtual Private Network
+• Zugeordnetes, entferntes Netz
+• Über VPN-Gateway
+  in physisches Netz
+  eingebunden
+• Entfernter Nutzer
+  hat Zugriff auf
+  internes Netz
+• Optional:
+  Verschlüsselung
+                                         https://commons.wikimedia.org/wiki/File:Virtual_Private_Network_overview.svg
+                                Ludovic.ferre (talk · contribs) / CC BY-SA (https://creativecommons.org/licenses/by-sa/4.0)
+                  Rechnernetze und verteilte Systeme
+                                                                                                          188
+                      (Prof. Dr. D. Kranzlmüller)
+                                                                    WH
+
+VPN im Internet-Schichtenmodell
+                                    • Statt direkt zum Ziel
+  Anwendung
+                                    • Payload verschlüsseln
+                                    • & zum VPN-Gateway
+   Transport
+                               Verschlüsselung
+
+
+  Vermittlung                     Transport
+
+                                 Vermittlung
+
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                              189
+                     (Prof. Dr. D. Kranzlmüller)
+Einsatz von VPN
+• Mitarbeiter greift auf Dateien, Drucker, …
+  im Firmennetz zu
+• Verbindung mehrerer Geschäftsstellen
+  über das Internet
+• Sichere Verbindung nach außen über das
+  Firmennetz
+• Umgehen von Geoblocking bei Video- oder
+  Gameplattformen aber auch in einigen Staaten
+  (China, VAE, Russland, …)
+
+                 Rechnernetze und verteilte Systeme
+                                                      190
+                     (Prof. Dr. D. Kranzlmüller)
+VPN Nutzung
+• Nachteile:
+   • Overhead für VPN und Verschlüsselung
+   • Umwege in der Wegewahl
+   • VPN-Nutzung ist erkennbar
+
+
+• Regionale Einschränkungen:
+ (https://www.bitdefender.de/consumer/support/answer/12142/)
+
+   • In China ist es illegal, ein VPN zu verwenden
+   • VAE: Bußgelder bis zu 450.000 €
+   • In Russland: Gesetz das VPN verbietet
+
+                               Rechnernetze und verteilte Systeme
+                                                                    191
+                                   (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                192
+               (Prof. Dr. D. Kranzlmüller)
+           Das Darknet
+           • Fragen:
+                   • Ist Surfen im Internet anonym?
+                   • Sind IP-Adressen personenbezogene Daten?
+           • Probleme im Internet:
+                   • Verbindungsdaten in der Regel unverschlüsselt und
+                     können an Transitknoten gelesen werden
+                   • Metadaten über Netzverkehr erlauben
+                     Rückschlüsse auf konkrete Nutzer
+           • Frage: Wie kann man den Ursprung einer Nachricht
+             verschleiern?
+                                        Rechnernetze und verteilte Systeme
+                                                                             193
+                                            (Prof. Dr. D. Kranzlmüller)
+Photo by Carolina Pimenta on Unsplash
+TOR – The Onion Router
+Mission:
+• Menschenrechte und Freiheiten durch die
+  Entwicklung und Verbreitung von Open Source
+  Anonymitäts- und Privatsphäre-Technologien zu
+  fördern, ihre ungehinderte Verfügbarkeit zu
+  unterstützen und ihr Verständnis in Wissenschaft
+  und der Allgemeinheit zu vergrößern.
+
+https://www.torproject.org/de/
+
+                  Rechnernetze und verteilte Systeme
+                                                       194
+                      (Prof. Dr. D. Kranzlmüller)
+                                                                           Internet
+
+
+                                                             Alice                                 Bob
+
+
+Funktionsweise von TOR
+
+
+
+
+                                               Von Saman Vosoghi - Eigenes Werk, Copyrighted free use,
+                                               https://commons.wikimedia.org/w/index.php?curid=51519143
+          Rechnernetze und verteilte Systeme
+                                                                                         195
+              (Prof. Dr. D. Kranzlmüller)
+                                                                WH
+
+TOR im Internet-Schichtenmodell
+                                    • Statt direkt zum Ziel
+  Anwendung
+                                    • Payload verschlüsseln
+                                    • ➔ TOR-Eintrittsknoten
+   Transport
+                               Verschlüsselung
+
+
+  Vermittlung                     Transport
+
+                                 Vermittlung
+
+
+ Netzanschluss
+
+                 Rechnernetze und verteilte Systeme
+                                                          196
+                     (Prof. Dr. D. Kranzlmüller)
+Wo bin ich? http://iplocation.net
+
+
+
+
+Lokal bei meinem ISP                       Mit dem TOR-Browser
+
+
+
+
+                       Rechnernetze und verteilte Systeme
+                                                                 197
+                           (Prof. Dr. D. Kranzlmüller)
+TOR – Hintergründe (1/2)
+• 2000: erste Ideen für TOR
+• Sept 2002: Alpha-Version von TOR (U Cambridge)
+• 2001-2006: Unterstützung durch Office of Naval
+  Research (ONR) und Defense Advanced Research
+  Projects Agency (DARPA)
+• Dez 2006: The Tor Project, Inc. - Non-Profit-
+  Organisation für Forschung und Bildung
+• März 2011: Preis für „gesellschaftlichen Nutzen“
+  der Free Software Foundation (FSF)
+
+                  Rechnernetze und verteilte Systeme
+                                                       198
+                      (Prof. Dr. D. Kranzlmüller)
+TOR – Hintergründe (2/2)
+• 2011: 60% Zuwendungen der US-Regierung, 40%
+  private Spenden
+• Okt 2014: Facebook im TOR-Netzwerk erreichbar
+  (https://facebookcorewwwi.onion/)
+• 2019: BBC und Deutsche Welle über Tor-Netzwerk
+  erreichbar, um Zensurmaßnahmen von
+  antidemokratischen Staaten zu umgehen
+• TOR-Browser:
+  vorkonfigurierte Kombination aus TOR & FireFox
+
+                 Rechnernetze und verteilte Systeme
+                                                      199
+                     (Prof. Dr. D. Kranzlmüller)
+RNVS – Kapitel 4
+
+
+
+
+           Rechnernetze und verteilte Systeme
+                                                200
+               (Prof. Dr. D. Kranzlmüller)
+Datenfluss                                                         Internet
+
+
+
+beim Sender                                                Alice                       Bob
+
+
+
+
+• Transport der Nachricht
+   • Aufbau und Abbau der Verbindung
+   • Mit/ohne Zustellgarantie
+   • Über unsichere Kanäle
+   • Mit Verkehrsmanagement (Stau, …)                                         Payload,
+• Weg durch das Netz                                                          Adresse
+
+   • Vermittlung/Pfadschaltung
+   • Wegewahl im lokalen Netz / im Internet                                    Paket
+• Datenübertragung                                                              Link
+   • Sicherung
+   • Bitübertragung
+                      Rechnernetze und verteilte Systeme
+                                                                                201
+                          (Prof. Dr. D. Kranzlmüller)
+RNVS MindMap
+
+
+
+
+         Rechnernetze und verteilte Systeme
+                                              202
+             (Prof. Dr. D. Kranzlmüller)
+Fragen zu Wegewahl/Routing
+• Warum war es sinnvoll, im Internet RIP durch OSPF
+  abzulösen?
+• Was ist der Kernalgorithmus bei Link State Routing?
+• In welchen Fällen ist Flooding ein sinnvolles Verfahren?
+• Nennen Sie Kostenfunktionen, die dem
+  Optimalitätskriterium genügen?
+• Was versteht man unter autonomen Systemen?
+• Neuere BGP-Versionen unterstützen CIDR. Was
+  bedeutet diese Aussage?
+
+                    Rechnernetze und verteilte Systeme
+                                                         203
+                        (Prof. Dr. D. Kranzlmüller)
+Beispiel: Subnetting
+Eine Organisation bekommt den Adressblock
+131.42.0.0/16 zugewiesen und benötigt
+
+• 1 Subnetz mit bis zu 32000 Hosts
+• 15 Subnetze mit bis zu 2000 Hosts
+• 8 Subnetze mit bis zu 250 Hosts
+
+Machen Sie Vorschläge für eine Aufteilung in
+geeignete Subnetz-Adressen
+                  Rechnernetze und verteilte Systeme
+                                                       204
+                      (Prof. Dr. D. Kranzlmüller)
+Fragen IPv4
+• Welche Maßnahmen zur Begegnung von IPv4
+  Adressknappheit wurden in der Vorlesung
+  behandelt?
+• Wie viele Hosts kann ein IPv4 Adressblock mit einer
+  Präfixlänge von 22 maximal fassen?
+• In welches der folgenden Subnetze des Netzes
+  184.212.0.0/16 gehört die Adresse 184.212.2.36?
+   • 184.212.128.0/17
+   • 184.212.0.0/18
+   • 184.212.96.0/19
+                   Rechnernetze und verteilte Systeme
+                                                        205
+                       (Prof. Dr. D. Kranzlmüller)
+
